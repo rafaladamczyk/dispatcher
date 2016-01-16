@@ -1,19 +1,21 @@
+using Dispatcher.Models;
+
 namespace Dispatcher.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Dispatcher.Models.DispatcherContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Models.DispatcherContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Dispatcher.Models.DispatcherContext context)
+        protected override void Seed(Models.DispatcherContext context)
         {
+            context.Providers.AddOrUpdate(r => r.Id, new ServiceProvider { Id = 1, Name = "Rafal Adamczyk" }, new ServiceProvider { Id = 2, Name = "Test Provider" });
+            context.Requesters.AddOrUpdate(r => r.Id, new DispatchRequester { Id = 1, Name = "Maszyna taka"}, new DispatchRequester { Id = 2, Name = "Maszyna smaka"});
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
