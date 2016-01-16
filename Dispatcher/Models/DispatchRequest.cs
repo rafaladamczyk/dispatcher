@@ -11,10 +11,10 @@ namespace Dispatcher.Models
 
         public int RequesterId { get; set; }
         [ForeignKey("RequesterId")]
-        public DispatchRequester Requester { get; set; }
+        public virtual DispatchRequester Requester { get; set; }
         
         public int ProviderId { get; set; }
         [ForeignKey("ProviderId")]
-        public ServiceProvider Provider { get; set; }
+        public virtual ServiceProvider Provider { get; set; }
     }
 }

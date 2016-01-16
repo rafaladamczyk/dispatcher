@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -10,13 +11,11 @@ namespace Dispatcher.Controllers
     {
         private readonly DispatcherContext db = new DispatcherContext();
 
-        // GET: api/ServiceProviders
         public IQueryable<DispatchRequest> DispatchRequests()
         {
             return db.Requests;
         }
 
-        // GET: api/ServiceProviders/5
         [ResponseType(typeof(DispatchRequest))]
         public async Task<IHttpActionResult> GetDispatchRequest(int id)
         {
