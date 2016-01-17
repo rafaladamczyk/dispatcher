@@ -4,8 +4,6 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Dispatcher.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
