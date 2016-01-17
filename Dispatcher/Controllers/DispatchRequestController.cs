@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -38,7 +39,7 @@ namespace Dispatcher.Controllers
             return Ok(serviceProvider);
         }
 
-        [Route("api/DispatchRequest/{requesterId}/{requestType}")]
+        [Route("api/CreateRequest/{requesterId}/{requestType}")]
         [HttpPut]
         [HttpPost]
         [ResponseType(typeof(DispatchRequest))]

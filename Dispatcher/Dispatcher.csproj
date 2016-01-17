@@ -221,21 +221,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201601161555035_Initial.cs" />
-    <Compile Include="Migrations\201601161555035_Initial.Designer.cs">
-      <DependentUpon>201601161555035_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601161609079_TypoFix.cs" />
-    <Compile Include="Migrations\201601161609079_TypoFix.Designer.cs">
-      <DependentUpon>201601161609079_TypoFix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601171548560_RemovedServiceProviderId_AddedRequestType.cs" />
-    <Compile Include="Migrations\201601171548560_RemovedServiceProviderId_AddedRequestType.Designer.cs">
-      <DependentUpon>201601171548560_RemovedServiceProviderId_AddedRequestType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601171553324_MadeCompletionDateNullable.cs" />
-    <Compile Include="Migrations\201601171553324_MadeCompletionDateNullable.Designer.cs">
-      <DependentUpon>201601171553324_MadeCompletionDateNullable.cs</DependentUpon>
+    <Compile Include="Migrations\201601171905288_Initial.cs" />
+    <Compile Include="Migrations\201601171905288_Initial.Designer.cs">
+      <DependentUpon>201601171905288_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -319,17 +307,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601161555035_Initial.resx">
-      <DependentUpon>201601161555035_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601161609079_TypoFix.resx">
-      <DependentUpon>201601161609079_TypoFix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601171548560_RemovedServiceProviderId_AddedRequestType.resx">
-      <DependentUpon>201601171548560_RemovedServiceProviderId_AddedRequestType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601171553324_MadeCompletionDateNullable.resx">
-      <DependentUpon>201601171553324_MadeCompletionDateNullable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201601171905288_Initial.resx">
+      <DependentUpon>201601171905288_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

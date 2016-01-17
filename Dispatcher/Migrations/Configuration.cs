@@ -1,33 +1,50 @@
 using Dispatcher.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Dispatcher.Migrations
 {
+    using System;
+    using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Models.DispatcherContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Dispatcher.Models.DispatcherContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Models.DispatcherContext context)
+        protected override void Seed(Dispatcher.Models.DispatcherContext context)
         {
-            context.Providers.AddOrUpdate(r => r.Name, new ServiceProvider { Name = "Rafal Adamczyk" }, new ServiceProvider { Name = "Test Provider" });
-            context.Requesters.AddOrUpdate(r => r.Id, new DispatchRequester { Id = 1, Name = "Maszyna taka"}, new DispatchRequester { Id = 2, Name = "Maszyna smaka"});
+            context.Requesters.AddOrUpdate(
+                r => r.Id,
+                new DispatchRequester { Id = 1, Name = "Maszyna taka" },
+                new DispatchRequester { Id = 2, Name = "Maszyna smaka" },
+                new DispatchRequester { Id = 3, Name = "Maszyna owaka" });
 
-            //  This method will be called after migrating to the latest version.
+            context.Providers.AddOrUpdate(p => p.Name, new[] { new ServiceProvider { Name = "test provider" }, new ServiceProvider { Name = "operator Jozek" } });
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+
+            if (!context.Roles.Any(r => r.Name == "Admin"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "Admin" };
+
+                manager.Create(role);
+            }
+
+            if (!context.Users.Any(u => u.UserName == "Rafal"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "Rafal" };
+
+                manager.Create(user, "sekretnehasloadministratora");
+                manager.AddToRole(user.Id, "Admin");
+            }
         }
     }
 }
