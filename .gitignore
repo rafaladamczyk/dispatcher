@@ -58,6 +58,9 @@ ipch/
 *.vsp
 *.vspx
 
+#Visual studio config files
+.vs/
+
 # Guidance Automation Toolkit
 *.gpState
 
