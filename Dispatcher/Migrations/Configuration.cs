@@ -13,7 +13,7 @@ namespace Dispatcher.Migrations
 
         protected override void Seed(Models.DispatcherContext context)
         {
-            context.Providers.AddOrUpdate(r => r.Id, new ServiceProvider { Id = 1, Name = "Rafal Adamczyk" }, new ServiceProvider { Id = 2, Name = "Test Provider" });
+            context.Providers.AddOrUpdate(r => r.Name, new ServiceProvider { Name = "Rafal Adamczyk" }, new ServiceProvider { Name = "Test Provider" });
             context.Requesters.AddOrUpdate(r => r.Id, new DispatchRequester { Id = 1, Name = "Maszyna taka"}, new DispatchRequester { Id = 2, Name = "Maszyna smaka"});
 
             //  This method will be called after migrating to the latest version.

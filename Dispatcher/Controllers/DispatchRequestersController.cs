@@ -15,7 +15,16 @@ namespace Dispatcher.Controllers
 {
     public class DispatchRequestersController : ApiController
     {
-        private DispatcherContext db = new DispatcherContext();
+        private IDispatcherContext db = new DispatcherContext();
+
+        public DispatchRequestersController()
+        {
+        }
+
+        public DispatchRequestersController(IDispatcherContext context)
+        {
+            db = context;
+        }
 
         // GET: api/DispatchRequesters
         public IQueryable<DispatchRequester> GetRequesters()
@@ -50,11 +59,11 @@ namespace Dispatcher.Controllers
                 return BadRequest();
             }
 
-            db.Entry(dispatchRequester).State = EntityState.Modified;
+            db.MarkAsModified(dispatchRequester);
 
             try
             {
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -81,7 +90,7 @@ namespace Dispatcher.Controllers
             }
 
             db.Requesters.Add(dispatchRequester);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = dispatchRequester.Id }, dispatchRequester);
         }
@@ -97,7 +106,7 @@ namespace Dispatcher.Controllers
             }
 
             db.Requesters.Remove(dispatchRequester);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return Ok(dispatchRequester);
         }

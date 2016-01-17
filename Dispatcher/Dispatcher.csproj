@@ -49,6 +49,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NSubstitute, Version=1.9.2.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSubstitute.1.9.2.0\lib\net45\NSubstitute.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -221,6 +229,14 @@
     <Compile Include="Migrations\201601161609079_TypoFix.Designer.cs">
       <DependentUpon>201601161609079_TypoFix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601171548560_RemovedServiceProviderId_AddedRequestType.cs" />
+    <Compile Include="Migrations\201601171548560_RemovedServiceProviderId_AddedRequestType.Designer.cs">
+      <DependentUpon>201601171548560_RemovedServiceProviderId_AddedRequestType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601171553324_MadeCompletionDateNullable.cs" />
+    <Compile Include="Migrations\201601171553324_MadeCompletionDateNullable.Designer.cs">
+      <DependentUpon>201601171553324_MadeCompletionDateNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -229,6 +245,7 @@
     <Compile Include="Models\DispatchRequest.cs" />
     <Compile Include="Models\DispatchRequester.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IDispatcherContext.cs" />
     <Compile Include="Models\ServiceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -307,6 +324,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601161609079_TypoFix.resx">
       <DependentUpon>201601161609079_TypoFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601171548560_RemovedServiceProviderId_AddedRequestType.resx">
+      <DependentUpon>201601171548560_RemovedServiceProviderId_AddedRequestType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601171553324_MadeCompletionDateNullable.resx">
+      <DependentUpon>201601171553324_MadeCompletionDateNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

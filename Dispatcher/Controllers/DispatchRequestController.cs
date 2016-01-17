@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -9,7 +10,16 @@ namespace Dispatcher.Controllers
 {
     public class DispatchRequestController : ApiController
     {
-        private readonly DispatcherContext db = new DispatcherContext();
+        private readonly IDispatcherContext db = new DispatcherContext();
+
+        public DispatchRequestController()
+        {
+        }
+
+        public DispatchRequestController(IDispatcherContext context)
+        {
+            db = context;
+        }
 
         public IQueryable<DispatchRequest> DispatchRequests()
         {
@@ -27,6 +37,36 @@ namespace Dispatcher.Controllers
 
             return Ok(serviceProvider);
         }
+
+        [Route("api/DispatchRequest/{requesterId}/{requestType}")]
+        [HttpPut]
+        [HttpPost]
+        [ResponseType(typeof(DispatchRequest))]
+        public async Task<IHttpActionResult> CreateNewRequest(int requesterId, int requestType)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var requester = await db.Requesters.FirstOrDefaultAsync(r => r.Id == requesterId);
+            if (requester == null)
+            {
+                return BadRequest($"Requester Id {requesterId} does not exist");
+            }
+
+            if (!Enum.IsDefined(typeof(RequestType), requestType))
+            {
+                return BadRequest($"{requestType} is not a valid RequestType.");
+            }
+
+            var newRequest = new DispatchRequest { RequesterId = requesterId, Type = (RequestType)requestType, CreationDate = DateTime.UtcNow, CompletionDate = null, Requester = requester };
+            db.Requests.Add(newRequest);
+            await db.SaveChangesAsync();
+
+            return CreatedAtRoute("DefaultApi", new { controller = "DispatchRequest",id = newRequest.Id }, newRequest);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

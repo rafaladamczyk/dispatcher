@@ -9,7 +9,16 @@ namespace Dispatcher.Controllers
 {
     public class ServiceProvidersController : ApiController
     {
-        private readonly DispatcherContext db = new DispatcherContext();
+        private readonly IDispatcherContext db = new DispatcherContext();
+
+        public ServiceProvidersController()
+        {
+        }
+
+        public ServiceProvidersController(IDispatcherContext context)
+        {
+            db = context;
+        }
 
         // GET: api/ServiceProviders
         public IQueryable<ServiceProvider> GetServiceProviders()

@@ -1,8 +1,11 @@
-﻿namespace Dispatcher.Models
+﻿
+using System.ComponentModel.DataAnnotations;
+
+namespace Dispatcher.Models
 {
     public class ServiceProvider
     {
-        public int Id { get; set; }
+        [Key]
         public string Name { get; set; }
     }
 }
