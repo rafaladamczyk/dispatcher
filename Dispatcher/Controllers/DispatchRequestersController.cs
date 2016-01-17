@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+﻿using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -63,7 +58,7 @@ namespace Dispatcher.Controllers
 
             try
             {
-                db.SaveChanges();
+               await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -90,7 +85,7 @@ namespace Dispatcher.Controllers
             }
 
             db.Requesters.Add(dispatchRequester);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = dispatchRequester.Id }, dispatchRequester);
         }
@@ -106,7 +101,7 @@ namespace Dispatcher.Controllers
             }
 
             db.Requesters.Remove(dispatchRequester);
-            db.SaveChanges();
+           await  db.SaveChangesAsync();
 
             return Ok(dispatchRequester);
         }
