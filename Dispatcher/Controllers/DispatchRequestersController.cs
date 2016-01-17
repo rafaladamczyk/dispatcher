@@ -91,6 +91,7 @@ namespace Dispatcher.Controllers
         }
 
         // DELETE: api/DispatchRequesters/5
+        [Authorize(Roles = "Administrators")]
         [ResponseType(typeof(DispatchRequester))]
         public async Task<IHttpActionResult> DeleteDispatchRequester(int id)
         {
