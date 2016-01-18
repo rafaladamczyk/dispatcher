@@ -22,7 +22,10 @@ namespace Dispatcher.Migrations
                 new DispatchRequester { Id = 2, Name = "Maszyna smaka" },
                 new DispatchRequester { Id = 3, Name = "Maszyna owaka" });
 
-            context.Providers.AddOrUpdate(p => p.UserName, new ServiceProvider { UserName = "test provider", FirstName = "Johhny", LastName = "Cage" }, new ServiceProvider { UserName = "Wozek nr 154", FirstName = "Jozek", LastName = "Wozkowy" });
+            context.Providers.AddOrUpdate(
+                p => p.UserName,
+                new ServiceProvider { UserName = "test provider", FirstName = "Johhny", LastName = "Cage" },
+                new ServiceProvider { UserName = "Wozek nr 154", FirstName = "Jozek", LastName = "Wozkowy" });
 
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
