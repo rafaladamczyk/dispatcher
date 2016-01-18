@@ -11,9 +11,11 @@ namespace Dispatcher.Migrations
                 "dbo.ServiceProviders",
                 c => new
                     {
-                        Name = c.String(nullable: false, maxLength: 128),
+                        UserName = c.String(nullable: false, maxLength: 128),
+                        FirstName = c.String(),
+                        LastName = c.String(),
                     })
-                .PrimaryKey(t => t.Name);
+                .PrimaryKey(t => t.UserName);
             
             CreateTable(
                 "dbo.DispatchRequesters",
