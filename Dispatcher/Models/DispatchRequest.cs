@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dispatcher.Models
@@ -14,6 +15,7 @@ namespace Dispatcher.Models
         [ForeignKey("RequesterId")]
         public virtual DispatchRequester Requester { get; set; }
         
+        [ConcurrencyCheck]
         public string ProviderName { get; set; }
         [ForeignKey("ProviderName")]
         public virtual ServiceProvider Provider { get; set; }
