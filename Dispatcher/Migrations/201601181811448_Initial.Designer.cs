@@ -13,7 +13,7 @@ namespace Dispatcher.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201601171905288_Initial"; }
+            get { return "201601181811448_Initial"; }
         }
         
         string IMigrationMetadata.Source
