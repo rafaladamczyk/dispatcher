@@ -11,10 +11,11 @@ namespace Dispatcher.Controllers
 {
     public class DispatchRequestController : ApiController
     {
-        private readonly IDispatcherContext db = new DispatcherContext();
+        private readonly IDispatcherContext db;
 
         public DispatchRequestController()
         {
+            db = new DispatcherContext();
         }
 
         public DispatchRequestController(IDispatcherContext context)

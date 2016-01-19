@@ -29,9 +29,7 @@ namespace Dispatcher.Tests
 
         public Task<int> SaveChangesAsync()
         {
-            var task = new Task<int>(() => 0);
-            task.Start();
-            return task;
+            return Task.Factory.StartNew(() => 0);
         }
 
         public void MarkAsModified<T>(T item) where T : class

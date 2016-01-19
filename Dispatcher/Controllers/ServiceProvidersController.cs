@@ -8,10 +8,11 @@ namespace Dispatcher.Controllers
 {
     public class ServiceProvidersController : ApiController
     {
-        private readonly IDispatcherContext db = new DispatcherContext();
+        private readonly IDispatcherContext db;
 
         public ServiceProvidersController()
         {
+            db = new DispatcherContext();
         }
 
         public ServiceProvidersController(IDispatcherContext context)
