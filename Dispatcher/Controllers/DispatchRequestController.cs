@@ -102,6 +102,11 @@ namespace Dispatcher.Controllers
                 return BadRequest($"Request Id {requestId} does not exist");
             }
 
+            if (!request.Active)
+            {
+                return BadRequest($"Request Id {requestId} is already completed");
+            }
+
             request.Active = false;
             request.CompletionDate = DateTime.UtcNow;
             request.Duration = request.CompletionDate - request.CreationDate;
