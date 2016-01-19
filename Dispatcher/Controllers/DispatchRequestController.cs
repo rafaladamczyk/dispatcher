@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Dispatcher.Models;
+using NUnit.Framework;
 
 namespace Dispatcher.Controllers
 {
@@ -22,27 +24,38 @@ namespace Dispatcher.Controllers
         {
             db = context;
         }
-
-        public IQueryable<DispatchRequest> DispatchRequests()
+        
+        [ResponseType(typeof(List<DispatchRequest>))]
+        public async Task<IHttpActionResult> GetAllDispatchRequests()
         {
-            return db.Requests;
+            return Ok(await db.Requests.ToListAsync());
+        }
+
+        [HttpGet]
+        [Route("api/ActiveRequests")]
+        [ResponseType(typeof(List<DispatchRequest>))]
+        public async Task<IHttpActionResult> GetActiveRequests()
+        {
+           var activeRequests = await db.Requests.Where(r => r.Active).ToListAsync() ;
+           return Ok(activeRequests);
         }
 
         [ResponseType(typeof(DispatchRequest))]
         public async Task<IHttpActionResult> GetDispatchRequest(int id)
         {
-            ServiceProvider serviceProvider = await db.Providers.FindAsync(id);
-            if (serviceProvider == null)
+            DispatchRequest request= await db.Requests.FindAsync(id);
+            if (request == null)
             {
                 return NotFound();
             }
 
-            return Ok(serviceProvider);
+            return Ok(request);
         }
 
-        [Route("api/CreateRequest/{requesterId}/{requestType}")]
+        [HttpGet]
         [HttpPut]
         [HttpPost]
+        [Route("api/CreateRequest/{requesterId}/{requestType}")]
         [ResponseType(typeof(DispatchRequest))]
         public async Task<IHttpActionResult> CreateNewRequest(int requesterId, int requestType)
         {
@@ -62,11 +75,39 @@ namespace Dispatcher.Controllers
                 return BadRequest($"{requestType} is not a valid RequestType.");
             }
 
-            var newRequest = new DispatchRequest { RequesterId = requesterId, Type = (RequestType)requestType, CreationDate = DateTime.UtcNow, CompletionDate = null, Requester = requester };
+            var newRequest = new DispatchRequest { RequesterId = requesterId, Active = true, Type = (RequestType)requestType, CreationDate = DateTime.UtcNow, CompletionDate = null, Requester = requester };
             db.Requests.Add(newRequest);
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { controller = "DispatchRequest",id = newRequest.Id }, newRequest);
+        }
+
+        [HttpGet]
+        [HttpPut]
+        [HttpPost]
+        [Route("api/CompleteRequest/{requestId}")]
+        [ResponseType(typeof(DispatchRequest))]
+        public async Task<IHttpActionResult> CompleteRequest(int requestId)
+        {
+            //TODO only user with correct service provider id can mark request as completed;
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var request = await db.Requests.FirstOrDefaultAsync(r => r.Id == requestId);
+            if (request == null)
+            {
+                return BadRequest($"Request Id {requestId} does not exist");
+            }
+
+            request.Active = false;
+            request.CompletionDate = DateTime.UtcNow;
+            request.Duration = request.CompletionDate - request.CreationDate;
+            await db.SaveChangesAsync();
+
+            return Ok();
         }
 
 

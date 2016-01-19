@@ -7,9 +7,12 @@ namespace Dispatcher.Models
     public class DispatchRequest
     {
         public int Id { get; set; }
+        [Index]
+        public bool Active { get; set; }
         public RequestType Type { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime? CompletionDate { get; set; }
+        public TimeSpan? Duration { get; set; }
 
         public int RequesterId { get; set; }
         [ForeignKey("RequesterId")]
