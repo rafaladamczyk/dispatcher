@@ -175,7 +175,7 @@ namespace Dispatcher.Controllers
             request.ServiceDuration = request.CompletionDate - request.PickedUpDate;
             await db.SaveChangesAsync();
 
-            return Ok();
+            return Ok(request);
         }
 
 
