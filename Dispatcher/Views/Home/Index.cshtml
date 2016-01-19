@@ -4,6 +4,7 @@
 
 <div class="page-header">
     <h1>Aktywne zlecenia</h1>
+    <button data-bind="click: createRequest">Dodaj nowe</button>
 </div>
 
 <div class="row">
@@ -20,7 +21,7 @@
                         <tr>
                             <td data-bind="text: Requester.Name"></td>
                             <td data-bind="text: CreationDate"></td>
-                            <td><button>Przyjmij</button></td>
+                            <td><button data-bind="click: $parent.completeRequest">Zakończ</button></td>
                         </tr>
                     </tbody>
                 </table>

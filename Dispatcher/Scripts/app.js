@@ -4,29 +4,34 @@
     self.error = ko.observable();
 
     var requestsUri = '/api/ActiveRequests/';
+    var completeRequestUri = '/api/CompleteRequest/';
+    var createRequestUri = '/api/CreateRequest/';
 
-    function ajaxHelper(uri, method, data) {
-        self.error(''); // Clear error message
-        return $.ajax({
-            type: method,
-            url: uri,
-            dataType: 'json',
-            contentType: 'application/json',
-            data: data ? JSON.stringify(data) : null
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            self.error(errorThrown);
-        });
-    }
-
-    function getActiveRequests() {
-        ajaxHelper(requestsUri, 'GET').done(function (data) {
+    self.getActiveRequests = function() {
+        $.getJSON(requestsUri, function(data) {
             self.activeRequests(data);
         });
     }
 
+    self.completeRequest = function(request) {
+        $.ajax(completeRequestUri + request.Id, {
+            type: "PUT", contentType: "application/json",
+            success: self.getActiveRequests,
+            error: function (jx, message, error) {alert(message);}
+        });
+    }
+
+    self.createRequest = function() {
+        var requesterId = Math.floor((Math.random() * 3) + 1);
+        var requestType = Math.floor((Math.random() * 2));
+        $.getJSON(createRequestUri + requesterId + '/' + requestType, self.getActiveRequests);
+    }
+
     // Fetch the initial data.
 
-    getActiveRequests();
+    self.getActiveRequests();
 };
 
-ko.applyBindings(new ViewModel());
+var viewModel = new ViewModel();
+window.setInterval(viewModel.getActiveRequests, 1000);
+ko.applyBindings(viewModel);
