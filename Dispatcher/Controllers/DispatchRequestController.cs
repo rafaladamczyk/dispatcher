@@ -4,9 +4,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Dispatcher.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using NUnit.Framework;
 
 namespace Dispatcher.Controllers
@@ -36,7 +39,7 @@ namespace Dispatcher.Controllers
         [ResponseType(typeof(List<DispatchRequest>))]
         public async Task<IHttpActionResult> GetActiveRequests()
         {
-           var activeRequests = await db.Requests.Where(r => r.Active).ToListAsync() ;
+            var activeRequests = await db.Requests.Where(r => r.Active).ToListAsync() ;
            return Ok(activeRequests);
         }
 

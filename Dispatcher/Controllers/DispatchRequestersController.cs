@@ -2,9 +2,13 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Dispatcher.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Dispatcher.Controllers
 {
@@ -96,7 +100,9 @@ namespace Dispatcher.Controllers
         [ResponseType(typeof(DispatchRequester))]
         public async Task<IHttpActionResult> DeleteDispatchRequester(int id)
         {
+            ApplicationUser user = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
             DispatchRequester dispatchRequester = await db.Requesters.FindAsync(id);
+
             if (dispatchRequester == null)
             {
                 return NotFound();
