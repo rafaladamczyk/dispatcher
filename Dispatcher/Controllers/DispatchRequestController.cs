@@ -85,7 +85,7 @@ namespace Dispatcher.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existingRequest = await db.Requests.FirstOrDefaultAsync(r => r.Active && r.RequesterId == requesterId);
+            var existingRequest = await db.Requests.FirstOrDefaultAsync(r => r.Active && r.RequesterId == requesterId && r.Type == r.Type);
             if (existingRequest != null)
             {
                 return BadRequest($"Requester Id {requesterId} already has an active request of type {requestType}");
