@@ -232,6 +232,10 @@
     <Compile Include="Migrations\201602021909298_made_pickedUpDate_nullable.Designer.cs">
       <DependentUpon>201602021909298_made_pickedUpDate_nullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602021922229_UserRelation-ToUserName.cs" />
+    <Compile Include="Migrations\201602021922229_UserRelation-ToUserName.Designer.cs">
+      <DependentUpon>201602021922229_UserRelation-ToUserName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -320,6 +324,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602021909298_made_pickedUpDate_nullable.resx">
       <DependentUpon>201602021909298_made_pickedUpDate_nullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602021922229_UserRelation-ToUserName.resx">
+      <DependentUpon>201602021922229_UserRelation-ToUserName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

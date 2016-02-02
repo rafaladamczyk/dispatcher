@@ -20,11 +20,8 @@ namespace Dispatcher.Models
         [ForeignKey("RequesterId")]
         public virtual DispatchRequester Requester { get; set; }
 
-        public string ProvidingUserId { get; set; }
-
-        [ForeignKey("ProvidingUserId")]
         [ConcurrencyCheck]
-        public virtual ApplicationUser ProvidingUser { get; set; }
+        public string ProvidingUserName { get; set; }
     }
 
     public enum RequestType

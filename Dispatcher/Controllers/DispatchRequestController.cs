@@ -113,10 +113,9 @@ namespace Dispatcher.Controllers
         [HttpPut]
         [HttpPost]
         [Route("api/AcceptRequest/{requestId}")]
+        [Authorize(Roles = "ServiceProviders")]
         public async Task<IHttpActionResult> AcceptRequest(int requestId)
         {
-            //TODO only logged in user in correct group can accept requests;
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -133,14 +132,13 @@ namespace Dispatcher.Controllers
                 return BadRequest($"Request Id {requestId} is already completed");
             }
 
-            if (request.ProvidingUser != null)
+            if (request.ProvidingUserName != null)
             {
                 return Conflict();
             }
             
-            request.CreationDate= DateTime.UtcNow;
             request.PickedUpDate = DateTime.UtcNow;
-            request.ProvidingUser = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
+            request.ProvidingUserName = User.Identity.GetUserName();
             await db.SaveChangesAsync();
 
             return Ok();
@@ -152,10 +150,9 @@ namespace Dispatcher.Controllers
         [HttpPut]
         [HttpPost]
         [Route("api/CompleteRequest/{requestId}")]
+        [Authorize(Roles = "ServiceProviders")]
         public async Task<IHttpActionResult> CompleteRequest(int requestId)
         {
-            //TODO Only logged in user in correct group can  mark request as completed;
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -206,8 +203,8 @@ namespace Dispatcher.Controllers
         {
             R0 = requestType1?.Active ?? false;
             R1 = requestType2?.Active ?? false;
-            R0P = requestType1?.ProvidingUser != null;
-            R1P = requestType2?.ProvidingUser != null;
+            R0P = requestType1?.ProvidingUserName != null;
+            R1P = requestType2?.ProvidingUserName != null;
         }
     }
 }
