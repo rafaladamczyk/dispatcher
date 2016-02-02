@@ -22,28 +22,31 @@ namespace Dispatcher.Migrations
                 new DispatchRequester { Id = 2, Name = "Maszyna smaka" },
                 new DispatchRequester { Id = 3, Name = "Maszyna owaka" });
 
-            context.Providers.AddOrUpdate(
-                p => p.UserName,
-                new ServiceProvider { UserName = "test provider", FirstName = "Johhny", LastName = "Cage" },
-                new ServiceProvider { UserName = "Wozek nr 154", FirstName = "Jozek", LastName = "Wozkowy" });
 
-            if (!context.Roles.Any(r => r.Name == "Admin"))
+            AddUser(context, "Rafal", "sekretnehasloadministratora", "Admin");
+            AddUser(context, "Wozkowy", "password123", "ServiceProviders");
+            AddUser(context, "Maurycy", "12345678", "ServiceProviders");
+        }
+
+        private void AddUser(DispatcherContext context, string userName, string password, string role)
+        {
+            if (!context.Roles.Any(r => r.Name == role))
             {
                 var store = new RoleStore<IdentityRole>(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "Admin" };
+                var newRole = new IdentityRole { Name = role };
 
-                manager.Create(role);
+                manager.Create(newRole);
             }
 
-            if (!context.Users.Any(u => u.UserName == "Rafal"))
+            if (!context.Users.Any(u => u.UserName == userName))
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { UserName = "Rafal" };
+                var user = new ApplicationUser { UserName = userName };
 
-                manager.Create(user, "sekretnehasloadministratora");
-                manager.AddToRole(user.Id, "Admin");
+                manager.Create(user, password);
+                manager.AddToRole(user.Id, role);
             }
         }
     }

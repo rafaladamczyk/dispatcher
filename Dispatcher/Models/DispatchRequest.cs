@@ -11,17 +11,20 @@ namespace Dispatcher.Models
         public bool Active { get; set; }
         public RequestType Type { get; set; }
         public DateTime CreationDate { get; set; }
+        public DateTime PickedUpDate { get; set; }
         public DateTime? CompletionDate { get; set; }
         public TimeSpan? Duration { get; set; }
+        public TimeSpan? ServiceDuration { get; set; }  
 
         public int RequesterId { get; set; }
         [ForeignKey("RequesterId")]
         public virtual DispatchRequester Requester { get; set; }
-        
+
+        public string ProvidingUserId { get; set; }
+
+        [ForeignKey("ProvidingUserId")]
         [ConcurrencyCheck]
-        public string ProviderName { get; set; }
-        [ForeignKey("ProviderName")]
-        public virtual ServiceProvider Provider { get; set; }
+        public virtual ApplicationUser ProvidingUser { get; set; }
     }
 
     public enum RequestType

@@ -217,21 +217,16 @@
     <Compile Include="Controllers\DispatchRequestController.cs" />
     <Compile Include="Controllers\DispatchRequestersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ServiceProvidersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201601181811448_Initial.cs" />
-    <Compile Include="Migrations\201601181811448_Initial.Designer.cs">
-      <DependentUpon>201601181811448_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201602021853205_Initial.cs" />
+    <Compile Include="Migrations\201602021853205_Initial.Designer.cs">
+      <DependentUpon>201602021853205_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201601191819059_added_Active_flag_to_Requests.cs" />
-    <Compile Include="Migrations\201601191819059_added_Active_flag_to_Requests.Designer.cs">
-      <DependentUpon>201601191819059_added_Active_flag_to_Requests.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601191839448_added_Duration_To_Request.cs" />
-    <Compile Include="Migrations\201601191839448_added_Duration_To_Request.Designer.cs">
-      <DependentUpon>201601191839448_added_Duration_To_Request.cs</DependentUpon>
+    <Compile Include="Migrations\201602021855569_Removed_Service_Providers.cs" />
+    <Compile Include="Migrations\201602021855569_Removed_Service_Providers.Designer.cs">
+      <DependentUpon>201602021855569_Removed_Service_Providers.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -241,7 +236,6 @@
     <Compile Include="Models\DispatchRequester.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IDispatcherContext.cs" />
-    <Compile Include="Models\ServiceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -314,14 +308,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601181811448_Initial.resx">
-      <DependentUpon>201601181811448_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602021853205_Initial.resx">
+      <DependentUpon>201602021853205_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601191819059_added_Active_flag_to_Requests.resx">
-      <DependentUpon>201601191819059_added_Active_flag_to_Requests.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601191839448_added_Duration_To_Request.resx">
-      <DependentUpon>201601191839448_added_Duration_To_Request.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602021855569_Removed_Service_Providers.resx">
+      <DependentUpon>201602021855569_Removed_Service_Providers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

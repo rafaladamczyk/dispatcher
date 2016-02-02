@@ -56,6 +56,24 @@ namespace Dispatcher.Controllers
         }
 
         [HttpGet]
+        [Route("api/ActiveRequests/{requesterId}")]
+        [ResponseType(typeof(StrippedRequest))]
+        public IHttpActionResult GetActiveRequestStripped(int requesterId)
+        {
+            var requests = db.Requests.Where(r => r.Active && r.RequesterId == requesterId).ToLookup(r => (int)r.Type);
+            if (requests.Count > 2)
+            {
+                return InternalServerError();
+            }
+            if (requests.Count == 0)
+            {
+                return Ok(new StrippedRequest());
+            }
+
+            return Ok(new StrippedRequest(requests[0].FirstOrDefault(), requests[1].FirstOrDefault()));
+        }
+
+        [HttpGet]
         [HttpPut]
         [HttpPost]
         [Route("api/CreateRequest/{requesterId}/{requestType}")]
@@ -65,6 +83,12 @@ namespace Dispatcher.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var existingRequest = await db.Requests.FirstOrDefaultAsync(r => r.Active && r.RequesterId == requesterId);
+            if (existingRequest != null)
+            {
+                return BadRequest($"Requester Id {requesterId} already has an active request of type {requestType}");
             }
 
             var requester = await db.Requesters.FirstOrDefaultAsync(r => r.Id == requesterId);
@@ -88,11 +112,49 @@ namespace Dispatcher.Controllers
         [HttpGet]
         [HttpPut]
         [HttpPost]
+        [Route("api/AcceptRequest/{requestId}")]
+        public async Task<IHttpActionResult> AcceptRequest(int requestId)
+        {
+            //TODO only logged in user in correct group can accept requests;
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var request = await db.Requests.FirstOrDefaultAsync(r => r.Id == requestId);
+            if (request == null)
+            {
+                return BadRequest($"Request Id {requestId} does not exist");
+            }
+
+            if (!request.Active)
+            {
+                return BadRequest($"Request Id {requestId} is already completed");
+            }
+
+            if (request.ProvidingUser != null)
+            {
+                return Conflict();
+            }
+            
+            request.CreationDate= DateTime.UtcNow;
+            request.PickedUpDate = DateTime.UtcNow;
+            request.ProvidingUser = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
+            await db.SaveChangesAsync();
+
+            return Ok();
+        }
+
+
+
+        [HttpGet]
+        [HttpPut]
+        [HttpPost]
         [Route("api/CompleteRequest/{requestId}")]
-        [ResponseType(typeof(DispatchRequest))]
         public async Task<IHttpActionResult> CompleteRequest(int requestId)
         {
-            //TODO only user with correct service provider id can mark request as completed;
+            //TODO Only logged in user in correct group can  mark request as completed;
 
             if (!ModelState.IsValid)
             {
@@ -113,6 +175,7 @@ namespace Dispatcher.Controllers
             request.Active = false;
             request.CompletionDate = DateTime.UtcNow;
             request.Duration = request.CompletionDate - request.CreationDate;
+            request.ServiceDuration = request.CompletionDate - request.PickedUpDate;
             await db.SaveChangesAsync();
 
             return Ok();
@@ -126,6 +189,25 @@ namespace Dispatcher.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+    }
+
+    /// <summary>
+    /// very simple names and values because our hardware controller has limited memory
+    /// this DTO class aims to limit the output JSON.
+    /// </summary>
+    public class StrippedRequest
+    {
+        public bool R0;
+        public bool R1;
+        public bool R0P;
+        public bool R1P;
+        public StrippedRequest(DispatchRequest requestType1 = null, DispatchRequest requestType2 = null)
+        {
+            R0 = requestType1?.Active ?? false;
+            R1 = requestType2?.Active ?? false;
+            R0P = requestType1?.ProvidingUser != null;
+            R1P = requestType2?.ProvidingUser != null;
         }
     }
 }

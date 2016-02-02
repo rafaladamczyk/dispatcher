@@ -7,13 +7,13 @@ namespace Dispatcher.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Initial : IMigrationMetadata
+    public sealed partial class Removed_Service_Providers : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Removed_Service_Providers));
         
         string IMigrationMetadata.Id
         {
-            get { return "201601181811448_Initial"; }
+            get { return "201602021855569_Removed_Service_Providers"; }
         }
         
         string IMigrationMetadata.Source

@@ -12,7 +12,6 @@ namespace Dispatcher.Models
         }
 
         public DbSet<DispatchRequest> Requests { get; set; }
-        public DbSet<ServiceProvider> Providers { get; set; }
         public DbSet<DispatchRequester> Requesters { get; set; }
 
         public void MarkAsModified<T>(T item) where T : class

@@ -10,11 +10,9 @@ namespace Dispatcher.Tests
         {
             Requests = new TestDbSet<DispatchRequest>();
             Requesters = new TestDbSet<DispatchRequester>();
-            Providers = new TestDbSet<ServiceProvider>();
         }
 
         public DbSet<DispatchRequest> Requests { get; }
-        public DbSet<ServiceProvider> Providers { get; }
         public DbSet<DispatchRequester> Requesters { get; }
 
         public int SaveChanges()

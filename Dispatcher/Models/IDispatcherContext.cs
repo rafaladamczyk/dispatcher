@@ -11,7 +11,6 @@ namespace Dispatcher.Models
     public interface IDispatcherContext : IDisposable
     {
         DbSet<DispatchRequest> Requests { get; }
-        DbSet<ServiceProvider> Providers { get; }
         DbSet<DispatchRequester> Requesters { get; }
         int SaveChanges();
         Task<int> SaveChangesAsync();

@@ -7,13 +7,13 @@ namespace Dispatcher.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class added_Active_flag_to_Requests : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(added_Active_flag_to_Requests));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201601191819059_added_Active_flag_to_Requests"; }
+            get { return "201602021853205_Initial"; }
         }
         
         string IMigrationMetadata.Source
