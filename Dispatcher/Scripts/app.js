@@ -1,11 +1,11 @@
 ﻿var ViewModel = function () {
     var self = this;
     self.activeRequests = ko.observableArray();
+	self.myRequests = ko.observableArray();
     self.error = ko.observable();
 
     var tokenKey = 'accessToken';
 
-    self.result = ko.observable();
     self.user = ko.observable();
 
     self.registerUsername = ko.observable();
@@ -15,44 +15,65 @@
     self.loginUsername = ko.observable();
     self.loginPassword = ko.observable();
 
-
-
     var requestsUri = '/api/ActiveRequests/';
-    var acceptRequestUri = '/api/AcceptRequest/';
-	var completeRequestUri = '/api/CompleteRequest/';
-    var createRequestUri = '/api/CreateRequest/';
+	var createRequestUri = '/api/CreateRequest/';
 
     self.getActiveRequests = function() {
         $.getJSON(requestsUri, function(data) {
             self.activeRequests(data);
         });
     }
+	
+	 self.getMyRequests = function() {
+        var token = localStorage.getItem(tokenKey);
+        var headers = {};
+        if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }		
+        $.ajax({
+            type: 'GET',
+            url: '/api/MyRequests/',
+            headers: headers
+        }).done(function (data) {
+            self.myRequests(data);
+        }).fail(function() {
+            self.myRequests.removeAll();
+        });
+    }
 
     self.completeRequest = function(request) {
-        var token = sessionStorage.getItem(tokenKey);
+        var token = localStorage.getItem(tokenKey);
         var headers = {};
         if (token) {
             headers.Authorization = 'Bearer ' + token;
         }
-        $.ajax(completeRequestUri + request.Id, {
-            type: "PUT", contentType: "application/json",
-            headers: headers, 
-            success: self.getActiveRequests,
-            error: function (jx, message, error) {alert(message);}
+        $.ajax({
+            type: 'PUT',
+            url: '/api/CompleteRequest/' + request.Id,
+            headers: headers
+        }).done(function () {
+            self.getMyRequests();
+            self.getActiveRequests();
+        }).fail(function (jx, message, error) {
+            alert(message);
         });
     }
 	
     self.acceptRequest = function (request) {
-        var token = sessionStorage.getItem(tokenKey);
+        var token = localStorage.getItem(tokenKey);
         var headers = {};
         if (token) {
             headers.Authorization = 'Bearer ' + token;
         }
-        $.ajax(acceptRequestUri + request.Id, {
-            type: "PUT", contentType: "application/json",
-            headers: headers,
-            success: self.getActiveRequests,
-            error: function (jx, message, error) {alert(message);}
+        $.ajax({
+            type: 'PUT',
+            url: '/api/AcceptRequest/' + request.Id,
+            headers: headers
+        }).done(function () {
+            self.getMyRequests();
+            self.getActiveRequests();
+        }).fail(function (jx, message, error) {
+            alert(message);
         });
     }
 
@@ -63,13 +84,13 @@
     }
 
     function showError(jqXHR) {
-        self.result(jqXHR.status + ': ' + jqXHR.statusText);
+        self.user(jqXHR.status + ': ' + jqXHR.statusText);
     }
 
-    self.callApi = function () {
-        self.result('');
+    self.userInfo = function () {
+        self.user('');
 
-        var token = sessionStorage.getItem(tokenKey);
+        var token = localStorage.getItem(tokenKey);
         var headers = {};
         if (token) {
             headers.Authorization = 'Bearer ' + token;
@@ -80,12 +101,14 @@
             url: '/api/Account/UserInfo',
             headers: headers
         }).done(function (data) {
-            self.result(data.UserName);
-        }).fail(showError);
+            self.user(data.UserName);
+        }).fail(function() {
+            self.user('');
+        });
     }
 
     self.register = function () {
-        self.result('');
+        self.user('');
 
         var data = {
             UserName: self.registerUsername(),
@@ -99,12 +122,12 @@
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function (data) {
-            self.result("Done!");
+            self.user("Registered!");
         }).fail(showError);
     }
 
     self.login = function () {
-        self.result('');
+        self.user('');
 
         var loginData = {
             grant_type: 'password',
@@ -119,17 +142,24 @@
         }).done(function (data) {
             self.user(data.userName);
             // Cache the access token in session storage.
-            sessionStorage.setItem(tokenKey, data.access_token);
+            localStorage.setItem(tokenKey, data.access_token);
+			self.getMyRequests();
         }).fail(showError);
     }
 
+    self.loginMessage = ko.pureComputed(function() {
+        return self.user() ? "Zalogowany jako: " + self.user() : "Niezalogowany";
+    }, self);
+
     self.logout = function () {
         self.user('');
-        sessionStorage.removeItem(tokenKey)
+		self.myRequests.removeAll();
+        localStorage.removeItem(tokenKey)
     }
 
     // Fetch the initial data.
-
+    self.userInfo();
+	self.getMyRequests();
     self.getActiveRequests();
 };
 
