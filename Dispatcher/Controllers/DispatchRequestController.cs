@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Dispatcher.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using NUnit.Framework;
 
 namespace Dispatcher.Controllers
 {
@@ -41,6 +36,16 @@ namespace Dispatcher.Controllers
         {
             var activeRequests = await db.Requests.Where(r => r.Active).ToListAsync() ;
            return Ok(activeRequests);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("api/MyRequests")]
+        [ResponseType(typeof(List<DispatchRequest>))]
+        public async Task<IHttpActionResult> GetMyRequests()
+        {
+            var myRequests = await db.Requests.Where(r => r.Active).Where(r => r.ProvidingUserName == User.Identity.Name).ToListAsync();
+            return Ok(myRequests);
         }
 
         [ResponseType(typeof(DispatchRequest))]
@@ -109,7 +114,6 @@ namespace Dispatcher.Controllers
             return CreatedAtRoute("DefaultApi", new { controller = "DispatchRequest",id = newRequest.Id }, newRequest);
         }
 
-        [HttpGet]
         [HttpPut]
         [HttpPost]
         [Route("api/AcceptRequest/{requestId}")]
@@ -138,7 +142,7 @@ namespace Dispatcher.Controllers
             }
             
             request.PickedUpDate = DateTime.UtcNow;
-            request.ProvidingUserName = User.Identity.GetUserName();
+            request.ProvidingUserName = User.Identity.Name;
             await db.SaveChangesAsync();
 
             return Ok();
@@ -162,6 +166,11 @@ namespace Dispatcher.Controllers
             if (request == null)
             {
                 return BadRequest($"Request Id {requestId} does not exist");
+            }
+
+            if (request.ProvidingUserName != User.Identity.Name)
+            {
+                return BadRequest($"Request Id {requestId} is not yours to complete");
             }
 
             if (!request.Active)

@@ -88,7 +88,13 @@ namespace Dispatcher.Controllers
             var user = new ApplicationUser() { UserName = model.UserName};
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+           
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
 
+            result = await UserManager.AddToRoleAsync(user.Id, "ServiceProviders");
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
