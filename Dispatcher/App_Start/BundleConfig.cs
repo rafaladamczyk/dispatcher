@@ -21,8 +21,8 @@ namespace Dispatcher
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/bootstrap.min.css",
+                      "~/Content/style.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                       "~/Scripts/knockout-{version}.js",
