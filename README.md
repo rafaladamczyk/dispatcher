@@ -1,2 +1,2 @@
 # dispatcher
-WebAPI based application that intelligently dispatches service-providers to service-receivers
+WebAPI based application that dispatches service-providers to service-receivers
