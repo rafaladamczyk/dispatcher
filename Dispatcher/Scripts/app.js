@@ -36,8 +36,9 @@
             headers: headers
         }).done(function (data) {
             self.myRequests(data);
-        }).fail(function() {
+        }).fail(function(err) {
             self.myRequests.removeAll();
+            showError(err);
         });
     }
 
@@ -55,7 +56,7 @@
             self.getMyRequests();
             self.getActiveRequests();
         }).fail(function (jx, message, error) {
-            alert(message);
+            showError(jx);
         });
     }
 	
@@ -73,18 +74,24 @@
             self.getMyRequests();
             self.getActiveRequests();
         }).fail(function (jx, message, error) {
-            alert(message);
+            showError(jx);
         });
     }
 
     self.createRequest = function() {
         var requesterId = Math.floor((Math.random() * 3) + 1);
         var requestType = Math.floor((Math.random() * 2));
-        $.getJSON(createRequestUri + requesterId + '/' + requestType, self.getActiveRequests);
+        $.getJSON(createRequestUri + requesterId + '/' + requestType, self.getActiveRequests).fail(showError);
     }
 
     function showError(jqXHR) {
-        self.user(jqXHR.status + ': ' + jqXHR.statusText);
+        var text = '';
+        if (jqXHR.responseJSON) {
+            var err = jqXHR.responseJSON.error_description;
+            var msg = jqXHR.responseJSON.Message;
+            text = err ? err : (msg ? msg : '');
+        }
+        self.error(jqXHR.status + ': ' + jqXHR.statusText + '. ' + text);
     }
 
     self.userInfo = function () {
@@ -102,8 +109,9 @@
             headers: headers
         }).done(function (data) {
             self.user(data.UserName);
-        }).fail(function() {
+        }).fail(function(error) {
             self.user('');
+            showError(error);
         });
     }
 
@@ -127,7 +135,7 @@
     }
 
     self.login = function () {
-        self.user('');
+        self.logout();
 
         var loginData = {
             grant_type: 'password',
