@@ -115,6 +115,14 @@
         });
     }
 
+    self.clearForms = function () {
+        self.registerUsername('');
+        self.registerPassword('');
+        self.registerPassword2('');
+        self.loginUsername('');
+        self.loginPassword('');
+    }
+
     self.register = function () {
         self.user('');
 
@@ -129,8 +137,8 @@
             url: '/api/Account/Register',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
-        }).done(function (data) {
-            self.user("Registered!");
+        }).done(function() {
+            self.clearForms();
         }).fail(showError);
     }
 
@@ -148,6 +156,7 @@
             url: '/Token',
             data: loginData
         }).done(function (data) {
+            self.clearForms();
             self.user(data.userName);
             // Cache the access token in session storage.
             localStorage.setItem(tokenKey, data.access_token);
@@ -158,11 +167,7 @@
     self.loginMessage = ko.pureComputed(function() {
         return self.user() ? "Zalogowany jako: " + self.user() : "Niezalogowany";
     }, self);
-
-    self.loginVisible = ko.pureComputed(function () {
-        return self.user() ? false : true;
-    }, self);
-
+    
     self.logout = function () {
         self.user('');
 		self.myRequests.removeAll();

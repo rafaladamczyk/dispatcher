@@ -75,7 +75,7 @@
                 <tr>
                     <th>Typ</th>
                     <th>Zlecający</th>
-                    <th>Utworzono</th>
+                    <th>Przyjęto</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -83,7 +83,7 @@
                 <tr>
                     <td data-bind="text: Type"></td>
                     <td data-bind="text: Requester.Name"></td>
-                    <td data-bind="text: CreationDate"></td>
+                    <td data-bind="text: PickedUpDate"></td>
                     <td>
                         <button type="button" class="btn btn-block btn-success btn-huge " data-bind="
                                     click: $parent.completeRequest,
@@ -112,7 +112,7 @@
                     <input class="form-control" type="password" data-bind="value: registerPassword2"/>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn" data-bind="css: {'btn-info': registerPassword() == registerPassword2()}, enable: registerPassword() == registerPassword2()">Rejestruj</button>
+                    <button type="submit" class="btn">Rejestruj</button>
                 </div>
             </form>
         </div>
