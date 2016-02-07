@@ -38,7 +38,7 @@
             </nav>
         </div>
     </div>
-    <div class="row" style="padding-top: 100px">
+    <div class="row" style="padding-top: 100px" data-bind="visible: user">
         <div class="col-md-6">
             <h3 class="text-center">
                 Otwarte zlecenia
@@ -95,7 +95,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" data-bind="visible: !user()">
         <div class="col-sm-4">
             <form data-bind="submit: register">
                 <h3>Nowy użytkownik</h3>
@@ -129,7 +129,6 @@
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-info">Log In</button>
-                    <button data-bind="click: logout" class="btn btn-info">Log Out</button>
                 </div>
             </form>
         </div>

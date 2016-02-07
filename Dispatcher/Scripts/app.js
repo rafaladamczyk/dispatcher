@@ -159,6 +159,10 @@
         return self.user() ? "Zalogowany jako: " + self.user() : "Niezalogowany";
     }, self);
 
+    self.loginVisible = ko.pureComputed(function () {
+        return self.user() ? false : true;
+    }, self);
+
     self.logout = function () {
         self.user('');
 		self.myRequests.removeAll();
