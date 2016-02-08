@@ -23,7 +23,7 @@
 	}
 
     self.getActiveRequests = function() {
-        $.getJSON(requestsUri, function(data) {
+        $.getJSON(requestsUri, function (data) {
             self.activeRequests(data);
         });
     }
@@ -191,5 +191,5 @@
 };
 
 var viewModel = new ViewModel();
-window.setInterval(viewModel.getActiveRequests, 1000);
+window.setInterval(viewModel.getActiveRequests, 5000);
 ko.applyBindings(viewModel);
