@@ -184,7 +184,7 @@
         localStorage.removeItem(tokenKey);
     }
 
-    // Fetch the initial data.
+   // Fetch the initial data.
     self.userInfo();
 	self.getMyRequests();
     self.getActiveRequests();
@@ -193,3 +193,11 @@
 var viewModel = new ViewModel();
 window.setInterval(viewModel.getActiveRequests, 5000);
 ko.applyBindings(viewModel);
+
+moment.locale('pl');
+
+function parseDate(date) {
+    return moment(date).fromNow();
+}
+
+   
