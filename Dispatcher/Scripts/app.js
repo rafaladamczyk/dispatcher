@@ -18,6 +18,10 @@
     var requestsUri = '/api/ActiveRequests/';
 	var createRequestUri = '/api/CreateRequest/';
 
+	self.disableButton = function (element) {
+	    $(element).removeClass("btn-info btn-success").addClass("btn-default").text("Czekaj").prop('disabled', true);
+	}
+
     self.getActiveRequests = function() {
         $.getJSON(requestsUri, function(data) {
             self.activeRequests(data);
@@ -42,12 +46,15 @@
         });
     }
 
-    self.completeRequest = function(request) {
+    self.completeRequest = function(request, event) {
         var token = localStorage.getItem(tokenKey);
         var headers = {};
         if (token) {
             headers.Authorization = 'Bearer ' + token;
         }
+        
+        self.disableButton(event.target);
+
         $.ajax({
             type: 'PUT',
             url: '/api/CompleteRequest/' + request.Id,
@@ -60,12 +67,15 @@
         });
     }
 	
-    self.acceptRequest = function (request) {
+    self.acceptRequest = function (request, event) {
         var token = localStorage.getItem(tokenKey);
         var headers = {};
         if (token) {
             headers.Authorization = 'Bearer ' + token;
         }
+
+        self.disableButton(event.target);
+
         $.ajax({
             type: 'PUT',
             url: '/api/AcceptRequest/' + request.Id,
@@ -171,7 +181,7 @@
     self.logout = function () {
         self.user('');
 		self.myRequests.removeAll();
-        localStorage.removeItem(tokenKey)
+        localStorage.removeItem(tokenKey);
     }
 
     // Fetch the initial data.
