@@ -49,10 +49,10 @@
                 </thead>
                 <tbody data-bind="foreach: activeRequests">
                 <tr>
-                    <td style="vertical-align:middle" class="text-center"><h3 data-bind="text: Type"></h3></td>
+                    <td style="vertical-align:middle" class="text-center col-md-1"><h3 data-bind="text: Type"></h3></td>
                     <td style="vertical-align:middle" class="text-center"><h3 data-bind="text: Requester.Name"></h3></td>
                     <td style="vertical-align:middle" class="text-center"><h3 data-bind="text: parseDate(CreationDate)"></h3></td>
-                    <td><button type="button" class="btn btn-block btn-huge " data-bind="
+                    <td class="col-md-4"><button type="button" class="btn btn-block btn-huge " data-bind="
 						click: $parent.acceptRequest,
 						css: { 'btn-info' : !ProvidingUserName, 'btn-default' : ProvidingUserName},
 						enable: !ProvidingUserName,
@@ -71,18 +71,20 @@
                 <tr>
                     <th class="text-center"><h2>Typ</h2></th>
                     <th class="text-center" ><h2>Zlecający</h2></th>
-                    <th class="text-center" ></th>
-                    <th class="text-center" ></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody data-bind="foreach: myRequests">
                 <tr>
-                    <td style="vertical-align:middle" class="text-center"><h3 data-bind="text: Type"></h3></td>
+                    <td style="vertical-align:middle" class="text-center col-md-1"><h3 data-bind="text: Type"></h3></td>
                     <td style="vertical-align:middle" class="text-center"><h3 data-bind="text: Requester.Name"></h3></td>
-                    <td>
+                    <td class="col-md-3">
                         <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.cancelRequest">Anuluj</button>
                     </td>
-                    <td>
+                    <td class="col-md-1"></td>
+                    <td class="col-md-4">
                         <button type="button" class="btn btn-block btn-success btn-huge " data-bind="click: $parent.completeRequest">Zakończ</button>
                     </td>
                 </tr>
