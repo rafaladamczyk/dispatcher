@@ -71,7 +71,7 @@
                 <tr>
                     <th class="text-center"><h2>Typ</h2></th>
                     <th class="text-center" ><h2>Zlecający</h2></th>
-                    <th class="text-center" ><h2>Przyjęto</h2></th>
+                    <th class="text-center" ></th>
                     <th class="text-center" ></th>
                 </tr>
                 </thead>
@@ -79,11 +79,11 @@
                 <tr>
                     <td style="vertical-align:middle" class="text-center"><h3 data-bind="text: Type"></h3></td>
                     <td style="vertical-align:middle" class="text-center"><h3 data-bind="text: Requester.Name"></h3></td>
-                    <td style="vertical-align:middle" class="text-center"><h3 data-bind="text: parseDate(PickedUpDate)"></h3></td>
                     <td>
-                        <button type="button" class="btn btn-block btn-success btn-huge " data-bind="
-                                    click: $parent.completeRequest,
-                                    ">Zakończ</button>
+                        <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.cancelRequest">Anuluj</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-block btn-success btn-huge " data-bind="click: $parent.completeRequest">Zakończ</button>
                     </td>
                 </tr>
                 </tbody>

@@ -60,10 +60,33 @@
             url: '/api/CompleteRequest/' + request.Id,
             headers: headers
         }).done(function () {
-            self.getMyRequests();
             self.getActiveRequests();
-        }).fail(function (jx, message, error) {
+        }).fail(function (jx) {
             showError(jx);
+        }).always(function () {
+            self.getMyRequests();
+        });
+    }
+
+    self.cancelRequest = function (request, event) {
+        var token = localStorage.getItem(tokenKey);
+        var headers = {};
+        if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+
+        self.disableButton(event.target);
+
+        $.ajax({
+            type: 'PUT',
+            url: '/api/CancelRequest/' + request.Id,
+            headers: headers
+        }).done(function () {
+            self.getActiveRequests();
+        }).fail(function (jx) {
+            showError(jx);
+        }).always(function() {
+            self.getMyRequests();
         });
     }
 	
@@ -82,9 +105,10 @@
             headers: headers
         }).done(function () {
             self.getMyRequests();
-            self.getActiveRequests();
         }).fail(function (jx, message, error) {
             showError(jx);
+        }).always(function () {
+            self.getActiveRequests();
         });
     }
 

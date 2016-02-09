@@ -128,12 +128,12 @@ namespace Dispatcher.Controllers
             var request = await db.Requests.FirstOrDefaultAsync(r => r.Id == requestId);
             if (request == null)
             {
-                return BadRequest($"Request Id {requestId} does not exist");
+                return BadRequest($"Zlecenie o Id {requestId} nie istnieje");
             }
 
             if (!request.Active)
             {
-                return BadRequest($"Request Id {requestId} is already completed");
+                return BadRequest($"Zlecenie o Id {requestId} jest już zakończone");
             }
 
             if (request.ProvidingUserName != null)
@@ -146,6 +146,41 @@ namespace Dispatcher.Controllers
             await db.SaveChangesAsync();
 
             return Ok();
+        }
+
+
+        [HttpPut]
+        [HttpPost]
+        [Route("api/CancelRequest/{requestId}")]
+        [Authorize(Roles = "ServiceProviders")]
+        public async Task<IHttpActionResult> CancelRequest(int requestId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var request = await db.Requests.FirstOrDefaultAsync(r => r.Id == requestId);
+            if (request == null)
+            {
+                return BadRequest($"Zlecenie o Id {requestId} nie istnieje");
+            }
+
+            if (request.ProvidingUserName != User.Identity.Name)
+            {
+                return BadRequest($"Zlecenie o Id {requestId} obsługuje inny użytkownik");
+            }
+
+            if (!request.Active)
+            {
+                return BadRequest($"Zlecenie o Id {requestId} jest już zakończone");
+            }
+
+            request.PickedUpDate = null;
+            request.ProvidingUserName = null;
+            await db.SaveChangesAsync();
+
+            return Ok(request);
         }
 
 
@@ -165,17 +200,17 @@ namespace Dispatcher.Controllers
             var request = await db.Requests.FirstOrDefaultAsync(r => r.Id == requestId);
             if (request == null)
             {
-                return BadRequest($"Request Id {requestId} does not exist");
+                return BadRequest($"Zlecenie o Id {requestId} nie istnieje");
             }
 
             if (request.ProvidingUserName != User.Identity.Name)
             {
-                return BadRequest($"Request Id {requestId} is not yours to complete");
+                return BadRequest($"Zlecenie o Id {requestId} obsługuje inny użytkownik");
             }
 
             if (!request.Active)
             {
-                return BadRequest($"Request Id {requestId} is already completed");
+                return BadRequest($"Zlecenie o Id {requestId} jest już zakończone");
             }
 
             request.Active = false;
