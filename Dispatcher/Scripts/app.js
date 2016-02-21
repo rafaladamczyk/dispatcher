@@ -145,7 +145,7 @@ self.clearUserInfo = function() {
     self.userRoles.removeAll();
 }
 
-    self.getUserInfo = function () {
+    self.getUserInfo = function (callback) {
         self.clearUserInfo();
 
         var token = localStorage.getItem(tokenKey);
@@ -162,6 +162,7 @@ self.clearUserInfo = function() {
         }).done(function (data) {
             self.user(data.Name);
             self.userRoles(data.Roles);
+            callback();
         }).fail(function(error) {
             showError(error);
         });
@@ -207,12 +208,10 @@ self.clearUserInfo = function() {
             url: '/Token',
             data: loginData
         }).done(function (data) {
-            self.clearForms();
-            self.user(data.userName);
-            // Cache the access token in session storage.
             localStorage.setItem(tokenKey, data.access_token);
+            self.clearForms();
+            self.getUserInfo(self.getMyRequests);
             self.getActiveRequests();
-			self.getMyRequests();
         }).fail(showError);
     }
 
@@ -235,8 +234,7 @@ self.clearUserInfo = function() {
     }
 
    // Fetch the initial data.
-    self.getUserInfo();
-	self.getMyRequests();
+    self.getUserInfo(self.getMyRequests);
     self.getActiveRequests();
 };
 
