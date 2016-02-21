@@ -180,7 +180,7 @@ namespace Dispatcher.Controllers
             request.ProvidingUserName = null;
             await db.SaveChangesAsync();
 
-            return Ok(request);
+            return Ok();
         }
 
 
@@ -219,7 +219,7 @@ namespace Dispatcher.Controllers
             request.ServiceDuration = request.CompletionDate - request.PickedUpDate;
             await db.SaveChangesAsync();
 
-            return Ok(request);
+            return Ok();
         }
 
 

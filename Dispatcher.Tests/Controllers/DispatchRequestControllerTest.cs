@@ -75,7 +75,7 @@ namespace Dispatcher.Tests.Controllers
         {
             var context = new TestContext();
             context.Requesters.Add(new DispatchRequester { Id = 0, Name = "test" });
-            var request = new DispatchRequest { Active = true, CreationDate = DateTime.UtcNow, Id = 0 };
+            var request = new DispatchRequest { Active = true, CreationDate = DateTime.UtcNow, Id = 0, ProvidingUserName = ""};
             context.Requests.Add(request);
             var controller = new DispatchRequestController(context);
 
