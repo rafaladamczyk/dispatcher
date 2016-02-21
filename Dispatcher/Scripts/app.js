@@ -7,6 +7,7 @@
     var tokenKey = 'accessToken';
 
     self.user = ko.observable();
+    self.userRoles = ko.observableArray();
 
     self.registerUsername = ko.observable();
     self.registerPassword = ko.observable();
@@ -139,8 +140,13 @@
         self.error(jqXHR.status + ': ' + jqXHR.statusText + '. ' + text);
     }
 
+self.clearUserInfo = function() {
+    self.user(null);
+    self.userRoles.removeAll();
+}
+
     self.getUserInfo = function () {
-        self.user(null);
+        self.clearUserInfo();
 
         var token = localStorage.getItem(tokenKey);
         if (!token) {
@@ -154,9 +160,9 @@
             url: '/api/Account/UserInfo',
             headers: headers
         }).done(function (data) {
-            self.user(data.UserName);
+            self.user(data.Name);
+            self.userRoles(data.Roles);
         }).fail(function(error) {
-            self.user(null);
             showError(error);
         });
     }
@@ -213,9 +219,17 @@
     self.loginMessage = ko.pureComputed(function() {
         return self.user() ? "Zalogowany jako: " + self.user() : "Niezalogowany";
     }, self);
+
+    self.isAdmin = ko.pureComputed(function() {
+        return self.userRoles().indexOf('Admin') > -1;
+    }, self);
+
+    self.isServiceProvider = ko.pureComputed(function() {
+        return self.userRoles().indexOf('ServiceProviders') > -1;
+    }, self);
     
     self.logout = function () {
-        self.user(null);
+        self.clearUserInfo();
 		self.myRequests.removeAll();
         localStorage.removeItem(tokenKey);
     }

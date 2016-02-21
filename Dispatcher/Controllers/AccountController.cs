@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
@@ -50,8 +53,14 @@ namespace Dispatcher.Controllers
         {
             return new UserInfoViewModel
             {
-                UserName = User.Identity.GetUserName()
+                Name = User.Identity.GetUserName(),
+                Roles = GetRoles((ClaimsIdentity)User.Identity).ToList()
             };
+        }
+
+        public static IEnumerable<string> GetRoles(ClaimsIdentity identity)
+        {
+            return identity.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
         }
 
         // POST api/Account/ChangePassword

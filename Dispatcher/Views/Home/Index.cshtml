@@ -45,7 +45,7 @@
                 <tr><th class="text-center" ><h2>Typ</h2></th>
                     <th class="text-center" ><h2>Zlecający</h2></th>
                     <th class="text-center" ><h2>Utworzono</h2></th>
-                    <th></th></tr>
+                    <th class="text-center" ><h2>Obsługuje</h2></th></tr>
                 </thead>
                 <tbody data-bind="foreach: activeRequests">
                 <tr>
@@ -56,13 +56,15 @@
 						click: $parent.acceptRequest,
 						css: { 'btn-info' : !ProvidingUserName, 'btn-default' : ProvidingUserName},
 						enable: !ProvidingUserName,
-                        text: ProvidingUserName ? 'W trakcie' : 'Przyjmij' 
-						"></button></td>
+                        text: ProvidingUserName ? ProvidingUserName : 'Przyjmij', 
+						visible: (ProvidingUserName || $parent.isServiceProvider)
+                        "></button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" data-bind="visible: isServiceProvider">
             <h1 class="text-center">
                 Obsługiwane przez Ciebie
             </h1>
@@ -94,7 +96,7 @@
     </div>
 
     <div class="row" data-bind="visible: !user()">
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-bind="visible: isAdmin">
             <form data-bind="submit: register">
                 <h3>Nowy użytkownik</h3>
                 <div class="form-group">
