@@ -13,9 +13,12 @@ namespace Dispatcher.Models
         public DateTime CreationDate { get; set; }
         public DateTime? PickedUpDate { get; set; }
         public DateTime? CompletionDate { get; set; }
-        public TimeSpan? Duration { get; set; }
-        public TimeSpan? ServiceDuration { get; set; }  
-
+        [NotMapped]
+        public TimeSpan? Duration { get { return TimeSpan.FromTicks(DurationTicks); } set { DurationTicks = value?.Ticks ?? 0; } }
+        public long DurationTicks { get; set; }
+        [NotMapped]
+        public TimeSpan? ServiceDuration { get { return TimeSpan.FromTicks(ServiceDurationTicks); } set { ServiceDurationTicks = value?.Ticks ?? 0; } }
+        public long ServiceDurationTicks { get; set; }
         public int RequesterId { get; set; }
         [ForeignKey("RequesterId")]
         public virtual DispatchRequester Requester { get; set; }

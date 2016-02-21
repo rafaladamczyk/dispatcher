@@ -14,31 +14,42 @@
 
     self.loginUsername = ko.observable();
     self.loginPassword = ko.observable();
-
-    var requestsUri = '/api/ActiveRequests/';
-	var createRequestUri = '/api/CreateRequest/';
-
+    
 	self.disableButton = function (element) {
 	    $(element).removeClass("btn-info btn-success").addClass("btn-default").text("Czekaj").prop('disabled', true);
 	}
 
-    self.getActiveRequests = function() {
-        $.getJSON(requestsUri, function (data) {
+    self.getActiveRequests = function () {
+        var token = localStorage.getItem(tokenKey);
+        if (!token)
+            return;
+        var headers = {};
+        headers.Authorization = 'Bearer ' + token;
+
+        $.ajax({
+            type: 'GET',
+            url: '/api/ActiveRequests/',
+            headers: headers
+        }).done(function (data) {
             self.activeRequests(data);
+        }).fail(function (err) {
+            self.activeRequests.removeAll();
+            showError(err);
         });
     }
 	
 	 self.getMyRequests = function() {
         var token = localStorage.getItem(tokenKey);
+        if (!token)
+            return;
         var headers = {};
-        if (token) {
-            headers.Authorization = 'Bearer ' + token;
-        }		
+        headers.Authorization = 'Bearer ' + token;
+
         $.ajax({
             type: 'GET',
             url: '/api/MyRequests/',
             headers: headers
-        }).done(function (data) {
+        }).done(function(data) {
             self.myRequests(data);
         }).fail(function(err) {
             self.myRequests.removeAll();
@@ -115,7 +126,7 @@
     self.createRequest = function() {
         var requesterId = Math.floor((Math.random() * 3) + 1);
         var requestType = Math.floor((Math.random() * 2));
-        $.getJSON(createRequestUri + requesterId + '/' + requestType, self.getActiveRequests).fail(showError);
+        $.getJSON('/api/CreateRequest/' + requesterId + '/' + requestType, self.getActiveRequests).fail(showError);
     }
 
     function showError(jqXHR) {
@@ -128,15 +139,16 @@
         self.error(jqXHR.status + ': ' + jqXHR.statusText + '. ' + text);
     }
 
-    self.userInfo = function () {
-        self.user('');
+    self.getUserInfo = function () {
+        self.user(null);
 
         var token = localStorage.getItem(tokenKey);
-        var headers = {};
-        if (token) {
-            headers.Authorization = 'Bearer ' + token;
+        if (!token) {
+            return;
         }
-
+        var headers = {};
+        headers.Authorization = 'Bearer ' + token;
+        
         $.ajax({
             type: 'GET',
             url: '/api/Account/UserInfo',
@@ -144,7 +156,7 @@
         }).done(function (data) {
             self.user(data.UserName);
         }).fail(function(error) {
-            self.user('');
+            self.user(null);
             showError(error);
         });
     }
@@ -158,8 +170,7 @@
     }
 
     self.register = function () {
-        self.user('');
-
+        
         var data = {
             UserName: self.registerUsername(),
             Password: self.registerPassword(),
@@ -194,6 +205,7 @@
             self.user(data.userName);
             // Cache the access token in session storage.
             localStorage.setItem(tokenKey, data.access_token);
+            self.getActiveRequests();
 			self.getMyRequests();
         }).fail(showError);
     }
@@ -203,13 +215,13 @@
     }, self);
     
     self.logout = function () {
-        self.user('');
+        self.user(null);
 		self.myRequests.removeAll();
         localStorage.removeItem(tokenKey);
     }
 
    // Fetch the initial data.
-    self.userInfo();
+    self.getUserInfo();
 	self.getMyRequests();
     self.getActiveRequests();
 };

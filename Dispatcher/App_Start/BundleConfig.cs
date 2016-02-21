@@ -27,6 +27,7 @@ namespace Dispatcher
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                 "~/Scripts/knockout-{version}.js",
                 "~/Scripts/moment-with-locales.min.js",
+                "~/Scripts/sammy-latest.min",
                 "~/Scripts/app.js"));
         }
     }

@@ -236,6 +236,10 @@
     <Compile Include="Migrations\201602021922229_UserRelation-ToUserName.Designer.cs">
       <DependentUpon>201602021922229_UserRelation-ToUserName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602211523106_duration_from_time_to_ticks.cs" />
+    <Compile Include="Migrations\201602211523106_duration_from_time_to_ticks.Designer.cs">
+      <DependentUpon>201602211523106_duration_from_time_to_ticks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -331,6 +335,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602021922229_UserRelation-ToUserName.resx">
       <DependentUpon>201602021922229_UserRelation-ToUserName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602211523106_duration_from_time_to_ticks.resx">
+      <DependentUpon>201602211523106_duration_from_time_to_ticks.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

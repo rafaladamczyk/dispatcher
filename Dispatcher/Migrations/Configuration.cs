@@ -23,7 +23,7 @@ namespace Dispatcher.Migrations
                 new DispatchRequester { Id = 3, Name = "Maszyna owaka" });
 
 
-            AddUser(context, "Rafal", "sekretnehasloadministratora", "Admin");
+            AddUser(context, "Admin", "admin@123", "Admin");
             AddUser(context, "Wozkowy", "password123", "ServiceProviders");
             AddUser(context, "Maurycy", "12345678", "ServiceProviders");
         }
