@@ -126,7 +126,7 @@
 
     self.createRequest = function() {
         var requesterId = Math.floor((Math.random() * 3) + 1);
-        var requestType = Math.floor((Math.random() * 2));
+        var requestType = Math.floor((Math.random() * 2) + 1);
         $.getJSON('/api/CreateRequest/' + requesterId + '/' + requestType, self.getActiveRequests).fail(showError);
     }
 
@@ -146,8 +146,6 @@ self.clearUserInfo = function() {
 }
 
     self.getUserInfo = function (callback) {
-        self.clearUserInfo();
-
         var token = localStorage.getItem(tokenKey);
         if (!token) {
             return;

@@ -220,25 +220,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201602021853205_Initial.cs" />
-    <Compile Include="Migrations\201602021853205_Initial.Designer.cs">
-      <DependentUpon>201602021853205_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602021855569_Removed_Service_Providers.cs" />
-    <Compile Include="Migrations\201602021855569_Removed_Service_Providers.Designer.cs">
-      <DependentUpon>201602021855569_Removed_Service_Providers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602021909298_made_pickedUpDate_nullable.cs" />
-    <Compile Include="Migrations\201602021909298_made_pickedUpDate_nullable.Designer.cs">
-      <DependentUpon>201602021909298_made_pickedUpDate_nullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602021922229_UserRelation-ToUserName.cs" />
-    <Compile Include="Migrations\201602021922229_UserRelation-ToUserName.Designer.cs">
-      <DependentUpon>201602021922229_UserRelation-ToUserName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602211523106_duration_from_time_to_ticks.cs" />
-    <Compile Include="Migrations\201602211523106_duration_from_time_to_ticks.Designer.cs">
-      <DependentUpon>201602211523106_duration_from_time_to_ticks.cs</DependentUpon>
+    <Compile Include="Migrations\201603121828588_init.cs" />
+    <Compile Include="Migrations\201603121828588_init.Designer.cs">
+      <DependentUpon>201603121828588_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -246,6 +230,7 @@
     <Compile Include="Models\DispatcherContext.cs" />
     <Compile Include="Models\DispatchRequest.cs" />
     <Compile Include="Models\DispatchRequester.cs" />
+    <Compile Include="Models\DispatchRequestType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IDispatcherContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -324,20 +309,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201602021853205_Initial.resx">
-      <DependentUpon>201602021853205_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602021855569_Removed_Service_Providers.resx">
-      <DependentUpon>201602021855569_Removed_Service_Providers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602021909298_made_pickedUpDate_nullable.resx">
-      <DependentUpon>201602021909298_made_pickedUpDate_nullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602021922229_UserRelation-ToUserName.resx">
-      <DependentUpon>201602021922229_UserRelation-ToUserName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602211523106_duration_from_time_to_ticks.resx">
-      <DependentUpon>201602211523106_duration_from_time_to_ticks.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201603121828588_init.resx">
+      <DependentUpon>201603121828588_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

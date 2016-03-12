@@ -22,10 +22,15 @@ namespace Dispatcher.Migrations
                 new DispatchRequester { Id = 2, Name = "Maszyna smaka" },
                 new DispatchRequester { Id = 3, Name = "Maszyna owaka" });
 
+            context.Types.AddOrUpdate(
+                t => t.Id, 
+                new DispatchRequestType {Id = 1, Name = "Zabierz rzeczy"},
+                new DispatchRequestType {Id = 2, Name = "Przywiez rzeczy"});
+
 
             AddUser(context, "Admin", "admin@123", "Admin");
-            AddUser(context, "Wozkowy", "password123", "ServiceProviders");
-            AddUser(context, "Maurycy", "12345678", "ServiceProviders");
+            AddUser(context, "Rafal", "12341234", "ServiceProviders");
+            AddUser(context, "Konrad", "12341234", "ServiceProviders");
         }
 
         private void AddUser(DispatcherContext context, string userName, string password, string role)

@@ -10,10 +10,12 @@ namespace Dispatcher.Tests
         {
             Requests = new TestDbSet<DispatchRequest>();
             Requesters = new TestDbSet<DispatchRequester>();
+            Types = new TestDbSet<DispatchRequestType>();
         }
 
         public DbSet<DispatchRequest> Requests { get; }
         public DbSet<DispatchRequester> Requesters { get; }
+        public DbSet<DispatchRequestType> Types { get; }
 
         public int SaveChanges()
         {
