@@ -29,6 +29,12 @@ namespace Dispatcher.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+            if (context.UserName == null || context.Password == null)
+            {
+                context.SetError("invalid_grant", "Login lub hasło niepoprawne.");
+                return;
+            }
+
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
             ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);

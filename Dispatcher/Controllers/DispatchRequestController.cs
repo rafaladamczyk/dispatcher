@@ -93,7 +93,7 @@ namespace Dispatcher.Controllers
             var newRequest = new DispatchRequest { RequesterId = requesterId, Active = true, TypeId = requestTypeId, CreationDate = DateTime.UtcNow, CompletionDate = null, Requester = requester, Type = type};
             db.Requests.Add(newRequest);
             await db.SaveChangesAsync();
-
+           
             return CreatedAtRoute("DefaultApi", new { controller = "DispatchRequest",id = newRequest.Id }, newRequest);
         }
 

@@ -3,6 +3,7 @@
     self.activeRequests = ko.observableArray();
 	self.myRequests = ko.observableArray();
 	self.error = ko.observable();
+    self.errorTimeout = null;
 
 	self.pages = ['Register', 'Login', 'Requests', 'TypeDefinitions'];
 	self.visibiliy = {};
@@ -199,6 +200,10 @@
             text = err ? err : (msg ? msg : '');
         }
         self.error(jqXHR.status + ': ' + jqXHR.statusText + '. ' + text);
+        if (self.errorTimeout != null) {
+            clearTimeout(self.errorTimeout);
+        }
+        self.errorTimeout = setTimeout(function() { self.error(null);self.errorTimeout = null; }, 5000);
     }
 
     self.clearUserInfo = function() {
@@ -273,9 +278,9 @@
             self.clearForms();
             self.getUserInfo(self.getMyRequests);
             self.getActiveRequests();
-            self.gotoRequests();
-        }).fail(function () {
-            self.showErrors();
+            self.gotoDefault();
+        }).fail(function (error) {
+            showError(error);
             self.gotoLogin();
         });
     }
