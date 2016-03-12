@@ -7,13 +7,13 @@ namespace Dispatcher.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class UserRelationToUserName : IMigrationMetadata
+    public sealed partial class init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UserRelationToUserName));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201602021922229_UserRelation-ToUserName"; }
+            get { return "201603121828588_init"; }
         }
         
         string IMigrationMetadata.Source

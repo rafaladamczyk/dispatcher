@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects.DataClasses;
 
 namespace Dispatcher.Models
 {
@@ -7,7 +8,9 @@ namespace Dispatcher.Models
 
     public class UserInfoViewModel
     {
-        public string UserName { get; set; }
+        public string Name { get; set; }
+
+        public IReadOnlyCollection<string> Roles { get; set; } 
 
         public bool HasRegistered { get; set; }
     }
