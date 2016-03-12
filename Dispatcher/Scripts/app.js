@@ -5,12 +5,13 @@
 	self.error = ko.observable();
 
 	self.pages = ['Register', 'Login', 'Requests', 'TypeDefinitions'];
+	self.visibiliy = {};
     self.currentPage = ko.observable();
 	self.loginVisible = ko.observable();
 	self.requestsVisible = ko.observable();
 	self.typeDefinitionVisible = ko.observable();
     self.registerVisible = ko.observable();
-
+    
     var tokenKey = 'accessToken';
 
     self.user = ko.observable();
@@ -27,39 +28,60 @@
 	    $(element).removeClass("btn-info btn-success").addClass("btn-default").text("Czekaj").prop('disabled', true);
 	}
 
-	self.gotoRegister = function () {
-	    self.currentPage('Register');
-	    self.loginVisible(false);
-	    self.requestsVisible(false);
-	    self.typeDefinitionVisible(false);
-	    self.registerVisible(true);
+    self.hideAllPages = function() {
+        self.registerVisible(false);
+        self.loginVisible(false);
+        self.requestsVisible(false);
+        self.typeDefinitionVisible(false);
+    }
+
+    self.gotoDefault = function() {
+        if (self.user) 
+            self.gotoRequests();
+        else
+            self.gotoLogin();
+    }
+
+	self.gotoRegister = function() {
+        location.hash = 'Register';
 	}
 
-	self.gotoLogin = function () {
-	    self.currentPage('Login');
-	    self.loginVisible(true);
-	    self.requestsVisible(false);
-	    self.typeDefinitionVisible(false);
-	    self.registerVisible(false);
-	}
+	self.gotoLogin = function() {
+        location.hash = 'Login';
+    }
 
-	self.gotoRequests = function () {
-	    self.currentPage('Requests');
-	    self.loginVisible(false);
-	    self.requestsVisible(true);
-	    self.typeDefinitionVisible(false);
-	    self.registerVisible(false);
+    self.gotoRequests = function () {
+        location.hash = 'Requests';
 	}
 
 	self.gotoTypeDefinitions = function () {
-	    self.currentPage('TypeDefinitions');
-	    self.loginVisible(false);
-	    self.requestsVisible(false);
-	    self.typeDefinitionVisible(true);
-	    self.registerVisible(false);
+	    location.hash = 'TypeDefinitions';
 	}
 
-    self.getActiveRequests = function () {
+    Sammy(function() {
+        this.get('#Register', function() {
+            self.currentPage('Register');
+            self.hideAllPages();
+            self.registerVisible(true);
+        });
+        this.get('#Login', function() {
+            self.currentPage('Login');
+            self.hideAllPages();
+            self.loginVisible(true);
+        });
+        this.get('#Requests', function() {
+            self.currentPage('Requests');
+            self.hideAllPages();
+            self.requestsVisible(true);
+        });
+        this.get('#TypeDefinitions', function() {
+            self.currentPage('TypeDefinitions');
+            self.hideAllPages();
+            self.typeDefinitionVisible(true);
+        });
+    }).run();
+    
+    self.getActiveRequests = function (callback) {
         var token = localStorage.getItem(tokenKey);
         if (!token)
             return;
@@ -187,6 +209,7 @@
     self.getUserInfo = function (callback) {
         var token = localStorage.getItem(tokenKey);
         if (!token) {
+            self.gotoLogin();
             return;
         }
         var headers = {};
@@ -199,6 +222,7 @@
         }).done(function (data) {
             self.user(data.Name);
             self.userRoles(data.Roles);
+            self.gotoDefault();
             callback();
         }).fail(function(error) {
             showError(error);
@@ -278,11 +302,6 @@
    // Fetch the initial data.
     self.getUserInfo(self.getMyRequests);
     self.getActiveRequests();
-    if (self.user) {
-        self.gotoRequests();
-    } else {
-        self.gotoLogin();
-    }
 };
 
 var viewModel = new ViewModel();

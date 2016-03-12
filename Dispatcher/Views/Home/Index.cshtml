@@ -1,8 +1,4 @@
-﻿@section scripts {
-    @Scripts.Render("~/bundles/app")
-}
-
-<div class="container-fluid">
+﻿<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -13,19 +9,26 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <div class="nav navbar-text alert-danger" data-bind="text: error"></div>
-                      <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown loginDropdown">
                             <a href="#" data-bind="text: loginMessage" class="dropdown-toggle dropdownText" data-toggle="dropdown"><strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
-                                <li loginDropdown>
+                                <!-- FOR LOGGED-IN USER-->
+                                <li class="loginDropdown" data-bind="visible: user">
                                     <a class="dropdownText" href="#" data-bind="click: logout">Wyloguj</a>
                                 </li>
-                                <li loginDropdown>
-                                    <a class="dropdownText" href="#">Zmień hasło</a>
+                                <li class="divider loginDropdown" data-bind="visible: user">
                                 </li>
-                                <li class="divider loginDropdown">
+                                <li class="loginDropdown" data-bind="visible: user">
+                                    <a class="dropdownText" href="#" data-bind="click: logout">Zmień hasło</a>
                                 </li>
-                                <li loginDropdown>
+                                <!-- FOR ANONYMOUS-->
+                                <li class="loginDropdown" data-bind="visible: !user()">
+                                    <a class="dropdownText" href="#" data-bind="click: gotoLogin">Zaloguj</a>
+                                </li>
+                                <li class="divider loginDropdown" data-bind="visible: !user()">
+                                </li>
+                                <li class="loginDropdown" data-bind="visible: !user()">
                                     <a class="dropdownText" href="#" data-bind="click: gotoRegister">Nowy użytkownik</a>
                                 </li>
                             </ul>
@@ -35,7 +38,9 @@
             </nav>
         </div>
     </div>
-    <div class="row" style="padding-top: 100px; padding-left: 100px;" data-bind="visible: requestsVisible">
+    <div class="row" style="padding-top: 100px;">
+    </div>
+    <div class="row" style="padding-left: 100px;" data-bind="visible: requestsVisible">
         <div class="col-md-12">
         <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-huge btn-warning" data-bind="click: createRequest">Dodaj nowe</button>
         </div>
@@ -111,43 +116,44 @@
         </div>
     </div>
     <div class="row" data-bind="visible: registerVisible">
-        <div class="col-sm-4">
+        <div class="col-md-6 col-md-offset-3">
             <form data-bind="submit: register">
-                <h3>Nowy użytkownik</h3>
+                <h2>Nowy użytkownik</h2>
                 <div class="form-group">
-                    <label>Nazwa użytkownika</label>
+                    <h4>Nazwa</h4>
                     <input class="form-control" type="text" data-bind="value: registerUsername" />
                 </div>
                 <div class="form-group">
-                    <label>Hasło</label>
+                    <h4>Hasło</h4>
                     <input class="form-control" type="password" data-bind="value: registerPassword" />
                 </div>
                 <div class="form-group">
-                    <label>Powtórz hasło</label>
+                    <h4>Powtórz hasło</h4>
                     <input class="form-control" type="password" data-bind="value: registerPassword2" />
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-info">Rejestruj</button>
+                    <button type="submit" class="btn btn-info btn-huge">Rejestruj</button>
                 </div>
             </form>
         </div>
     </div>
     <div class="row" data-bind="visible: loginVisible">
-        <div class="col-sm-4">
-            <h3>Log In</h3>
-            <form data-bind="submit: login">
-                <div class="form-group">
-                    <label>Nazwa użytkownika</label>
-                    <input class="form-control" type="text" data-bind="value: loginUsername" />
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input class="form-control" type="password" data-bind="value: loginPassword" />
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-info">Log In</button>
-                </div>
-            </form>
-        </div>
+           <div class="col-md-6 col-md-offset-3">
+                <h2>Logowanie</h2>
+                <form data-bind="submit: login">
+                    <div class="form-group">
+                        <h4>Nazwa</h4>
+                        <input class="form-control" type="text" data-bind="value: loginUsername" />
+                    </div>
+                    <div class="form-group">
+                        <h4>Hasło</h4>
+                        <input class="form-control" type="password" data-bind="value: loginPassword" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-info btn-huge"> Zaloguj </button>
+                    </div>
+                    <a href="/#Register">Nie masz jeszcze konta? Zarejestruj się!</a>
+                </form>
+            </div>
     </div>
 </div>
