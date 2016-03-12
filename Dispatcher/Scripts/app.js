@@ -2,7 +2,14 @@
     var self = this;
     self.activeRequests = ko.observableArray();
 	self.myRequests = ko.observableArray();
-    self.error = ko.observable();
+	self.error = ko.observable();
+
+	self.pages = ['Register', 'Login', 'Requests', 'TypeDefinitions'];
+    self.currentPage = ko.observable();
+	self.loginVisible = ko.observable();
+	self.requestsVisible = ko.observable();
+	self.typeDefinitionVisible = ko.observable();
+    self.registerVisible = ko.observable();
 
     var tokenKey = 'accessToken';
 
@@ -18,6 +25,38 @@
     
 	self.disableButton = function (element) {
 	    $(element).removeClass("btn-info btn-success").addClass("btn-default").text("Czekaj").prop('disabled', true);
+	}
+
+	self.gotoRegister = function () {
+	    self.currentPage('Register');
+	    self.loginVisible(false);
+	    self.requestsVisible(false);
+	    self.typeDefinitionVisible(false);
+	    self.registerVisible(true);
+	}
+
+	self.gotoLogin = function () {
+	    self.currentPage('Login');
+	    self.loginVisible(true);
+	    self.requestsVisible(false);
+	    self.typeDefinitionVisible(false);
+	    self.registerVisible(false);
+	}
+
+	self.gotoRequests = function () {
+	    self.currentPage('Requests');
+	    self.loginVisible(false);
+	    self.requestsVisible(true);
+	    self.typeDefinitionVisible(false);
+	    self.registerVisible(false);
+	}
+
+	self.gotoTypeDefinitions = function () {
+	    self.currentPage('TypeDefinitions');
+	    self.loginVisible(false);
+	    self.requestsVisible(false);
+	    self.typeDefinitionVisible(true);
+	    self.registerVisible(false);
 	}
 
     self.getActiveRequests = function () {
@@ -140,10 +179,10 @@
         self.error(jqXHR.status + ': ' + jqXHR.statusText + '. ' + text);
     }
 
-self.clearUserInfo = function() {
-    self.user(null);
-    self.userRoles.removeAll();
-}
+    self.clearUserInfo = function() {
+        self.user(null);
+        self.userRoles.removeAll();
+    }
 
     self.getUserInfo = function (callback) {
         var token = localStorage.getItem(tokenKey);
@@ -210,7 +249,11 @@ self.clearUserInfo = function() {
             self.clearForms();
             self.getUserInfo(self.getMyRequests);
             self.getActiveRequests();
-        }).fail(showError);
+            self.gotoRequests();
+        }).fail(function () {
+            self.showErrors();
+            self.gotoLogin();
+        });
     }
 
     self.loginMessage = ko.pureComputed(function() {
@@ -228,12 +271,18 @@ self.clearUserInfo = function() {
     self.logout = function () {
         self.clearUserInfo();
 		self.myRequests.removeAll();
-        localStorage.removeItem(tokenKey);
+		localStorage.removeItem(tokenKey);
+        self.gotoLogin();
     }
 
    // Fetch the initial data.
     self.getUserInfo(self.getMyRequests);
     self.getActiveRequests();
+    if (self.user) {
+        self.gotoRequests();
+    } else {
+        self.gotoLogin();
+    }
 };
 
 var viewModel = new ViewModel();
@@ -243,7 +292,7 @@ ko.applyBindings(viewModel);
 moment.locale('pl');
 
 function parseDate(date) {
-    return moment(date).fromNow();
+    return moment.utc(date).local().fromNow();
 }
 
    

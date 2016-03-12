@@ -38,7 +38,7 @@ namespace Dispatcher.Tests.Controllers
             Assert.AreEqual(result.RouteName, "DefaultApi");
             Assert.AreEqual(result.RouteValues["id"], result.Content.Id);
             Assert.AreEqual(result.Content.RequesterId, 0);
-            Assert.AreEqual(result.Content.Type, 0);
+            Assert.AreEqual(result.Content.TypeId, 0);
         }
 
         [Test]
@@ -60,10 +60,11 @@ namespace Dispatcher.Tests.Controllers
         {
             var context = new TestContext();
             context.Requesters.Add(new DispatchRequester { Id = 0, Name = "test" });
+            context.Types.Add(new DispatchRequestType { Id = 0, Name = "type" });
             var controller = new DispatchRequestController(context);
 
-            var result1 = controller.CreateNewRequest(0, 1).Result;
-            var result2 = controller.CreateNewRequest(0, 1).Result;
+            var result1 = controller.CreateNewRequest(0, 0).Result;
+            var result2 = controller.CreateNewRequest(0, 0).Result;
 
             // Assert
             Assert.IsInstanceOf<CreatedAtRouteNegotiatedContentResult<DispatchRequest>>(result1);
