@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Dispatcher.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Dispatcher.Controllers
 {
@@ -54,6 +55,42 @@ namespace Dispatcher.Controllers
             };
         }
 
+        [Authorize(Roles = "Admin")]
+        [Route("UsersAndRoles")]
+        public List<UserInfoViewModel> GetUsersAndRoles()
+        {
+            var store = new RoleStore<IdentityRole>(new DispatcherContext());
+            var roleManager = new RoleManager<IdentityRole>(store);
+
+            var result = new List<UserInfoViewModel>();
+            foreach (var user in UserManager.Users.ToList())
+            {
+                var userRoleIds = user.Roles.Select(r => r.RoleId).ToList();
+                var roles = roleManager.Roles.Where(r => userRoleIds.Contains(r.Id)).ToList();
+                var roleNames = roles.Select(r => r.Name).ToList();
+
+                result.Add(new UserInfoViewModel
+                           {
+                               Name = user.UserName,
+                               Roles = roleNames
+                           });
+            }
+            return result;
+        }
+
+        [Route("Roles")]
+        public List<string> GetRoles()
+        {
+            return new DispatcherContext().Roles.Select(r => r.Name).ToList();
+        }
+
+        [Route("Users")]
+        public List<string> GetUsers()
+        {
+            return UserManager.Users.Select(u => u.UserName).ToList();
+        } 
+
+
         public static IEnumerable<string> GetRoles(ClaimsIdentity identity)
         {
             return identity.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
@@ -99,7 +136,7 @@ namespace Dispatcher.Controllers
                 return GetErrorResult(result);
             }
 
-            result = await UserManager.AddToRoleAsync(user.Id, "ServiceProviders");
+            result = await UserManager.AddToRoleAsync(user.Id, "ObslugaZlecen");
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Dispatcher.Models;
+using NUnit.Framework;
 
 namespace Dispatcher.Controllers
 {
@@ -22,7 +23,23 @@ namespace Dispatcher.Controllers
         {
             db = context;
         }
-        
+
+        //[Authorize(Roles = "Admin")]
+        //[Route("UsersAndRoles")]
+        //public List<UserInfoViewModel> GetUsersAndRoles()
+        //{
+        //    var result = new List<UserInfoViewModel>();
+        //    var context = db as DispatcherContext;
+        //    foreach (var user in context.Users)
+        //    {
+        //        result.Add(new UserInfoViewModel
+        //                   {
+        //                       Name = user.UserName,
+        //                       Roles = user.Claims
+        //                   });
+        //    }
+        //}
+
         [ResponseType(typeof(List<DispatchRequest>))]
         public async Task<IHttpActionResult> GetAllDispatchRequests()
         {
@@ -100,7 +117,7 @@ namespace Dispatcher.Controllers
         [HttpPut]
         [HttpPost]
         [Route("api/AcceptRequest/{requestId}")]
-        [Authorize(Roles = "ServiceProviders")]
+        [Authorize(Roles = "ObslugaZlecen")]
         public async Task<IHttpActionResult> AcceptRequest(int requestId)
         {
             if (!ModelState.IsValid)
@@ -135,7 +152,7 @@ namespace Dispatcher.Controllers
         [HttpPut]
         [HttpPost]
         [Route("api/CancelRequest/{requestId}")]
-        [Authorize(Roles = "ServiceProviders")]
+        [Authorize(Roles = "ObslugaZlecen")]
         public async Task<IHttpActionResult> CancelRequest(int requestId)
         {
             if (!ModelState.IsValid)
@@ -170,7 +187,7 @@ namespace Dispatcher.Controllers
         [HttpPut]
         [HttpPost]
         [Route("api/CompleteRequest/{requestId}")]
-        [Authorize(Roles = "ServiceProviders")]
+        [Authorize(Roles = "ObslugaZlecen")]
         public async Task<IHttpActionResult> CompleteRequest(int requestId)
         {
             if (!ModelState.IsValid)

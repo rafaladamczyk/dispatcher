@@ -1,16 +1,20 @@
 ﻿var ViewModel = function () {
     var self = this;
     self.activeRequests = ko.observableArray();
-	self.myRequests = ko.observableArray();
+    self.myRequests = ko.observableArray();
+    self.users = ko.observableArray();
+    self.roles = ko.observableArray();
+    self.usersAndRoles = ko.observableArray();
 	self.error = ko.observable();
     self.errorTimeout = null;
 
-	self.pages = ['Rejestracja', 'Logowanie', 'Zlecenia', 'Typy zleceń'];
+    self.pages = ['Administracja','Rejestracja', 'Logowanie', 'Tworzenie Zleceń', 'Obsługa Zleceń'];
 	self.visibiliy = {};
     self.currentPage = ko.observable();
 	self.loginVisible = ko.observable();
 	self.requestsVisible = ko.observable();
-	self.typeDefinitionVisible = ko.observable();
+    self.createRequestsVisible = ko.observable();
+	self.administrationVisible = ko.observable();
     self.registerVisible = ko.observable();
     
     var tokenKey = 'accessToken';
@@ -33,7 +37,8 @@
         self.registerVisible(false);
         self.loginVisible(false);
         self.requestsVisible(false);
-        self.typeDefinitionVisible(false);
+        self.administrationVisible(false);
+        self.createRequestsVisible(false);
     }
 
     self.gotoDefault = function() {
@@ -42,23 +47,15 @@
         else
             self.gotoLogin();
     }
-
-	self.gotoRegister = function() {
-        location.hash = 'Rejestracja';
-	}
-
+    
 	self.gotoLogin = function() {
         location.hash = 'Logowanie';
     }
 
     self.gotoRequests = function () {
-        location.hash = 'Zlecenia';
-	}
-
-	self.gotoTypeDefinitions = function () {
-	    location.hash = 'TypyZlecen';
-	}
-
+        location.hash = 'Obsługa Zleceń';
+    }
+    
     Sammy(function() {
         this.get('#Rejestracja', function () {
             self.currentPage('Rejestracja');
@@ -70,55 +67,73 @@
             self.hideAllPages();
             self.loginVisible(true);
         });
-        this.get('#Zlecenia', function() {
-            self.currentPage('Zlecenia');
+        this.get('#Obsługa Zleceń', function () {
+            self.currentPage('Obsługa Zleceń');
             self.hideAllPages();
             self.requestsVisible(true);
         });
-        this.get('#TypyZlecen', function() {
-            self.currentPage('Typy zleceń');
+        this.get('#Tworzenie Zleceń', function () {
+            self.currentPage('Tworzenie Zleceń');
             self.hideAllPages();
-            self.typeDefinitionVisible(true);
+            self.createRequestsVisible(true);
+        });
+        this.get('#Administracja', function () {
+            self.getUsers();
+            self.getRoles();
+            self.getUsersAndRoles();
+            self.currentPage('Administracja');
+            self.hideAllPages();
+            self.administrationVisible(true);
         });
     }).run();
     
-    self.getActiveRequests = function (callback) {
-        var token = localStorage.getItem(tokenKey);
-        if (!token)
-            return;
-        var headers = {};
-        headers.Authorization = 'Bearer ' + token;
-
-        $.ajax({
-            type: 'GET',
-            url: '/api/ActiveRequests/',
-            headers: headers
-        }).done(function (data) {
-            self.activeRequests(data);
-        }).fail(function (err) {
-            self.activeRequests.removeAll();
-            showError(err);
-        });
+    self.getActiveRequests = function () {
+        self.getData('/api/ActiveRequests/', self.activeRequests, function () { self.activeRequests.removeAll(); });
     }
 	
-	 self.getMyRequests = function() {
-        var token = localStorage.getItem(tokenKey);
-        if (!token)
-            return;
-        var headers = {};
-        headers.Authorization = 'Bearer ' + token;
+    self.getMyRequests = function () {
+        self.getData('/api/MyRequests/', self.myRequests, function() { self.myRequests.removeAll(); });
+    }
 
-        $.ajax({
-            type: 'GET',
-            url: '/api/MyRequests/',
-            headers: headers
-        }).done(function(data) {
-            self.myRequests(data);
-        }).fail(function(err) {
-            self.myRequests.removeAll();
-            showError(err);
+    self.getUsersAndRoles = function () {
+        self.getData('/api/Account/UsersAndRoles/', self.usersAndRoles);
+    }
+
+    self.getUsers = function () {
+        self.getData('/api/Account/Users', self.users);
+    }
+
+    self.getRoles = function () {
+        self.getData('/api/Account/Roles', function (data) {
+            var r = [' '];
+            var withDummy = r.concat(data);
+            self.roles(withDummy);
         });
     }
+
+    self.getData = function (uri, callback, errorCallback) {
+	     var token = localStorage.getItem(tokenKey);
+	     if (!token)
+	         return;
+	     var headers = {};
+	     headers.Authorization = 'Bearer ' + token;
+
+	     $.ajax({
+	         type: 'GET',
+	         url: uri,
+	         headers: headers
+	     }).done(function (data) {
+	         if (callback) {
+	             callback(data);
+	         }
+	     }).fail(function (err) {
+	         if (errorCallback) {
+	             errorCallback(err);
+	         }
+	         showError(err);
+	     });
+	 }
+
 
     self.completeRequest = function(request, event) {
         var token = localStorage.getItem(tokenKey);
@@ -294,7 +309,7 @@
     }, self);
 
     self.isServiceProvider = ko.pureComputed(function() {
-        return self.userRoles().indexOf('ServiceProviders') > -1;
+        return self.userRoles().indexOf('ObslugaZlecen') > -1;
     }, self);
     
     self.logout = function () {

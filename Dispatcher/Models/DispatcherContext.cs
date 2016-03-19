@@ -8,7 +8,7 @@ namespace Dispatcher.Models
         public DispatcherContext()
             : base("DispatcherContext")
         {
-            Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
+            //Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
         }
 
         public DbSet<DispatchRequest> Requests { get; set; }

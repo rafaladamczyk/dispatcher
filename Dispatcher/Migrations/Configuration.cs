@@ -1,4 +1,4 @@
-using Dispatcher.Models;
+﻿using Dispatcher.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -24,33 +24,40 @@ namespace Dispatcher.Migrations
 
             context.Types.AddOrUpdate(
                 t => t.Id, 
-                new DispatchRequestType {Id = 1, Name = "Zabierz rzeczy"},
-                new DispatchRequestType {Id = 2, Name = "Przywiez rzeczy"});
+                new DispatchRequestType {Id = 1, Name = "Załadunek tira"},
+                new DispatchRequestType {Id = 2, Name = "Trociny"});
 
-
-            AddUser(context, "Admin", "admin@123", "Admin");
-            AddUser(context, "Rafal", "12341234", "ServiceProviders");
-            AddUser(context, "Konrad", "12341234", "ServiceProviders");
+            
+            AddUser(context, "Admin", "admin@123", "Admin", "ObslugaZlecen", "TworzenieZlecen");
+            AddUser(context, "Rafal", "12341234", "ObslugaZlecen");
+            AddUser(context, "Konrad", "12341234", "ObslugaZlecen");
         }
 
-        private void AddUser(DispatcherContext context, string userName, string password, string role)
+        private void AddUser(DispatcherContext context, string userName, string password, params string[] roles)
         {
-            if (!context.Roles.Any(r => r.Name == role))
+            foreach (var role in roles)
             {
-                var store = new RoleStore<IdentityRole>(context);
-                var manager = new RoleManager<IdentityRole>(store);
-                var newRole = new IdentityRole { Name = role };
+                if (!context.Roles.Any(r => r.Name == role))
+                {
+                    var roleStore = new RoleStore<IdentityRole>(context);
+                    var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    var newRole = new IdentityRole { Name = role };
 
-                manager.Create(newRole);
+                    roleManager.Create(newRole);
+                }
             }
 
-            if (!context.Users.Any(u => u.UserName == userName))
+            var store = new UserStore<ApplicationUser>(context);
+            var manager = new UserManager<ApplicationUser>(store);
+            var user = context.Users.FirstOrDefault(u => u.UserName == userName);
+            if (user == null)
             {
-                var store = new UserStore<ApplicationUser>(context);
-                var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { UserName = userName };
-
+                user = new ApplicationUser { UserName = userName };
                 manager.Create(user, password);
+            }
+
+            foreach (var role in roles)
+            {
                 manager.AddToRole(user.Id, role);
             }
         }
