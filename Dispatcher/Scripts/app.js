@@ -2,8 +2,6 @@
     var self = this;
     self.activeRequests = ko.observableArray();
     self.myRequests = ko.observableArray();
-    self.users = ko.observableArray();
-    self.roles = ko.observableArray();
     self.usersAndRoles = ko.observableArray();
 	self.error = ko.observable();
     self.errorTimeout = null;
@@ -78,8 +76,6 @@
             self.createRequestsVisible(true);
         });
         this.get('#Administracja', function () {
-            self.getUsers();
-            self.getRoles();
             self.getUsersAndRoles();
             self.currentPage('Administracja');
             self.hideAllPages();
@@ -96,20 +92,33 @@
     }
 
     self.getUsersAndRoles = function () {
-        self.getData('/api/Account/UsersAndRoles/', self.usersAndRoles);
-    }
-
-    self.getUsers = function () {
-        self.getData('/api/Account/Users', self.users);
-    }
-
-    self.getRoles = function () {
-        self.getData('/api/Account/Roles', function (data) {
-            var r = [' '];
-            var withDummy = r.concat(data);
-            self.roles(withDummy);
+        self.getData('/api/Account/UsersAndRoles/', function(data) {
+            var mappedUsers = $.map(data, function (item) { return new UserWithRoles(item) });
+            self.usersAndRoles(mappedUsers);
         });
     }
+
+    self.saveRoles = function (request, event) {
+        var token = localStorage.getItem(tokenKey);
+        var headers = {};
+        if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+        
+        $.ajax({
+            type: 'POST',
+            url: '/api/Account/UsersAndRoles',
+            headers: headers,
+            data: ko.toJSON(self.usersAndRoles),
+            contentType: "application/json"
+        }).done(function() {
+            self.getUsersAndRoles();
+            self.getUserInfo();
+        }).fail(function(jx) {
+            showError(jx);
+        });
+    }
+
 
     self.getData = function (uri, callback, errorCallback) {
 	     var token = localStorage.getItem(tokenKey);
@@ -220,7 +229,7 @@
         }
         self.errorTimeout = setTimeout(function() { self.error(null);self.errorTimeout = null; }, 5000);
     }
-
+    
     self.clearUserInfo = function() {
         self.user(null);
         self.userRoles.removeAll();
@@ -242,7 +251,6 @@
         }).done(function (data) {
             self.user(data.Name);
             self.userRoles(data.Roles);
-            self.gotoDefault();
             callback();
         }).fail(function(error) {
             showError(error);
@@ -308,21 +316,33 @@
         return self.userRoles().indexOf('Admin') > -1;
     }, self);
 
-    self.isServiceProvider = ko.pureComputed(function() {
+    self.isServiceProvider = ko.pureComputed(function () {
         return self.userRoles().indexOf('ObslugaZlecen') > -1;
+    }, self);
+
+    self.isRequester = ko.pureComputed(function () {
+        return self.userRoles().indexOf('TworzenieZlecen') > -1;
     }, self);
     
     self.logout = function () {
         self.clearUserInfo();
+        self.usersAndRoles.removeAll();
 		self.myRequests.removeAll();
 		localStorage.removeItem(tokenKey);
         self.gotoLogin();
     }
 
    // Fetch the initial data.
-    self.getUserInfo(self.getMyRequests);
+    self.getUserInfo(function (){self.getMyRequests(), self.gotoDefault()});
     self.getActiveRequests();
 };
+
+function UserWithRoles(data) {
+    this.Name = data.Name;
+    this.IsAdmin = ko.observable(data.Roles.indexOf('Admin') > -1);
+    this.IsServiceProvider = ko.observable(data.Roles.indexOf('ObslugaZlecen') > -1);
+    this.IsRequester = ko.observable(data.Roles.indexOf('TworzenieZlecen') > -1);
+}
 
 var viewModel = new ViewModel();
 window.setInterval(viewModel.getActiveRequests, 5000);

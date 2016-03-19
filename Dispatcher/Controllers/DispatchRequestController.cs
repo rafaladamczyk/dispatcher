@@ -23,23 +23,7 @@ namespace Dispatcher.Controllers
         {
             db = context;
         }
-
-        //[Authorize(Roles = "Admin")]
-        //[Route("UsersAndRoles")]
-        //public List<UserInfoViewModel> GetUsersAndRoles()
-        //{
-        //    var result = new List<UserInfoViewModel>();
-        //    var context = db as DispatcherContext;
-        //    foreach (var user in context.Users)
-        //    {
-        //        result.Add(new UserInfoViewModel
-        //                   {
-        //                       Name = user.UserName,
-        //                       Roles = user.Claims
-        //                   });
-        //    }
-        //}
-
+        
         [ResponseType(typeof(List<DispatchRequest>))]
         public async Task<IHttpActionResult> GetAllDispatchRequests()
         {

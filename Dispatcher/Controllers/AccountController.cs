@@ -57,6 +57,7 @@ namespace Dispatcher.Controllers
 
         [Authorize(Roles = "Admin")]
         [Route("UsersAndRoles")]
+        [HttpGet]
         public List<UserInfoViewModel> GetUsersAndRoles()
         {
             var store = new RoleStore<IdentityRole>(new DispatcherContext());
@@ -76,6 +77,32 @@ namespace Dispatcher.Controllers
                            });
             }
             return result;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("UsersAndRoles")]
+        [HttpPost]
+        public void SaveUsersAndRoles(List<UserRoleModel> usersAndRoles)
+        {
+            foreach (var user in usersAndRoles)
+            {
+                var userId = UserManager.FindByName(user.Name).Id;
+                AddOrRemoveRole(userId, "Admin", user.IsAdmin);
+                AddOrRemoveRole(userId, "ObslugaZlecen", user.IsServiceProvider);
+                AddOrRemoveRole(userId, "TworzenieZlecen", user.IsRequester);
+            }
+        }
+
+        private void AddOrRemoveRole(string userId, string role, bool add)
+        {
+            if (add)
+            {
+                UserManager.AddToRole(userId, role);
+            }
+            else
+            {
+                UserManager.RemoveFromRole(userId, role);
+            }
         }
 
         [Route("Roles")]
