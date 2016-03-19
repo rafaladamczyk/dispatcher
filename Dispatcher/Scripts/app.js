@@ -5,7 +5,7 @@
 	self.error = ko.observable();
     self.errorTimeout = null;
 
-	self.pages = ['Register', 'Login', 'Requests', 'TypeDefinitions'];
+	self.pages = ['Rejestracja', 'Logowanie', 'Zlecenia', 'Typy zleceń'];
 	self.visibiliy = {};
     self.currentPage = ko.observable();
 	self.loginVisible = ko.observable();
@@ -28,7 +28,7 @@
 	self.disableButton = function (element) {
 	    $(element).removeClass("btn-info btn-success").addClass("btn-default").text("Czekaj").prop('disabled', true);
 	}
-
+    
     self.hideAllPages = function() {
         self.registerVisible(false);
         self.loginVisible(false);
@@ -44,39 +44,39 @@
     }
 
 	self.gotoRegister = function() {
-        location.hash = 'Register';
+        location.hash = 'Rejestracja';
 	}
 
 	self.gotoLogin = function() {
-        location.hash = 'Login';
+        location.hash = 'Logowanie';
     }
 
     self.gotoRequests = function () {
-        location.hash = 'Requests';
+        location.hash = 'Zlecenia';
 	}
 
 	self.gotoTypeDefinitions = function () {
-	    location.hash = 'TypeDefinitions';
+	    location.hash = 'TypyZlecen';
 	}
 
     Sammy(function() {
-        this.get('#Register', function() {
-            self.currentPage('Register');
+        this.get('#Rejestracja', function () {
+            self.currentPage('Rejestracja');
             self.hideAllPages();
             self.registerVisible(true);
         });
-        this.get('#Login', function() {
-            self.currentPage('Login');
+        this.get('#Logowanie', function () {
+            self.currentPage('Logowanie');
             self.hideAllPages();
             self.loginVisible(true);
         });
-        this.get('#Requests', function() {
-            self.currentPage('Requests');
+        this.get('#Zlecenia', function() {
+            self.currentPage('Zlecenia');
             self.hideAllPages();
             self.requestsVisible(true);
         });
-        this.get('#TypeDefinitions', function() {
-            self.currentPage('TypeDefinitions');
+        this.get('#TypyZlecen', function() {
+            self.currentPage('Typy zleceń');
             self.hideAllPages();
             self.typeDefinitionVisible(true);
         });

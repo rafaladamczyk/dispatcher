@@ -7,7 +7,14 @@
                         <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button> <a class="navbar-brand" href="#">Drewnex</a>
                 </div>
+
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav" data-bind="foreach: pages">
+                        <li data-bind="css: { active: $data == $root.currentPage() }">
+                            <a href="#" data-bind="text: $data,
+                               attr: { href: '#' + $data }"></a>
+                        </li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown loginDropdown">
                             <a href="#" data-bind="text: loginMessage" class="dropdown-toggle dropdownText" data-toggle="dropdown"><strong class="caret"></strong></a>
@@ -144,22 +151,29 @@
         </div>
     </div>
     <div class="row" data-bind="visible: loginVisible">
-           <div class="col-md-6 col-md-offset-3">
-                <h2>Logowanie</h2>
-                <form data-bind="submit: login">
-                    <div class="form-group">
-                        <h4>Nazwa</h4>
-                        <input class="form-control" type="text" data-bind="value: loginUsername" />
-                    </div>
-                    <div class="form-group">
-                        <h4>Hasło</h4>
-                        <input class="form-control" type="password" data-bind="value: loginPassword" />
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-info btn-huge"> Zaloguj </button>
-                    </div>
-                    <a href="/#Register">Nie masz jeszcze konta? Zarejestruj się!</a>
-                </form>
+        <div class="col-md-6 col-md-offset-3" data-bind="visible: !user()">
+            <h2>Logowanie</h2>
+            <form data-bind="submit: login">
+                <div class="form-group">
+                    <h4>Nazwa</h4>
+                    <input class="form-control" type="text" data-bind="value: loginUsername" />
+                </div>
+                <div class="form-group">
+                    <h4>Hasło</h4>
+                    <input class="form-control" type="password" data-bind="value: loginPassword" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info btn-huge"> Zaloguj </button>
+                </div>
+                <a href="/#Register">Nie masz jeszcze konta? Zarejestruj się!</a>
+            </form>
+        </div>
+
+        <div class="col-md-6 col-md-offset-3" data-bind="visible: user">
+            <h2 data-bind="text: loginMessage"></h2>
+            <div>
+                <button class="btn btn-info btn-huge" data-bind="click: logout"> Wyloguj </button>
             </div>
+        </div>
     </div>
 </div>
