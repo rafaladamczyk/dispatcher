@@ -46,7 +46,7 @@
     </div>
 <div class="row" data-bind="visible: requestsVisible">
     <div class="col-md-6" data-bind="visible: isServiceProvider">
-        <div data-bind="visible: myRequests().length">
+        <div data-bind="visible: requestsAssignedToMe().length">
             <h1 class="text-center">
                 Obsługiwane przez Ciebie
             </h1>
@@ -64,7 +64,7 @@
                     <th></th>
                 </tr>
                 </thead>
-                <tbody data-bind="foreach: myRequests">
+                <tbody data-bind="foreach: requestsAssignedToMe">
                 <tr>
                     <td style="vertical-align: middle" class="text-center">
                         <h3 data-bind="text: Type.Name"></h3>

@@ -1,7 +1,6 @@
 ﻿var ViewModel = function () {
     var self = this;
     self.activeRequests = ko.observableArray();
-    self.myRequests = ko.observableArray();
     self.usersAndRoles = ko.observableArray();
 	self.error = ko.observable();
     self.errorTimeout = null;
@@ -95,10 +94,6 @@
         self.getData('/api/ActiveRequests/', self.activeRequests, function () { self.activeRequests.removeAll(); });
     }
 	
-    self.getMyRequests = function () {
-        self.getData('/api/MyRequests/', self.myRequests, function() { self.myRequests.removeAll(); });
-    }
-
     self.getUsersAndRoles = function () {
         self.getData('/api/Account/UsersAndRoles/', function(data) {
             var mappedUsers = $.map(data, function (item) { return new UserWithRoles(item) });
@@ -165,12 +160,10 @@
             type: 'PUT',
             url: '/api/CompleteRequest/' + request.Id,
             headers: headers
-        }).done(function () {
-            self.getActiveRequests();
         }).fail(function (jx) {
             showError(jx);
         }).always(function () {
-            self.getMyRequests();
+            self.getActiveRequests();
         });
     }
 
@@ -187,12 +180,10 @@
             type: 'PUT',
             url: '/api/CancelRequest/' + request.Id,
             headers: headers
-        }).done(function () {
-            self.getActiveRequests();
         }).fail(function (jx) {
             showError(jx);
         }).always(function() {
-            self.getMyRequests();
+            self.getActiveRequests();
         });
     }
 	
@@ -209,8 +200,6 @@
             type: 'PUT',
             url: '/api/AcceptRequest/' + request.Id,
             headers: headers
-        }).done(function () {
-            self.getMyRequests();
         }).fail(function (jx, message, error) {
             showError(jx);
         }).always(function () {
@@ -331,6 +320,12 @@
         return self.userRoles().indexOf('TworzenieZlecen') > -1;
     }, self);
 
+    self.requestsAssignedToMe = ko.pureComputed(function () {
+        return self.activeRequests().filter(function (el) {
+            return el.ProvidingUserName === self.user();
+        });
+    }, self);
+
     self.requestsCreatedByMe = ko.pureComputed(function() {
         return self.activeRequests().filter(function (el) {
             return el.RequestingUserName === self.user();
@@ -340,7 +335,7 @@
     self.logout = function () {
         self.clearUserInfo();
         self.usersAndRoles.removeAll();
-		self.myRequests.removeAll();
+        self.activeRequests.removeAll();
 		localStorage.removeItem(tokenKey);
         self.gotoLogin();
     }
