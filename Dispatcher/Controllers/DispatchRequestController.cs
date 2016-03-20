@@ -61,37 +61,18 @@ namespace Dispatcher.Controllers
             return Ok(request);
         }
         
-        [HttpGet]
-        [HttpPut]
         [HttpPost]
-        [Route("api/CreateRequest/{requesterId}/{requestTypeId}")]
+        [Authorize(Roles = "TworzenieZlecen")]
+        [Route("api/CreateRequest/")]
         [ResponseType(typeof(DispatchRequest))]
-        public async Task<IHttpActionResult> CreateNewRequest(int requesterId, int requestTypeId)
+        public async Task<IHttpActionResult> CreateNewRequest(DispatchRequestType requestType)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var type = await db.Types.FirstOrDefaultAsync(t => t.Id == requestTypeId);
-            if (type == null)
-            {
-                return BadRequest($"{requestTypeId} is not a valid RequestTypeId.");
-            }
-
-            var requester = await db.Requesters.FirstOrDefaultAsync(r => r.Id == requesterId);
-            if (requester == null)
-            {
-                return BadRequest($"Requester Id {requesterId} does not exist");
-            }
-
-            var existingRequest = await db.Requests.FirstOrDefaultAsync(r => r.Active && r.RequesterId == requesterId && r.TypeId == requestTypeId);
-            if (existingRequest != null)
-            {
-                return BadRequest($"Requester Id {requesterId} already has an active request of type {requestTypeId}");
-            }
-
-            var newRequest = new DispatchRequest { RequesterId = requesterId, Active = true, TypeId = requestTypeId, CreationDate = DateTime.UtcNow, CompletionDate = null, Requester = requester, Type = type};
+            var newRequest = new DispatchRequest { RequestingUserName = User.Identity.Name, Active = true, TypeId = requestType.Id, CreationDate = DateTime.UtcNow, CompletionDate = null, Type = requestType};
             db.Requests.Add(newRequest);
             await db.SaveChangesAsync();
            

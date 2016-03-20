@@ -7,7 +7,6 @@ namespace Dispatcher.Models
     public interface IDispatcherContext : IDisposable
     {
         DbSet<DispatchRequest> Requests { get; }
-        DbSet<DispatchRequester> Requesters { get; }
         DbSet<DispatchRequestType> Types { get; }
 
         int SaveChanges();

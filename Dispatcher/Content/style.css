@@ -1,8 +1,26 @@
 .btn-huge{margin-top: 20px; margin-bottom: 20px; padding:10px 16px;font-size:24px;line-height:2.3333333;border-radius:6px}
-.dropdownText{ font-size: 20px; }
 .navbar-brand {
     font-size: x-large;
 }
-.loginDropdown {
-    min-width: 260px;
+
+input[type="checkbox"]{
+cursor: pointer;
+-webkit-appearance: none;
+appearance: none;
+background: #34495E;
+border-radius: 1px;
+box-sizing: border-box;
+position: relative;
+box-sizing: content-box ;
+width: 40px;
+height: 40px;
+border-width: 0;
+transition: all .3s linear;
+}
+input[type="checkbox"]:checked{
+  background-color: #2EEC71;
+}
+input[type="checkbox"]:focus{
+  outline: 0 none;
+  box-shadow: none;
 }

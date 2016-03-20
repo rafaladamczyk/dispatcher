@@ -163,12 +163,6 @@ namespace Dispatcher.Controllers
                 return GetErrorResult(result);
             }
 
-            result = await UserManager.AddToRoleAsync(user.Id, "ObslugaZlecen");
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
             return Ok();
         }
 
