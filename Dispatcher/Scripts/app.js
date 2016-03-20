@@ -125,12 +125,11 @@
 
     self.getData = function (uri, callback, errorCallback) {
 	     var token = localStorage.getItem(tokenKey);
-	     if (!token)
-	         return;
 	     var headers = {};
-	     headers.Authorization = 'Bearer ' + token;
-
-	     $.ajax({
+	     if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+        $.ajax({
 	         type: 'GET',
 	         url: uri,
 	         headers: headers
@@ -296,14 +295,16 @@
         }).done(function (data) {
             localStorage.setItem(tokenKey, data.access_token);
             self.clearForms();
-            self.getUserInfo(function() { self.getMyRequests(); self.gotoDefault(); });
-            self.getActiveRequests();
+            self.getUserInfo(function() { self.getActiveRequests(); self.gotoDefault(); });
         }).fail(function (error) {
             showError(error);
             self.gotoLogin();
         });
     }
 
+    self.loggedInUser = ko.pureComputed(function () {
+        return self.user() ? self.user() + "  " : "Niezalogowany  ";
+    }, self);
     self.loginMessage = ko.pureComputed(function () {
         return self.user() ? "Zalogowany jako: " + self.user() : "Niezalogowany";
     }, self);
@@ -335,13 +336,12 @@
     self.logout = function () {
         self.clearUserInfo();
         self.usersAndRoles.removeAll();
-        self.activeRequests.removeAll();
-		localStorage.removeItem(tokenKey);
+        localStorage.removeItem(tokenKey);
         self.gotoLogin();
     }
 
    // Fetch the initial data.
-    self.getUserInfo(function (){self.getMyRequests(), self.gotoDefault()});
+    self.getUserInfo(function (){self.gotoDefault()});
     self.getActiveRequests();
 };
 

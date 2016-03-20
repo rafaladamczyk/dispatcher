@@ -33,6 +33,7 @@ namespace Dispatcher.Controllers
         [HttpGet]
         [Route("api/ActiveRequests")]
         [ResponseType(typeof(List<DispatchRequest>))]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetActiveRequests()
         {
             var activeRequests = await db.Requests.Where(r => r.Active).ToListAsync() ;
