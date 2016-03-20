@@ -40,7 +40,9 @@
     }
 
     self.gotoDefault = function() {
-        if (self.user) 
+        if (self.isRequester()) 
+            self.gotoCreateRequests();
+        else if (self.user)
             self.gotoRequests();
         else
             self.gotoLogin();
@@ -52,6 +54,10 @@
 
     self.gotoRequests = function () {
         location.hash = 'Obsługa Zleceń';
+    }
+
+    self.gotoCreateRequests = function() {
+        location.hash = 'Tworzenie Zleceń';
     }
     
     Sammy(function() {
@@ -76,7 +82,9 @@
             self.createRequestsVisible(true);
         });
         this.get('#Administracja', function () {
-            self.getUsersAndRoles();
+            if (self.isAdmin()) {
+                self.getUsersAndRoles();
+            }
             self.currentPage('Administracja');
             self.hideAllPages();
             self.administrationVisible(true);
@@ -209,11 +217,9 @@
             self.getActiveRequests();
         });
     }
-
     self.createRequest = function() {
-        var requesterId = Math.floor((Math.random() * 3) + 1);
-        var requestType = Math.floor((Math.random() * 2) + 1);
-        $.getJSON('/api/CreateRequest/' + requesterId + '/' + requestType, self.getActiveRequests).fail(showError);
+        var requestType = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+        self.getData('/api/CreateRequest/' + requestType, function() {self.getActiveRequests()});
     }
 
     function showError(jqXHR) {
@@ -251,7 +257,9 @@
         }).done(function (data) {
             self.user(data.Name);
             self.userRoles(data.Roles);
-            callback();
+            if (callback) {
+                callback();
+            }
         }).fail(function(error) {
             showError(error);
         });
@@ -299,20 +307,19 @@
         }).done(function (data) {
             localStorage.setItem(tokenKey, data.access_token);
             self.clearForms();
-            self.getUserInfo(self.getMyRequests);
+            self.getUserInfo(function() { self.getMyRequests(); self.gotoDefault(); });
             self.getActiveRequests();
-            self.gotoDefault();
         }).fail(function (error) {
             showError(error);
             self.gotoLogin();
         });
     }
 
-    self.loginMessage = ko.pureComputed(function() {
+    self.loginMessage = ko.pureComputed(function () {
         return self.user() ? "Zalogowany jako: " + self.user() : "Niezalogowany";
     }, self);
 
-    self.isAdmin = ko.pureComputed(function() {
+    self.isAdmin = ko.pureComputed(function () {
         return self.userRoles().indexOf('Admin') > -1;
     }, self);
 
@@ -322,6 +329,12 @@
 
     self.isRequester = ko.pureComputed(function () {
         return self.userRoles().indexOf('TworzenieZlecen') > -1;
+    }, self);
+
+    self.requestsCreatedByMe = ko.pureComputed(function() {
+        return self.activeRequests().filter(function (el) {
+            return el.RequestingUserName === self.user();
+        });
     }, self);
     
     self.logout = function () {

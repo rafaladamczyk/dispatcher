@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -84,12 +85,12 @@ namespace Dispatcher.Controllers
         [HttpPost]
         public void SaveUsersAndRoles(List<UserRoleModel> usersAndRoles)
         {
-            foreach (var user in usersAndRoles)
+            foreach (var userRoleModel in usersAndRoles)
             {
-                var userId = UserManager.FindByName(user.Name).Id;
-                AddOrRemoveRole(userId, "Admin", user.IsAdmin);
-                AddOrRemoveRole(userId, "ObslugaZlecen", user.IsServiceProvider);
-                AddOrRemoveRole(userId, "TworzenieZlecen", user.IsRequester);
+                var user = UserManager.FindByName(userRoleModel.Name);
+                AddOrRemoveRole(user.Id, "Admin", userRoleModel.IsAdmin);
+                AddOrRemoveRole(user.Id, "ObslugaZlecen", userRoleModel.IsServiceProvider);
+                AddOrRemoveRole(user.Id, "TworzenieZlecen", userRoleModel.IsRequester);
             }
         }
 

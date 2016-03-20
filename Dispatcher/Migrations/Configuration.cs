@@ -25,7 +25,7 @@ namespace Dispatcher.Migrations
             AddUser(context, "Admin", "admin@123", "Admin", "ObslugaZlecen", "TworzenieZlecen");
             AddUser(context, "Rafal", "12341234", "ObslugaZlecen");
             AddUser(context, "Konrad", "12341234", "ObslugaZlecen");
-            AddUser(context, "Maszyna tnąca", "12341234", "TworzenieZlecen");
+            AddUser(context, "MaszynaTnaca", "12341234", "TworzenieZlecen");
         }
 
         private void AddUser(DispatcherContext context, string userName, string password, params string[] roles)

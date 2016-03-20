@@ -61,18 +61,30 @@ namespace Dispatcher.Controllers
             return Ok(request);
         }
         
-        [HttpPost]
+        [HttpGet]
         [Authorize(Roles = "TworzenieZlecen")]
-        [Route("api/CreateRequest/")]
+        [Route("api/CreateRequest/{typeId}")]
         [ResponseType(typeof(DispatchRequest))]
-        public async Task<IHttpActionResult> CreateNewRequest(DispatchRequestType requestType)
+        public async Task<IHttpActionResult> CreateNewRequest(int typeId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var newRequest = new DispatchRequest { RequestingUserName = User.Identity.Name, Active = true, TypeId = requestType.Id, CreationDate = DateTime.UtcNow, CompletionDate = null, Type = requestType};
+            var type = await db.Types.FirstOrDefaultAsync(t => t.Id == typeId);
+            if (type == null)
+            {
+                return BadRequest($"Nieznany typ zlecenia {typeId}");
+            }
+
+            var existingRequest = await db.Requests.FirstOrDefaultAsync(r => r.Active && r.RequestingUserName == User.Identity.Name && r.TypeId == typeId);
+            if (existingRequest != null)
+            {
+                return BadRequest($"Zlecenie typu '{type.Name}' dla użytkownika '{User.Identity.Name}' już istnieje.");
+            }
+
+            var newRequest = new DispatchRequest { RequestingUserName = User.Identity.Name, Active = true, TypeId = typeId, CreationDate = DateTime.UtcNow, CompletionDate = null, Type = type};
             db.Requests.Add(newRequest);
             await db.SaveChangesAsync();
            

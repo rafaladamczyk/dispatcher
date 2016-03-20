@@ -44,87 +44,83 @@
     <div class="row" data-bind="visible: error">
         <div class="col-md-12 alert-danger" style="font-size: x-large" data-bind="text: error"></div>
     </div>
-    <div class="row" style="padding-left: 100px;" data-bind="visible: requestsVisible">
-        <div class="col-md-12">
-        <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-huge btn-warning" data-bind="click: createRequest">Dodaj nowe</button>
-        </div>
-    </div>
-    <div class="row" data-bind="visible: requestsVisible">
-        <div class="col-md-6" data-bind="visible: isServiceProvider">
-            <div data-bind="visible: myRequests().length">
-                <h1 class="text-center">
-                    Obsługiwane przez Ciebie
-                </h1>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th class="text-center">
-                                <h2>Typ</h2>
-                            </th>
-                            <th class="text-center">
-                                <h2>Zlecający</h2>
-                            </th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: myRequests">
-                        <tr>
-                            <td style="vertical-align: middle" class="text-center">
-                                <h3 data-bind="text: Type.Name"></h3>
-                            </td>
-                            <td style="vertical-align: middle" class="text-center">
-                                <h3 data-bind="text: Requester.Name"></h3>
-                            </td>
-                            <td class="col-md-3">
-                                <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.cancelRequest">Anuluj</button>
-                            </td>
-                            <td class="col-md-1"></td>
-                            <td class="col-md-4">
-                                <button type="button" class="btn btn-block btn-success btn-huge " data-bind="click: $parent.completeRequest">Zakończ</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-md-6">
+<div class="row" data-bind="visible: requestsVisible">
+    <div class="col-md-6" data-bind="visible: isServiceProvider">
+        <div data-bind="visible: myRequests().length">
             <h1 class="text-center">
-                Zlecenia
+                Obsługiwane przez Ciebie
             </h1>
             <table class="table table-striped table-hover">
                 <thead>
-                <tr><th class="text-center">
-                        <h2>Typ</h2></th>
+                <tr>
                     <th class="text-center">
-                        <h2>Zlecający</h2></th>
+                        <h2>Typ</h2>
+                    </th>
                     <th class="text-center">
-                        <h2>Utworzono</h2></th>
-                    <th class="text-center">
-                        <h2>Obsługuje</h2></th></tr>
+                        <h2>Zlecający</h2>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
                 </thead>
-                <tbody data-bind="foreach: activeRequests">
+                <tbody data-bind="foreach: myRequests">
                 <tr>
                     <td style="vertical-align: middle" class="text-center">
-                        <h3 data-bind="text: Type.Name"></h3></td>
+                        <h3 data-bind="text: Type.Name"></h3>
+                    </td>
                     <td style="vertical-align: middle" class="text-center">
-                        <h3 data-bind="text: Requester.Name"></h3></td>
-                    <td style="vertical-align: middle" class="text-center">
-                        <h3 data-bind="text: parseDate(CreationDate)"></h3></td>
-                    <td><button type="button" class="btn btn-block btn-huge " data-bind="
-						click: $parent.acceptRequest,
-						css: { 'btn-info' : !ProvidingUserName, 'btn-default' : ProvidingUserName},
-						enable: !ProvidingUserName,
-                        text: ProvidingUserName ? ProvidingUserName : 'Przyjmij', 
-						visible: (ProvidingUserName || $parent.isServiceProvider)
-                        "></button>
+                        <h3 data-bind="text: RequestingUserName"></h3>
+                    </td>
+                    <td class="col-md-3">
+                        <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.cancelRequest">Anuluj</button>
+                    </td>
+                    <td class="col-md-1"></td>
+                    <td class="col-md-4">
+                        <button type="button" class="btn btn-block btn-success btn-huge " data-bind="click: $parent.completeRequest">Zakończ</button>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
+    <div class="col-md-6">
+        <h1 class="text-center">
+            Zlecenia
+        </h1>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr><th class="text-center">
+                    <h2>Typ</h2></th>
+                <th class="text-center">
+                    <h2>Zlecający</h2></th>
+                <th class="text-center">
+                    <h2>Utworzono</h2></th>
+                <th class="text-center">
+                    <h2>Obsługuje</h2></th></tr>
+            </thead>
+            <tbody data-bind="foreach: activeRequests">
+            <tr>
+                <td style="vertical-align: middle" class="text-center">
+                    <h3 data-bind="text: Type.Name"></h3></td>
+                <td style="vertical-align: middle" class="text-center">
+                    <h3 data-bind="text: RequestingUserName"></h3></td>
+                <td style="vertical-align: middle" class="text-center">
+                    <h3 data-bind="text: parseDate(CreationDate)"></h3></td>
+                <td><button type="button" class="btn btn-block btn-huge " data-bind="
+						click: $parent.acceptRequest,
+						css: { 'btn-info' : !ProvidingUserName, 'btn-default' : ProvidingUserName},
+						enable: !ProvidingUserName,
+                        text: ProvidingUserName ? ProvidingUserName : 'Przyjmij', 
+						visible: (ProvidingUserName || $parent.isServiceProvider)
+                        "></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
     <div class="row" data-bind="visible: registerVisible">
         <div class="col-md-6 col-md-offset-3">
             <form data-bind="submit: register">
@@ -147,6 +143,60 @@
             </form>
         </div>
     </div>
+
+<div class="row" data-bind="visible: createRequestsVisible">
+    <div data-bind="visible: isRequester">
+        <div class="row" style="padding-left: 100px;">
+            <div class="col-md-12">
+                <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-huge btn-warning" data-bind="click: createRequest">Dodaj nowe</button>
+            </div>
+        </div>
+
+        <div data-bind="visible: requestsCreatedByMe().length">
+            <h1 class="text-center">
+                Utworzone zlecenia
+            </h1>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            <h2>Typ</h2>
+                        </th>
+                        <th class="text-center">
+                            <h2>Utworzono</h2>
+                        </th>
+                        <th class="text-center">
+                            <h2>Obsługuje</h2>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: requestsCreatedByMe">
+                    <tr>
+                        <td style="vertical-align: middle" class="text-center">
+                            <h3 data-bind="text: Type.Name"></h3>
+                        </td>
+                        <td style="vertical-align: middle" class="text-center">
+                            <h3 data-bind="text: parseDate(CreationDate)"></h3>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-block btn-huge btn-default" disabled="disabled" data-bind="
+                                    text: ProvidingUserName ? ProvidingUserName : 'Przyjmij', 
+						            visible: ProvidingUserName
+                                    "></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+    <div class="col-md-6 col-md-offset-3" data-bind="visible: !isRequester()">
+        <h1 class="text-center">
+            Nie masz uprawnień do tworzenia zleceń.
+        </h1>
+    </div>
+</div>
     <div class="row" data-bind="visible: loginVisible">
         <div class="col-md-6 col-md-offset-3" data-bind="visible: !user()">
             <h2>Logowanie</h2>
@@ -175,7 +225,7 @@
     </div>
 
     <div class="row" data-bind="visible: administrationVisible">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-6 col-md-offset-3" data-bind="visible: isAdmin">
             <h1 class="text-center">
                 Użytkownicy
             </h1>
@@ -190,16 +240,16 @@
                 </thead>
                 <tbody data-bind="foreach: usersAndRoles">
                 <tr>
-                    <td  style="vertical-align: middle" class="text-center">
+                    <td style="vertical-align: middle" class="text-center">
                         <h3 data-bind="text: Name"></h3>
                     </td>
-                    <td  style="vertical-align: middle" class="text-center">
+                    <td style="vertical-align: middle" class="text-center">
                         <input type="checkbox" data-bind="checked: IsAdmin"/>
                     </td>
-                    <td  style="vertical-align: middle" class="text-center">
+                    <td style="vertical-align: middle" class="text-center">
                         <input type="checkbox" data-bind="checked: IsServiceProvider"/>
                     </td>
-                    <td  style="vertical-align: middle" class="text-center">
+                    <td style="vertical-align: middle" class="text-center">
                         <input type="checkbox" data-bind="checked: IsRequester"/>
                     </td>
                 </tr>
@@ -210,8 +260,11 @@
                 <button class="btn btn-info btn-huge" data-bind="click: saveRoles"> Zapisz </button>
             </div>
 
-
+        </div>
+        <div class="col-md-6 col-md-offset-3" data-bind="visible: !isAdmin()">
+            <h1 class="text-center">
+                Nie jesteś administratorem.
+            </h1>
         </div>
     </div>
-
 </div>
