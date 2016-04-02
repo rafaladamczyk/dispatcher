@@ -499,7 +499,7 @@ function UserWithRoles(data) {
 
 var viewModel = new ViewModel();
 window.setInterval(viewModel.getActiveRequests, 5000);
-window.setInterval(viewModel.getProvidersAndTasks, 5000);
+window.setInterval(viewModel.getProvidersAndTasks, 13000);
 ko.applyBindings(viewModel);
 
 moment.locale('pl');
