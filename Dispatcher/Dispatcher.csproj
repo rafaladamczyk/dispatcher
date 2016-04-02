@@ -217,9 +217,9 @@
     <Compile Include="Controllers\DispatchRequestController.cs" />
     <Compile Include="Controllers\DispatchRequestTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Migrations\201604021823400_Initial.cs" />
-    <Compile Include="Migrations\201604021823400_Initial.Designer.cs">
-      <DependentUpon>201604021823400_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201604021836560_InitialCreate.cs" />
+    <Compile Include="Migrations\201604021836560_InitialCreate.Designer.cs">
+      <DependentUpon>201604021836560_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\TasksForProviderDto.cs" />
@@ -313,8 +313,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604021823400_Initial.resx">
-      <DependentUpon>201604021823400_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604021836560_InitialCreate.resx">
+      <DependentUpon>201604021836560_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
