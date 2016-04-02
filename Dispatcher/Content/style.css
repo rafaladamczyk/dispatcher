@@ -35,6 +35,22 @@ ul.horizontalList li {
     margin: 15px;
 }
 
+li.task, li.specialTask {
+    font-size: larger;
+    text-decoration: none;
+}
+
+li.specialTask {
+    color: red;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    font-weight: bold;
+    font-size: x-large;
+}
+
 .panel-group > .panel {
     margin-bottom: 30px;
+}
+
+label {
+    font-size: x-large;
 }

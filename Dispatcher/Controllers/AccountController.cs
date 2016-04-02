@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -18,14 +17,23 @@ namespace Dispatcher.Controllers
     public class AccountController : ApiController
     {
         private ApplicationUserManager userManager;
+        private readonly IdentityDbContext<ApplicationUser> idContext;
+        private readonly IDispatcherContext db;
 
         public AccountController()
         {
+            var context = new DispatcherContext();
+            db = context;
+            idContext =context;
         }
 
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
+            var context = new DispatcherContext();
+            db = context;
+            idContext = context;
+
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
@@ -42,6 +50,24 @@ namespace Dispatcher.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("ProvidersAndTasks")]
+        [AllowAnonymous]
+        public IEnumerable<TasksForProviderDto> GetProvidersAndTasks()
+        {
+            var providers = UserManager.Users.OrderBy(u => u.UserName).ToList().Where(u => UserManager.IsInRole(u.Id, "ObslugaZlecen"));
+            return providers.Select(p => new TasksForProviderDto {
+                Name = p.UserName,
+                Tasks = db.Requests.Where(r => r.Active && !r.Type.ForSelf && r.ProvidingUserName == p.UserName).ToList().Select(CreateTaskDto).ToList(),
+                SpecialTasks = db.Requests.Where(r => r.Active && r.Type.ForSelf && r.ProvidingUserName == p.UserName).ToList().Select(CreateTaskDto).ToList()
+            });
+        }
+
+        private static TaskDto CreateTaskDto(DispatchRequest request)
+        {
+            return new TaskDto { Name = request.Type.Name, PickedUpDate = request.PickedUpDate };
+        }
+
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         // GET api/Account/UserInfo
@@ -55,8 +81,7 @@ namespace Dispatcher.Controllers
                 Roles = GetRoles((ClaimsIdentity)User.Identity).ToList()
             };
         }
-
-        [Authorize(Roles = "Admin")]
+        
         [Route("UsersAndRoles")]
         [HttpGet]
         public List<UserInfoViewModel> GetUsersAndRoles()
@@ -65,7 +90,7 @@ namespace Dispatcher.Controllers
             var roleManager = new RoleManager<IdentityRole>(store);
 
             var result = new List<UserInfoViewModel>();
-            foreach (var user in UserManager.Users.ToList())
+            foreach (var user in UserManager.Users.OrderBy(u => u.UserName).ToList())
             {
                 var userRoleIds = user.Roles.Select(r => r.RoleId).ToList();
                 var roles = roleManager.Roles.Where(r => userRoleIds.Contains(r.Id)).ToList();
@@ -109,13 +134,13 @@ namespace Dispatcher.Controllers
         [Route("Roles")]
         public List<string> GetRoles()
         {
-            return new DispatcherContext().Roles.Select(r => r.Name).ToList();
+            return idContext.Roles.Select(r => r.Name).ToList();
         }
 
         [Route("Users")]
         public List<string> GetUsers()
         {
-            return UserManager.Users.Select(u => u.UserName).ToList();
+            return UserManager.Users.OrderBy(u => u.UserName).Select(u => u.UserName).ToList();
         } 
 
 
@@ -157,8 +182,13 @@ namespace Dispatcher.Controllers
 
             var user = new ApplicationUser() { UserName = model.UserName};
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-           
+            var result = await UserManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            result = await UserManager.AddToRoleAsync(user.Id, "ObslugaZlecen");
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);

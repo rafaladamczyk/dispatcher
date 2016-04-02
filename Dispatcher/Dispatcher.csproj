@@ -217,6 +217,7 @@
     <Compile Include="Controllers\DispatchRequestController.cs" />
     <Compile Include="Controllers\DispatchRequestTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\TasksForProviderDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

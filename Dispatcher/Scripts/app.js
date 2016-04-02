@@ -4,17 +4,19 @@
     self.usersAndRoles = ko.observableArray();
     self.requestTypes = ko.observableArray();
     self.specialRequestTypes = ko.observableArray();
-	self.error = ko.observable();
+    self.providersAndTheirTasks = ko.observableArray();
+    self.error = ko.observable();
     self.errorTimeout = null;
 
-    self.pages = ['Administracja','Rejestracja', 'Logowanie', 'Tworzenie Zleceń', 'Obsługa Zleceń'];
+    self.pages = ['Administracja','Rejestracja', 'Logowanie', 'Tworzenie Zleceń', 'Obsługa Zleceń', 'Dostępność'];
 	self.visibiliy = {};
     self.currentPage = ko.observable();
 	self.loginVisible = ko.observable();
 	self.requestsVisible = ko.observable();
     self.createRequestsVisible = ko.observable();
 	self.administrationVisible = ko.observable();
-    self.registerVisible = ko.observable();
+	self.registerVisible = ko.observable();
+    self.availabilityVisible = ko.observable();
     
     var tokenKey = 'accessToken';
 
@@ -45,6 +47,7 @@
         self.requestsVisible(false);
         self.administrationVisible(false);
         self.createRequestsVisible(false);
+        self.availabilityVisible(false);
     }
 
     self.gotoDefault = function() {
@@ -76,6 +79,12 @@
     
     self.getActiveRequests = function () {
         self.getData('/api/ActiveRequests/', self.activeRequests, function () { self.activeRequests.removeAll(); });
+    }
+
+    self.getProvidersAndTasks = function() {
+        if (self.availabilityVisible()) {
+            self.getData('/api/Account/ProvidersAndTasks/', self.providersAndTheirTasks);
+        }
     }
 	
     self.getUsersAndRoles = function () {
@@ -426,6 +435,12 @@
 
     // Initialize the navigation
     Sammy(function () {
+        this.get('#Dostępność', function() {
+            self.currentPage('Dostępność');
+            self.hideAllPages();
+            self.availabilityVisible(true);
+            self.getProvidersAndTasks();
+        });
         this.get('#Rejestracja', function () {
             self.currentPage('Rejestracja');
             self.hideAllPages();
@@ -466,14 +481,13 @@
 
     // Fetch the initial data.
     self.getUserInfo(function() {
-        if (self.isAdmin()) {
-            self.getUsersAndRoles();
-        }
+        self.getUsersAndRoles();
         self.gotoDefault();
     });
     self.getActiveRequests();
     self.getRequestTypes();
     self.getSpecialRequestTypes();
+    self.getProvidersAndTasks();
 };
 
 function UserWithRoles(data) {
@@ -485,12 +499,27 @@ function UserWithRoles(data) {
 
 var viewModel = new ViewModel();
 window.setInterval(viewModel.getActiveRequests, 5000);
+window.setInterval(viewModel.getProvidersAndTasks, 5000);
 ko.applyBindings(viewModel);
 
 moment.locale('pl');
 
 function parseDate(date) {
-    return moment.utc(date).local().fromNow();
+    if (date) {
+        return moment.utc(date).local().fromNow();
+    } else {
+        return "";
+    }
+}
+
+function parseTask(task) {
+    if (!task)
+        return null;
+    var started = moment.utc(task.PickedUpDate);
+    var now = moment.utc();
+    var diff = moment.duration(now.diff(started)).humanize();
+    var text = task.Name + ' (' + diff + ')';
+    return text.split(' ').join(String.fromCharCode(160));
 }
 
    
