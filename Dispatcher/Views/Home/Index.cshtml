@@ -186,11 +186,13 @@
                         <td style="vertical-align: middle" class="text-center">
                             <h3 data-bind="text: parseDate(CreationDate)"></h3>
                         </td>
-                        <td>
+                        <td data-bind="visible: ProvidingUserName">
                             <button type="button" class="btn btn-block btn-huge btn-default" disabled="disabled" data-bind="
                                     text: ProvidingUserName ? ProvidingUserName : 'Przyjmij', 
-						            visible: ProvidingUserName
                                     "></button>
+                        </td>
+                        <td  data-bind="visible: !ProvidingUserName">
+                            <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.deleteRequest">Anuluj</button>
                         </td>
                     </tr>
                 </tbody>

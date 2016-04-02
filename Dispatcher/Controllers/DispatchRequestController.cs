@@ -92,6 +92,29 @@ namespace Dispatcher.Controllers
             return CreatedAtRoute("DefaultApi", new { controller = "DispatchRequest",id = newRequest.Id }, newRequest);
         }
 
+        [HttpDelete]
+        [Route("api/DeleteRequest/{id}")]
+        [ResponseType(typeof(DispatchRequest))]
+        [Authorize(Roles = "TworzenieZlecen")]
+        public async Task<IHttpActionResult> DeleteRequest(int id)
+        {
+            var request = await db.Requests.FindAsync(id);
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            if (!string.IsNullOrEmpty(request.ProvidingUserName))
+            {
+                return BadRequest($"Nie można usunąć zlecenia o Id {id}, bo jest już w trakcie obsługi.");
+            }
+
+            db.Requests.Remove(request);
+            await db.SaveChangesAsync();
+
+            return Ok(request);
+        }
+
         [HttpPut]
         [HttpPost]
         [Route("api/AcceptRequest/{requestId}")]
@@ -128,7 +151,6 @@ namespace Dispatcher.Controllers
 
 
         [HttpPut]
-        [HttpPost]
         [Route("api/CancelRequest/{requestId}")]
         [Authorize(Roles = "ObslugaZlecen")]
         public async Task<IHttpActionResult> CancelRequest(int requestId)
@@ -160,10 +182,8 @@ namespace Dispatcher.Controllers
 
             return Ok();
         }
-
-        [HttpGet]
+        
         [HttpPut]
-        [HttpPost]
         [Route("api/CompleteRequest/{requestId}")]
         [Authorize(Roles = "ObslugaZlecen")]
         public async Task<IHttpActionResult> CompleteRequest(int requestId)

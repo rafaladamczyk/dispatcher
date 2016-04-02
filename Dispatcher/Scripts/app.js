@@ -162,6 +162,27 @@
             self.getActiveRequests();
         });
     }
+
+
+    self.deleteRequest = function (request, event) {
+        var token = localStorage.getItem(tokenKey);
+        var headers = {};
+        if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+
+        self.disableButton(event.target);
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/DeleteRequest/' + request.Id,
+            headers: headers
+        }).fail(function (jx) {
+            showError(jx);
+        }).always(function () {
+            self.getActiveRequests();
+        });
+    }
 	
     self.acceptRequest = function (request, event) {
         var token = localStorage.getItem(tokenKey);
