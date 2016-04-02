@@ -20,7 +20,8 @@ namespace Dispatcher.Migrations
                 t => t.Id,
                 new DispatchRequestType { Id = 1, Name = "Załadunek tira", ForSelf = true},
                 new DispatchRequestType { Id = 2, Name = "Trociny", ForSelf = true },
-                new DispatchRequestType { Id = 3, Name = "Przywieź dżewo", ForSelf = false });
+                new DispatchRequestType { Id = 3, Name = "Przywieź dżewo", ForSelf = false },
+                new DispatchRequestType { Id = 4, Name = "Zabieraj mi to stąd", ForSelf = false });
 
 
             AddUser(context, "Admin", "admin@123", "Admin", "ObslugaZlecen", "TworzenieZlecen");

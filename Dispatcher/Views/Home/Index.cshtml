@@ -1,4 +1,4 @@
-﻿<div class="container-fluid">
+﻿<div class="container-fluid" style="display: none" data-bind="visible: true">
     <div class="row">
         <div class="col-md-12">
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -147,9 +147,15 @@
 <div class="row" data-bind="visible: createRequestsVisible">
     <div data-bind="visible: isRequester">
         <div>
-            <ul data-bind="foreach: requestTypes">
+            <ul class="horizontalList" data-bind="foreach: requestTypes">
                 <li>
-                    <button style="padding-left: 50px; padding-right: 50px" class="btn btn-info" data-bind="text: $data.Name, click: $parent.createRequest"></button>
+                    <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-big btn-info" data-bind="
+                            text: $data.Name, 
+                            css: { 'btn-info' : !$parent.requestTypeActiveForMe($data.Id), 'btn-default' : $parent.requestTypeActiveForMe($data.Id)},
+                            click: $parent.createRequest,
+                            enable: !$parent.requestTypeActiveForMe($data.Id)
+                            ">
+                    </button>
                 </li>
             </ul>
         </div>

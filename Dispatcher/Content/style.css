@@ -1,4 +1,5 @@
 .btn-huge{margin-top: 20px; margin-bottom: 20px; padding:10px 16px;font-size:24px;line-height:2.3333333;border-radius:6px}
+.btn-big{margin-top: 10px; margin-bottom: 10px; padding:5px 5px;font-size:24px;line-height:2.3333333;border-radius:6px}
 .navbar-brand {
     font-size: x-large;
 }
@@ -23,4 +24,13 @@ input[type="checkbox"]:checked{
 input[type="checkbox"]:focus{
   outline: 0 none;
   box-shadow: none;
+}
+
+ul.horizontalList {
+    padding: 5px;
+}
+
+ul.horizontalList li {
+    display: inline;
+    margin-left: 10px;
 }

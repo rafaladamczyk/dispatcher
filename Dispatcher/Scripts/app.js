@@ -40,15 +40,19 @@
     }
 
     self.gotoDefault = function() {
-        if (self.isRequester()) 
-            self.gotoCreateRequests();
-        else if (self.user)
-            self.gotoRequests();
-        else
+        if (!self.user()) {
             self.gotoLogin();
+        }
+
+        if (!location.hash) {
+            if (self.isAdmin())
+                self.gotoRequests();
+            else if (self.isRequester())
+                self.gotoCreateRequests();
+        }
     }
-    
-	self.gotoLogin = function() {
+
+    self.gotoLogin = function() {
         location.hash = 'Logowanie';
     }
 
@@ -178,7 +182,7 @@
             self.getActiveRequests();
         });
     }
-    self.createRequest = function(requestType) {
+    self.createRequest = function (requestType) {
         self.getData('/api/CreateRequest/' + requestType.Id, function() {self.getActiveRequests()});
     }
 
@@ -304,6 +308,13 @@
             return el.RequestingUserName === self.user();
         });
     }, self);
+
+    self.requestTypeActiveForMe = function(id) {
+        var temp = self.requestsCreatedByMe().filter(function (el) {
+            return el.Type.Id === id;
+        });
+        return temp.length > 0;
+    }
     
     self.logout = function () {
         self.clearUserInfo();
@@ -311,11 +322,6 @@
         localStorage.removeItem(tokenKey);
         self.gotoLogin();
     }
-
-   // Fetch the initial data.
-    self.getUserInfo(function (){self.gotoDefault()});
-    self.getActiveRequests();
-    self.getRequestTypes();
 
     // Initialize the navigation
     Sammy(function () {
@@ -351,6 +357,11 @@
             self.administrationVisible(true);
         });
     }).run();
+
+    // Fetch the initial data.
+    self.getUserInfo(function () { self.gotoDefault() });
+    self.getActiveRequests();
+    self.getRequestTypes();
 };
 
 function UserWithRoles(data) {

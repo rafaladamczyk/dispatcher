@@ -14,19 +14,7 @@ namespace Dispatcher.Controllers
     {
         private readonly DispatcherContext db = new DispatcherContext();
 
-
-        [HttpGet]
-        [Authorize(Roles = "TworzenieZlecen")]
-        [Route("api/CreatedActiveRequests")]
-        [ResponseType(typeof(List<DispatchRequestType>))]
-        public async Task<IHttpActionResult> GetTypesOfActiveRequestsCreatedByMe()
-        {
-            var createdByMe = await db.Requests.Where(r => r.Active && r.RequestingUserName == User.Identity.Name).Select(r => r.Type).ToListAsync();
-            return Ok(createdByMe);
-        }
-
         // GET: api/DispatchRequestTypes
-        [Authorize(Roles = "TworzenieZlecen")]
         public IQueryable<DispatchRequestType> GetTypes()
         {
             return db.Types.Where(t => !t.ForSelf);
