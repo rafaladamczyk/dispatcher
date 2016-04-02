@@ -34,3 +34,7 @@ ul.horizontalList li {
     display: inline;
     margin: 15px;
 }
+
+.panel-group > .panel {
+    margin-bottom: 30px;
+}
