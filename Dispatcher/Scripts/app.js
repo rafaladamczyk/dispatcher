@@ -2,6 +2,7 @@
     var self = this;
     self.activeRequests = ko.observableArray();
     self.usersAndRoles = ko.observableArray();
+    self.requestTypes = ko.observableArray();
 	self.error = ko.observable();
     self.errorTimeout = null;
 
@@ -76,6 +77,9 @@
             self.requestsVisible(true);
         });
         this.get('#Tworzenie Zleceń', function () {
+            if (self.isRequester()) {
+                self.getRequestTypes();
+            }
             self.currentPage('Tworzenie Zleceń');
             self.hideAllPages();
             self.createRequestsVisible(true);
@@ -122,7 +126,10 @@
         });
     }
 
-
+    self.getRequestTypes = function() {
+        self.getData('/api/DispatchRequestTypes/', self.requestTypes);
+    }
+    
     self.getData = function (uri, callback, errorCallback) {
 	     var token = localStorage.getItem(tokenKey);
 	     var headers = {};
@@ -205,9 +212,8 @@
             self.getActiveRequests();
         });
     }
-    self.createRequest = function() {
-        var requestType = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-        self.getData('/api/CreateRequest/' + requestType, function() {self.getActiveRequests()});
+    self.createRequest = function(requestType) {
+        self.getData('/api/CreateRequest/' + requestType.Id, function() {self.getActiveRequests()});
     }
 
     function showError(jqXHR) {

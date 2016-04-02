@@ -146,10 +146,12 @@
 
 <div class="row" data-bind="visible: createRequestsVisible">
     <div data-bind="visible: isRequester">
-        <div class="row" style="padding-left: 100px;">
-            <div class="col-md-12">
-                <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-huge btn-warning" data-bind="click: createRequest">Dodaj nowe</button>
-            </div>
+        <div>
+            <ul data-bind="foreach: requestTypes">
+                <li>
+                    <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-huge btn-info" data-bind="text: $data.Name, click: $parent.createRequest"></button>
+                </li>
+            </ul>
         </div>
 
         <div data-bind="visible: requestsCreatedByMe().length">

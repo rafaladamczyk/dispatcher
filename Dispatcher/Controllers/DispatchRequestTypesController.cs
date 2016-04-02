@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -15,16 +12,37 @@ namespace Dispatcher.Controllers
 {
     public class DispatchRequestTypesController : ApiController
     {
-        private DispatcherContext db = new DispatcherContext();
+        private readonly DispatcherContext db = new DispatcherContext();
+
+
+        [HttpGet]
+        [Authorize(Roles = "TworzenieZlecen")]
+        [Route("api/CreatedActiveRequests")]
+        [ResponseType(typeof(List<DispatchRequestType>))]
+        public async Task<IHttpActionResult> GetTypesOfActiveRequestsCreatedByMe()
+        {
+            var createdByMe = await db.Requests.Where(r => r.Active && r.RequestingUserName == User.Identity.Name).Select(r => r.Type).ToListAsync();
+            return Ok(createdByMe);
+        }
 
         // GET: api/DispatchRequestTypes
+        [Authorize(Roles = "TworzenieZlecen")]
         public IQueryable<DispatchRequestType> GetTypes()
         {
-            return db.Types;
+            return db.Types.Where(t => !t.ForSelf);
         }
+
+        [HttpGet]
+        [Route("api/selfRequestTypes")]
+        public IQueryable<DispatchRequestType> GetSelfRequestTypes()
+        {
+            return db.Types.Where(t => t.ForSelf);
+        }
+
 
         // GET: api/DispatchRequestTypes/5
         [ResponseType(typeof(DispatchRequestType))]
+        [Authorize(Roles = "TworzenieZlecen")]
         public async Task<IHttpActionResult> GetDispatchRequestType(int id)
         {
             DispatchRequestType dispatchRequestType = await db.Types.FindAsync(id);
@@ -37,6 +55,7 @@ namespace Dispatcher.Controllers
         }
 
         // PUT: api/DispatchRequestTypes/5
+        [Authorize(Roles = "TworzenieZlecen")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutDispatchRequestType(int id, DispatchRequestType dispatchRequestType)
         {
@@ -72,6 +91,7 @@ namespace Dispatcher.Controllers
         }
 
         // POST: api/DispatchRequestTypes
+        [Authorize(Roles = "TworzenieZlecen")]
         [ResponseType(typeof(DispatchRequestType))]
         public async Task<IHttpActionResult> PostDispatchRequestType(DispatchRequestType dispatchRequestType)
         {
@@ -88,6 +108,7 @@ namespace Dispatcher.Controllers
 
         // DELETE: api/DispatchRequestTypes/5
         [ResponseType(typeof(DispatchRequestType))]
+        [Authorize(Roles = "TworzenieZlecen")]
         public async Task<IHttpActionResult> DeleteDispatchRequestType(int id)
         {
             DispatchRequestType dispatchRequestType = await db.Types.FindAsync(id);

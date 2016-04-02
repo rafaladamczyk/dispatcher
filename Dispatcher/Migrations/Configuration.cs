@@ -18,8 +18,9 @@ namespace Dispatcher.Migrations
         {
             context.Types.AddOrUpdate(
                 t => t.Id,
-                new DispatchRequestType { Id = 1, Name = "Załadunek tira" },
-                new DispatchRequestType { Id = 2, Name = "Trociny" });
+                new DispatchRequestType { Id = 1, Name = "Załadunek tira", ForSelf = true},
+                new DispatchRequestType { Id = 2, Name = "Trociny", ForSelf = true },
+                new DispatchRequestType { Id = 3, Name = "Przywieź dżewo", ForSelf = false });
 
 
             AddUser(context, "Admin", "admin@123", "Admin", "ObslugaZlecen", "TworzenieZlecen");
