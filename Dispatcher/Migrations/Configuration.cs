@@ -16,18 +16,7 @@ namespace Dispatcher.Migrations
 
         protected override void Seed(Dispatcher.Models.DispatcherContext context)
         {
-            context.Types.AddOrUpdate(
-                t => t.Id,
-                new DispatchRequestType { Id = 1, Name = "Załadunek tira", ForSelf = true},
-                new DispatchRequestType { Id = 2, Name = "Trociny", ForSelf = true },
-                new DispatchRequestType { Id = 3, Name = "Przywieź dżewo", ForSelf = false },
-                new DispatchRequestType { Id = 4, Name = "Zabieraj mi to stąd", ForSelf = false });
-
-
-            AddUser(context, "Admin", "admin@123", "Admin", "ObslugaZlecen", "TworzenieZlecen");
-            AddUser(context, "Rafal", "12341234", "ObslugaZlecen");
-            AddUser(context, "Konrad", "12341234", "ObslugaZlecen");
-            AddUser(context, "MaszynaTnaca", "12341234", "TworzenieZlecen");
+            AddUser(context, "Admin", "admin@123", "Admin");
         }
 
         private void AddUser(DispatcherContext context, string userName, string password, params string[] roles)

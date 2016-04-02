@@ -217,19 +217,15 @@
     <Compile Include="Controllers\DispatchRequestController.cs" />
     <Compile Include="Controllers\DispatchRequestTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Migrations\201604021823400_Initial.cs" />
+    <Compile Include="Migrations\201604021823400_Initial.Designer.cs">
+      <DependentUpon>201604021823400_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\TasksForProviderDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201603200508015_initial.cs" />
-    <Compile Include="Migrations\201603200508015_initial.Designer.cs">
-      <DependentUpon>201603200508015_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604021039016_self_made_requests.cs" />
-    <Compile Include="Migrations\201604021039016_self_made_requests.Designer.cs">
-      <DependentUpon>201604021039016_self_made_requests.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DispatcherContext.cs" />
@@ -317,11 +313,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603200508015_initial.resx">
-      <DependentUpon>201603200508015_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604021039016_self_made_requests.resx">
-      <DependentUpon>201604021039016_self_made_requests.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604021823400_Initial.resx">
+      <DependentUpon>201604021823400_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
