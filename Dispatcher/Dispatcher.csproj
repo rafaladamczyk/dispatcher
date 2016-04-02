@@ -215,22 +215,25 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DispatchRequestController.cs" />
-    <Compile Include="Controllers\DispatchRequestersController.cs" />
     <Compile Include="Controllers\DispatchRequestTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\TasksForProviderDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201603121828588_init.cs" />
-    <Compile Include="Migrations\201603121828588_init.Designer.cs">
-      <DependentUpon>201603121828588_init.cs</DependentUpon>
+    <Compile Include="Migrations\201603200508015_initial.cs" />
+    <Compile Include="Migrations\201603200508015_initial.Designer.cs">
+      <DependentUpon>201603200508015_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604021039016_self_made_requests.cs" />
+    <Compile Include="Migrations\201604021039016_self_made_requests.Designer.cs">
+      <DependentUpon>201604021039016_self_made_requests.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DispatcherContext.cs" />
     <Compile Include="Models\DispatchRequest.cs" />
-    <Compile Include="Models\DispatchRequester.cs" />
     <Compile Include="Models\DispatchRequestType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IDispatcherContext.cs" />
@@ -242,12 +245,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\bootstrap-switch.min.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\bootstrap-switch.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -312,8 +317,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603121828588_init.resx">
-      <DependentUpon>201603121828588_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201603200508015_initial.resx">
+      <DependentUpon>201603200508015_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604021039016_self_made_requests.resx">
+      <DependentUpon>201604021039016_self_made_requests.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -22,9 +22,11 @@ namespace Dispatcher
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
+                      "~/Content/bootstrap-switch.min.css",
                       "~/Content/style.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
+                "~/Scripts/bootstrap-switch.min.js",
                 "~/Scripts/moment-with-locales.min.js",
                 "~/Scripts/sammy-latest.min.js",
                 "~/Scripts/knockout-{version}.js",

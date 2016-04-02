@@ -17,14 +17,23 @@ namespace Dispatcher.Controllers
     public class AccountController : ApiController
     {
         private ApplicationUserManager userManager;
+        private readonly IdentityDbContext<ApplicationUser> idContext;
+        private readonly IDispatcherContext db;
 
         public AccountController()
         {
+            var context = new DispatcherContext();
+            db = context;
+            idContext =context;
         }
 
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
+            var context = new DispatcherContext();
+            db = context;
+            idContext = context;
+
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
@@ -41,6 +50,25 @@ namespace Dispatcher.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("ProvidersAndTasks")]
+        [AllowAnonymous]
+        public IEnumerable<TasksForProviderDto> GetProvidersAndTasks()
+        {
+            var providers = UserManager.Users.OrderBy(u => u.UserName).ToList().Where(u => UserManager.IsInRole(u.Id, "ObslugaZlecen"));
+            var activeRequests = db.Requests.Where(r => r.Active).ToList();
+            return providers.Select(p => new TasksForProviderDto {
+                Name = p.UserName,
+                Tasks = activeRequests.Where(r => !r.Type.ForSelf && r.ProvidingUserName == p.UserName).Select(CreateTaskDto).ToList(),
+                SpecialTasks = activeRequests.Where(r => r.Type.ForSelf && r.ProvidingUserName == p.UserName).Select(CreateTaskDto).ToList()
+            });
+        }
+
+        private static TaskDto CreateTaskDto(DispatchRequest request)
+        {
+            return new TaskDto { Name = request.Type.Name, PickedUpDate = request.PickedUpDate };
+        }
+
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         // GET api/Account/UserInfo
@@ -54,8 +82,7 @@ namespace Dispatcher.Controllers
                 Roles = GetRoles((ClaimsIdentity)User.Identity).ToList()
             };
         }
-
-        [Authorize(Roles = "Admin")]
+        
         [Route("UsersAndRoles")]
         [HttpGet]
         public List<UserInfoViewModel> GetUsersAndRoles()
@@ -64,7 +91,7 @@ namespace Dispatcher.Controllers
             var roleManager = new RoleManager<IdentityRole>(store);
 
             var result = new List<UserInfoViewModel>();
-            foreach (var user in UserManager.Users.ToList())
+            foreach (var user in UserManager.Users.OrderBy(u => u.UserName).ToList())
             {
                 var userRoleIds = user.Roles.Select(r => r.RoleId).ToList();
                 var roles = roleManager.Roles.Where(r => userRoleIds.Contains(r.Id)).ToList();
@@ -84,12 +111,12 @@ namespace Dispatcher.Controllers
         [HttpPost]
         public void SaveUsersAndRoles(List<UserRoleModel> usersAndRoles)
         {
-            foreach (var user in usersAndRoles)
+            foreach (var userRoleModel in usersAndRoles)
             {
-                var userId = UserManager.FindByName(user.Name).Id;
-                AddOrRemoveRole(userId, "Admin", user.IsAdmin);
-                AddOrRemoveRole(userId, "ObslugaZlecen", user.IsServiceProvider);
-                AddOrRemoveRole(userId, "TworzenieZlecen", user.IsRequester);
+                var user = UserManager.FindByName(userRoleModel.Name);
+                AddOrRemoveRole(user.Id, "Admin", userRoleModel.IsAdmin);
+                AddOrRemoveRole(user.Id, "ObslugaZlecen", userRoleModel.IsServiceProvider);
+                AddOrRemoveRole(user.Id, "TworzenieZlecen", userRoleModel.IsRequester);
             }
         }
 
@@ -108,13 +135,13 @@ namespace Dispatcher.Controllers
         [Route("Roles")]
         public List<string> GetRoles()
         {
-            return new DispatcherContext().Roles.Select(r => r.Name).ToList();
+            return idContext.Roles.Select(r => r.Name).ToList();
         }
 
         [Route("Users")]
         public List<string> GetUsers()
         {
-            return UserManager.Users.Select(u => u.UserName).ToList();
+            return UserManager.Users.OrderBy(u => u.UserName).Select(u => u.UserName).ToList();
         } 
 
 
@@ -156,8 +183,7 @@ namespace Dispatcher.Controllers
 
             var user = new ApplicationUser() { UserName = model.UserName};
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-           
+            var result = await UserManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);

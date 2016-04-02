@@ -3,19 +3,10 @@ namespace Dispatcher.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
-            CreateTable(
-                "dbo.DispatchRequesters",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                    })
-                .PrimaryKey(t => t.Id);
-            
             CreateTable(
                 "dbo.DispatchRequests",
                 c => new
@@ -27,15 +18,13 @@ namespace Dispatcher.Migrations
                         CompletionDate = c.DateTime(),
                         DurationTicks = c.Long(nullable: false),
                         ServiceDurationTicks = c.Long(nullable: false),
-                        RequesterId = c.Int(nullable: false),
                         TypeId = c.Int(nullable: false),
                         ProvidingUserName = c.String(),
+                        RequestingUserName = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.DispatchRequesters", t => t.RequesterId, cascadeDelete: true)
                 .ForeignKey("dbo.DispatchRequestTypes", t => t.TypeId, cascadeDelete: true)
                 .Index(t => t.Active)
-                .Index(t => t.RequesterId)
                 .Index(t => t.TypeId);
             
             CreateTable(
@@ -124,7 +113,6 @@ namespace Dispatcher.Migrations
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.DispatchRequests", "TypeId", "dbo.DispatchRequestTypes");
-            DropForeignKey("dbo.DispatchRequests", "RequesterId", "dbo.DispatchRequesters");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
@@ -132,7 +120,6 @@ namespace Dispatcher.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.DispatchRequests", new[] { "TypeId" });
-            DropIndex("dbo.DispatchRequests", new[] { "RequesterId" });
             DropIndex("dbo.DispatchRequests", new[] { "Active" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
@@ -141,7 +128,6 @@ namespace Dispatcher.Migrations
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.DispatchRequestTypes");
             DropTable("dbo.DispatchRequests");
-            DropTable("dbo.DispatchRequesters");
         }
     }
 }

@@ -33,6 +33,7 @@ namespace Dispatcher.Controllers
         [HttpGet]
         [Route("api/ActiveRequests")]
         [ResponseType(typeof(List<DispatchRequest>))]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetActiveRequests()
         {
             var activeRequests = await db.Requests.Where(r => r.Active).ToListAsync() ;
@@ -62,40 +63,96 @@ namespace Dispatcher.Controllers
         }
         
         [HttpGet]
-        [HttpPut]
-        [HttpPost]
-        [Route("api/CreateRequest/{requesterId}/{requestTypeId}")]
+        [Authorize(Roles = "TworzenieZlecen")]
+        [Route("api/CreateRequest/{typeId}")]
         [ResponseType(typeof(DispatchRequest))]
-        public async Task<IHttpActionResult> CreateNewRequest(int requesterId, int requestTypeId)
+        public async Task<IHttpActionResult> CreateNewRequest(int typeId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var type = await db.Types.FirstOrDefaultAsync(t => t.Id == requestTypeId);
+            var type = await db.Types.FirstOrDefaultAsync(t => t.Id == typeId);
             if (type == null)
             {
-                return BadRequest($"{requestTypeId} is not a valid RequestTypeId.");
+                return BadRequest($"Nieznany typ zlecenia {typeId}");
             }
 
-            var requester = await db.Requesters.FirstOrDefaultAsync(r => r.Id == requesterId);
-            if (requester == null)
+            if (type.ForSelf)
             {
-                return BadRequest($"Requester Id {requesterId} does not exist");
+                return BadRequest($"Zlecenie typu '{type.Name}' jest zleceniem specjalnym.");
             }
 
-            var existingRequest = await db.Requests.FirstOrDefaultAsync(r => r.Active && r.RequesterId == requesterId && r.TypeId == requestTypeId);
+            var existingRequest = await db.Requests.FirstOrDefaultAsync(r => r.Active && r.RequestingUserName == User.Identity.Name && r.TypeId == typeId);
             if (existingRequest != null)
             {
-                return BadRequest($"Requester Id {requesterId} already has an active request of type {requestTypeId}");
+                return BadRequest($"Zlecenie typu '{type.Name}' dla użytkownika '{User.Identity.Name}' już istnieje.");
             }
 
-            var newRequest = new DispatchRequest { RequesterId = requesterId, Active = true, TypeId = requestTypeId, CreationDate = DateTime.UtcNow, CompletionDate = null, Requester = requester, Type = type};
+            var newRequest = new DispatchRequest { RequestingUserName = User.Identity.Name, Active = true, TypeId = typeId, CreationDate = DateTime.UtcNow, CompletionDate = null, Type = type};
             db.Requests.Add(newRequest);
             await db.SaveChangesAsync();
            
             return CreatedAtRoute("DefaultApi", new { controller = "DispatchRequest",id = newRequest.Id }, newRequest);
+        }
+
+        [HttpGet]
+        [Authorize(Roles="ObslugaZlecen")]
+        [Route("api/CreateSpecialRequest/{typeId}")]
+        [ResponseType(typeof(DispatchRequest))]
+        public async Task<IHttpActionResult> CreateNewSpecialRequest(int typeId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var type = await db.Types.FirstOrDefaultAsync(t => t.Id == typeId);
+            if (type == null)
+            {
+                return BadRequest($"Nieznany typ zlecenia {typeId}");
+            }
+
+            if (!type.ForSelf)
+            {
+                return BadRequest($"Zlecenie typu '{type.Name}' nie jest zleceniem specjalnym.");
+            }
+
+            var existingRequest = await db.Requests.FirstOrDefaultAsync(r => r.Active && r.RequestingUserName == User.Identity.Name && r.TypeId == typeId);
+            if (existingRequest != null)
+            {
+                return BadRequest($"Zlecenie typu '{type.Name}' dla użytkownika '{User.Identity.Name}' już istnieje.");
+            }
+            
+            var newRequest = new DispatchRequest { ProvidingUserName = User.Identity.Name, PickedUpDate = DateTime.UtcNow, RequestingUserName = User.Identity.Name, Active = true, TypeId = typeId, CreationDate = DateTime.UtcNow, CompletionDate = null, Type = type };
+            db.Requests.Add(newRequest);
+            await db.SaveChangesAsync();
+
+            return CreatedAtRoute("DefaultApi", new { controller = "DispatchRequest", id = newRequest.Id }, newRequest);
+        }
+
+        [HttpDelete]
+        [Route("api/DeleteRequest/{id}")]
+        [ResponseType(typeof(DispatchRequest))]
+        [Authorize(Roles = "TworzenieZlecen")]
+        public async Task<IHttpActionResult> DeleteRequest(int id)
+        {
+            var request = await db.Requests.FindAsync(id);
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            if (!string.IsNullOrEmpty(request.ProvidingUserName))
+            {
+                return BadRequest($"Nie można usunąć zlecenia o Id {id}, bo jest już w trakcie obsługi.");
+            }
+
+            db.Requests.Remove(request);
+            await db.SaveChangesAsync();
+
+            return Ok(request);
         }
 
         [HttpPut]
@@ -134,7 +191,6 @@ namespace Dispatcher.Controllers
 
 
         [HttpPut]
-        [HttpPost]
         [Route("api/CancelRequest/{requestId}")]
         [Authorize(Roles = "ObslugaZlecen")]
         public async Task<IHttpActionResult> CancelRequest(int requestId)
@@ -149,7 +205,7 @@ namespace Dispatcher.Controllers
             {
                 return BadRequest($"Zlecenie o Id {requestId} nie istnieje");
             }
-
+            
             if (request.ProvidingUserName != User.Identity.Name)
             {
                 return BadRequest($"Zlecenie o Id {requestId} obsługuje inny użytkownik");
@@ -160,16 +216,21 @@ namespace Dispatcher.Controllers
                 return BadRequest($"Zlecenie o Id {requestId} jest już zakończone");
             }
 
-            request.PickedUpDate = null;
-            request.ProvidingUserName = null;
-            await db.SaveChangesAsync();
+            if (request.Type.ForSelf)
+            {
+                db.Requests.Remove(request);
+            }
+            else
+            {
+                request.PickedUpDate = null;
+                request.ProvidingUserName = null;
+            }
 
+            await db.SaveChangesAsync();
             return Ok();
         }
-
-        [HttpGet]
+        
         [HttpPut]
-        [HttpPost]
         [Route("api/CompleteRequest/{requestId}")]
         [Authorize(Roles = "ObslugaZlecen")]
         public async Task<IHttpActionResult> CompleteRequest(int requestId)
