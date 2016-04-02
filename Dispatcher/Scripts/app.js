@@ -60,40 +60,6 @@
         location.hash = 'Tworzenie Zleceń';
     }
     
-    Sammy(function() {
-        this.get('#Rejestracja', function () {
-            self.currentPage('Rejestracja');
-            self.hideAllPages();
-            self.registerVisible(true);
-        });
-        this.get('#Logowanie', function () {
-            self.currentPage('Logowanie');
-            self.hideAllPages();
-            self.loginVisible(true);
-        });
-        this.get('#Obsługa Zleceń', function () {
-            self.currentPage('Obsługa Zleceń');
-            self.hideAllPages();
-            self.requestsVisible(true);
-        });
-        this.get('#Tworzenie Zleceń', function () {
-            if (self.isRequester()) {
-                self.getRequestTypes();
-            }
-            self.currentPage('Tworzenie Zleceń');
-            self.hideAllPages();
-            self.createRequestsVisible(true);
-        });
-        this.get('#Administracja', function () {
-            if (self.isAdmin()) {
-                self.getUsersAndRoles();
-            }
-            self.currentPage('Administracja');
-            self.hideAllPages();
-            self.administrationVisible(true);
-        });
-    }).run();
-    
     self.getActiveRequests = function () {
         self.getData('/api/ActiveRequests/', self.activeRequests, function () { self.activeRequests.removeAll(); });
     }
@@ -349,6 +315,42 @@
    // Fetch the initial data.
     self.getUserInfo(function (){self.gotoDefault()});
     self.getActiveRequests();
+    self.getRequestTypes();
+
+    // Initialize the navigation
+    Sammy(function () {
+        this.get('#Rejestracja', function () {
+            self.currentPage('Rejestracja');
+            self.hideAllPages();
+            self.registerVisible(true);
+        });
+        this.get('#Logowanie', function () {
+            self.currentPage('Logowanie');
+            self.hideAllPages();
+            self.loginVisible(true);
+        });
+        this.get('#Obsługa Zleceń', function () {
+            self.currentPage('Obsługa Zleceń');
+            self.hideAllPages();
+            self.requestsVisible(true);
+        });
+        this.get('#Tworzenie Zleceń', function () {
+            if (self.isRequester()) {
+                self.getRequestTypes();
+            }
+            self.currentPage('Tworzenie Zleceń');
+            self.hideAllPages();
+            self.createRequestsVisible(true);
+        });
+        this.get('#Administracja', function () {
+            if (self.isAdmin()) {
+                self.getUsersAndRoles();
+            }
+            self.currentPage('Administracja');
+            self.hideAllPages();
+            self.administrationVisible(true);
+        });
+    }).run();
 };
 
 function UserWithRoles(data) {
