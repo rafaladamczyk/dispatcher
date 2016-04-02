@@ -3,6 +3,7 @@
     self.activeRequests = ko.observableArray();
     self.usersAndRoles = ko.observableArray();
     self.requestTypes = ko.observableArray();
+    self.specialRequestTypes = ko.observableArray();
 	self.error = ko.observable();
     self.errorTimeout = null;
 
@@ -28,6 +29,7 @@
     self.loginPassword = ko.observable();
 
     self.newRequestTypeInput = ko.observable();
+    self.newSpecialRequestTypeInput = ko.observable();
     
 	self.disableButton = function (element) {
 	    $(element).removeClass("btn-info btn-success").addClass("btn-default").text("Czekaj").prop('disabled', true);
@@ -111,6 +113,10 @@
 
     self.getRequestTypes = function() {
         self.getData('/api/DispatchRequestTypes/', self.requestTypes);
+    }
+
+    self.getSpecialRequestTypes = function() {
+        self.getData('/api/selfRequestTypes/', self.specialRequestTypes);
     }
     
     self.getData = function (uri, callback, errorCallback) {
@@ -219,6 +225,30 @@
 
     self.createRequest = function (requestType) {
         self.getData('/api/CreateRequest/' + requestType.Id, function() {self.getActiveRequests()});
+    }
+
+    self.createSpecialRequestType = function(form) {
+        var token = localStorage.getItem(tokenKey);
+        var headers = {};
+        if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+
+        var originalText = form[1].textContent;
+        self.disableButton(form[1]);
+        $.ajax({
+            type: 'POST',
+            url: '/api/DispatchRequestTypes/',
+            data: { Name: self.newSpecialRequestTypeInput(), ForSelf: true },
+            headers: headers
+        }).fail(function (jx) {
+            showError(jx);
+        }).always(function () {
+            location.hash = 'Administracja';
+            self.getSpecialRequestTypes();
+            self.newSpecialRequestTypeInput(null);
+            self.enableButton(form[1], originalText);
+        });
     }
 
     self.createRequestType = function(form) {
@@ -396,6 +426,9 @@
             self.loginVisible(true);
         });
         this.get('#Obsługa Zleceń', function () {
+            if (self.isServiceProvider()) {
+                self.getSpecialRequestTypes();
+            }
             self.currentPage('Obsługa Zleceń');
             self.hideAllPages();
             self.requestsVisible(true);
@@ -411,6 +444,8 @@
         this.get('#Administracja', function () {
             if (self.isAdmin()) {
                 self.getUsersAndRoles();
+                self.getRequestTypes();
+                self.getSpecialRequestTypes();
             }
             self.currentPage('Administracja');
             self.hideAllPages();
@@ -423,10 +458,11 @@
         if (self.isAdmin()) {
             self.getUsersAndRoles();
         }
-        self.gotoDefault()
+        self.gotoDefault();
     });
     self.getActiveRequests();
     self.getRequestTypes();
+    self.getSpecialRequestTypes();
 };
 
 function UserWithRoles(data) {

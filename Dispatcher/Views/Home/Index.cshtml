@@ -275,20 +275,38 @@
                 <button class="btn btn-info btn-huge" data-bind="click: saveRoles"> Zapisz </button>
             </div>
 
-            <h1 class="text-center">Typy zleceń</h1>
-            <ul class="list-group" data-bind="foreach: requestTypes">
-                <li class="list-group-item list-group-item" style="font-size: x-large" data-bind="text: $data.Name"></li>
-            </ul>
-            <form data-bind="submit: createRequestType">
-                <h2>Nowy typ</h2>
-                <div class="input-group">
-                    <input class="form-control" type="text" maxlength="45" data-bind="value: newRequestTypeInput"/>
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-info" type="button"> Dodaj </button>
-                    </span>
-                </div>
-            </form>
-        </div>
+            <div style="margin-top: 50px">
+                <h1 class="text-center">Typy zleceń</h1>
+                <ul class="list-group" data-bind="foreach: requestTypes">
+                    <li class="list-group-item list-group-item" style="font-size: x-large" data-bind="text: $data.Name"></li>
+                </ul>
+                <form data-bind="submit: createRequestType">
+                    <h2>Nowy typ</h2>
+                    <div class="input-group">
+                        <input class="form-control" type="text" maxlength="45" data-bind="value: newRequestTypeInput" />
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-info"> Dodaj </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+            <div style="margin-top: 50px">
+                <h1 class="text-center">Specjalnie typy zleceń</h1>
+                <h4 class="text-center">Zlecenia które obsługujący wystawiają sami sobie</h4>
+                <ul class="list-group" data-bind="foreach: specialRequestTypes">
+                    <li class="list-group-item list-group-item" style="font-size: x-large" data-bind="text: $data.Name"></li>
+                </ul>
+                <form data-bind="submit: createSpecialRequestType">
+                    <h2>Nowy typ</h2>
+                    <div class="input-group">
+                        <input class="form-control" type="text" maxlength="45" data-bind="value: newSpecialRequestTypeInput" />
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-info"> Dodaj </button>
+                        </span>
+                    </div>
+                </form>
+           </div>
         <div class="col-md-6 col-md-offset-3" data-bind="visible: !isAdmin()">
             <h1 class="text-center">
                 Nie jesteś administratorem.
