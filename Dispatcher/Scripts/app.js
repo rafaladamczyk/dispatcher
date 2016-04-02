@@ -26,11 +26,17 @@
 
     self.loginUsername = ko.observable();
     self.loginPassword = ko.observable();
+
+    self.newRequestTypeInput = ko.observable();
     
 	self.disableButton = function (element) {
 	    $(element).removeClass("btn-info btn-success").addClass("btn-default").text("Czekaj").prop('disabled', true);
 	}
-    
+
+	self.enableButton = function(element, text) {
+        $(element).addClass("btn-info").removeClass("btn-default").text(text).prop('disabled', false);
+	}
+
     self.hideAllPages = function() {
         self.registerVisible(false);
         self.loginVisible(false);
@@ -49,6 +55,8 @@
                 self.gotoRequests();
             else if (self.isRequester())
                 self.gotoCreateRequests();
+            else
+                self.gotoRequests();
         }
     }
 
@@ -81,6 +89,9 @@
         if (token) {
             headers.Authorization = 'Bearer ' + token;
         }
+
+        var originalText = event.target.textContent;
+        self.disableButton(event.target);
         
         $.ajax({
             type: 'POST',
@@ -93,6 +104,8 @@
             self.getUserInfo();
         }).fail(function(jx) {
             showError(jx);
+        }).always(function() {
+            self.enableButton(event.target, originalText);
         });
     }
 
@@ -197,14 +210,39 @@
             type: 'PUT',
             url: '/api/AcceptRequest/' + request.Id,
             headers: headers
-        }).fail(function (jx, message, error) {
-            showError(jx);
+        }).fail(function (err) {
+            showError(err);
         }).always(function () {
             self.getActiveRequests();
         });
     }
+
     self.createRequest = function (requestType) {
         self.getData('/api/CreateRequest/' + requestType.Id, function() {self.getActiveRequests()});
+    }
+
+    self.createRequestType = function(form) {
+        var token = localStorage.getItem(tokenKey);
+        var headers = {};
+        if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+
+        var originalText = form[1].textContent;
+        self.disableButton(form[1]);
+        $.ajax({
+            type: 'POST',
+            url: '/api/DispatchRequestTypes/',
+            data: { Name: self.newRequestTypeInput() },
+            headers: headers
+        }).fail(function (jx) {
+            showError(jx);
+        }).always(function () {
+            location.hash = 'Administracja';
+            self.getRequestTypes();
+            self.newRequestTypeInput(null);
+            self.enableButton(form[1], originalText);
+        });
     }
 
     function showError(jqXHR) {
@@ -214,6 +252,7 @@
             var msg = jqXHR.responseJSON.Message;
             text = err ? err : (msg ? msg : '');
         }
+        window.scrollTo(0, 0);
         self.error(jqXHR.status + ': ' + jqXHR.statusText + '. ' + text);
         if (self.errorTimeout != null) {
             clearTimeout(self.errorTimeout);
@@ -380,7 +419,12 @@
     }).run();
 
     // Fetch the initial data.
-    self.getUserInfo(function () { self.gotoDefault() });
+    self.getUserInfo(function() {
+        if (self.isAdmin()) {
+            self.getUsersAndRoles();
+        }
+        self.gotoDefault()
+    });
     self.getActiveRequests();
     self.getRequestTypes();
 };

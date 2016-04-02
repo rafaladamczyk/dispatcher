@@ -30,7 +30,6 @@ namespace Dispatcher.Controllers
 
         // GET: api/DispatchRequestTypes/5
         [ResponseType(typeof(DispatchRequestType))]
-        [Authorize(Roles = "TworzenieZlecen")]
         public async Task<IHttpActionResult> GetDispatchRequestType(int id)
         {
             DispatchRequestType dispatchRequestType = await db.Types.FindAsync(id);
@@ -43,7 +42,7 @@ namespace Dispatcher.Controllers
         }
 
         // PUT: api/DispatchRequestTypes/5
-        [Authorize(Roles = "TworzenieZlecen")]
+        [Authorize(Roles = "Admin")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutDispatchRequestType(int id, DispatchRequestType dispatchRequestType)
         {
@@ -79,13 +78,24 @@ namespace Dispatcher.Controllers
         }
 
         // POST: api/DispatchRequestTypes
-        [Authorize(Roles = "TworzenieZlecen")]
+        [Authorize(Roles = "Admin")]
         [ResponseType(typeof(DispatchRequestType))]
         public async Task<IHttpActionResult> PostDispatchRequestType(DispatchRequestType dispatchRequestType)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (string.IsNullOrWhiteSpace(dispatchRequestType?.Name))
+            {
+                return BadRequest("Nazwa nie może być pusta.");
+            }
+
+            var existingType = await db.Types.FirstOrDefaultAsync(t => t.Name == dispatchRequestType.Name);
+            if (existingType != null)
+            {
+                return BadRequest($"Typ o nazwie {dispatchRequestType.Name} już istnieje.");
             }
 
             db.Types.Add(dispatchRequestType);
@@ -96,7 +106,7 @@ namespace Dispatcher.Controllers
 
         // DELETE: api/DispatchRequestTypes/5
         [ResponseType(typeof(DispatchRequestType))]
-        [Authorize(Roles = "TworzenieZlecen")]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> DeleteDispatchRequestType(int id)
         {
             DispatchRequestType dispatchRequestType = await db.Types.FindAsync(id);
