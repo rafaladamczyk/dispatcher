@@ -48,6 +48,25 @@
         <div class="col-md-12 alert-danger" style="font-size: x-large" data-bind="text: error"></div>
     </div>
 <div class="row" data-bind="visible: requestsVisible">
+
+    <div data-bind="visible: isServiceProvider">
+        <h1 class="text-center">
+            Nowe zlecenie specjalne
+        </h1>
+        <div>
+            <ul class="horizontalList" data-bind="foreach: specialRequestTypes">
+                <li>
+                    <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-big btn-info" data-bind="
+                            text: $data.Name,
+                            css: { 'btn-info': !$parent.specialRequestTypeActiveForMe($data.Id), 'btn-default': $parent.specialRequestTypeActiveForMe($data.Id) },
+                            click: $parent.createSpecialRequest,
+                            enable: !$parent.specialRequestTypeActiveForMe($data.Id)
+                            "></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <div class="col-md-6" data-bind="visible: isServiceProvider">
         <div data-bind="visible: requestsAssignedToMe().length">
             <h1 class="text-center">

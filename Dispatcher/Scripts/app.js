@@ -227,6 +227,10 @@
         self.getData('/api/CreateRequest/' + requestType.Id, function() {self.getActiveRequests()});
     }
 
+    self.createSpecialRequest = function(requestType) {
+        self.getData('/api/CreateSpecialRequest/' + requestType.Id, function() { self.getActiveRequests() });
+    }
+
     self.createSpecialRequestType = function(form) {
         var token = localStorage.getItem(tokenKey);
         var headers = {};
@@ -402,6 +406,13 @@
     self.requestTypeActiveForMe = function(id) {
         var temp = self.requestsCreatedByMe().filter(function (el) {
             return el.Type.Id === id;
+        });
+        return temp.length > 0;
+    }
+
+    self.specialRequestTypeActiveForMe = function(id) {
+        var temp = self.requestsAssignedToMe().filter(function(el) {
+            return el.TypeId === id;
         });
         return temp.length > 0;
     }

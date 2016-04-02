@@ -79,6 +79,11 @@ namespace Dispatcher.Controllers
                 return BadRequest($"Nieznany typ zlecenia {typeId}");
             }
 
+            if (type.ForSelf)
+            {
+                return BadRequest($"Zlecenie typu '{type.Name}' jest zleceniem specjalnym.");
+            }
+
             var existingRequest = await db.Requests.FirstOrDefaultAsync(r => r.Active && r.RequestingUserName == User.Identity.Name && r.TypeId == typeId);
             if (existingRequest != null)
             {
@@ -90,6 +95,41 @@ namespace Dispatcher.Controllers
             await db.SaveChangesAsync();
            
             return CreatedAtRoute("DefaultApi", new { controller = "DispatchRequest",id = newRequest.Id }, newRequest);
+        }
+
+        [HttpGet]
+        [Authorize(Roles="ObslugaZlecen")]
+        [Route("api/CreateSpecialRequest/{typeId}")]
+        [ResponseType(typeof(DispatchRequest))]
+        public async Task<IHttpActionResult> CreateNewSpecialRequest(int typeId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var type = await db.Types.FirstOrDefaultAsync(t => t.Id == typeId);
+            if (type == null)
+            {
+                return BadRequest($"Nieznany typ zlecenia {typeId}");
+            }
+
+            if (!type.ForSelf)
+            {
+                return BadRequest($"Zlecenie typu '{type.Name}' nie jest zleceniem specjalnym.");
+            }
+
+            var existingRequest = await db.Requests.FirstOrDefaultAsync(r => r.Active && r.RequestingUserName == User.Identity.Name && r.TypeId == typeId);
+            if (existingRequest != null)
+            {
+                return BadRequest($"Zlecenie typu '{type.Name}' dla użytkownika '{User.Identity.Name}' już istnieje.");
+            }
+            
+            var newRequest = new DispatchRequest { ProvidingUserName = User.Identity.Name, PickedUpDate = DateTime.UtcNow, RequestingUserName = User.Identity.Name, Active = true, TypeId = typeId, CreationDate = DateTime.UtcNow, CompletionDate = null, Type = type };
+            db.Requests.Add(newRequest);
+            await db.SaveChangesAsync();
+
+            return CreatedAtRoute("DefaultApi", new { controller = "DispatchRequest", id = newRequest.Id }, newRequest);
         }
 
         [HttpDelete]
@@ -165,7 +205,7 @@ namespace Dispatcher.Controllers
             {
                 return BadRequest($"Zlecenie o Id {requestId} nie istnieje");
             }
-
+            
             if (request.ProvidingUserName != User.Identity.Name)
             {
                 return BadRequest($"Zlecenie o Id {requestId} obsługuje inny użytkownik");
@@ -176,10 +216,17 @@ namespace Dispatcher.Controllers
                 return BadRequest($"Zlecenie o Id {requestId} jest już zakończone");
             }
 
-            request.PickedUpDate = null;
-            request.ProvidingUserName = null;
-            await db.SaveChangesAsync();
+            if (request.Type.ForSelf)
+            {
+                db.Requests.Remove(request);
+            }
+            else
+            {
+                request.PickedUpDate = null;
+                request.ProvidingUserName = null;
+            }
 
+            await db.SaveChangesAsync();
             return Ok();
         }
         
