@@ -56,10 +56,11 @@ namespace Dispatcher.Controllers
         public IEnumerable<TasksForProviderDto> GetProvidersAndTasks()
         {
             var providers = UserManager.Users.OrderBy(u => u.UserName).ToList().Where(u => UserManager.IsInRole(u.Id, "ObslugaZlecen"));
+            var activeRequests = db.Requests.Where(r => r.Active).ToList();
             return providers.Select(p => new TasksForProviderDto {
                 Name = p.UserName,
-                Tasks = db.Requests.Where(r => r.Active && !r.Type.ForSelf && r.ProvidingUserName == p.UserName).ToList().Select(CreateTaskDto).ToList(),
-                SpecialTasks = db.Requests.Where(r => r.Active && r.Type.ForSelf && r.ProvidingUserName == p.UserName).ToList().Select(CreateTaskDto).ToList()
+                Tasks = activeRequests.Where(r => !r.Type.ForSelf && r.ProvidingUserName == p.UserName).Select(CreateTaskDto).ToList(),
+                SpecialTasks = activeRequests.Where(r => r.Type.ForSelf && r.ProvidingUserName == p.UserName).Select(CreateTaskDto).ToList()
             });
         }
 
