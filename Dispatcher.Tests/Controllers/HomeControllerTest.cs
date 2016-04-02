@@ -19,7 +19,7 @@ namespace Dispatcher.Tests.Controllers
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual("Home Page", result.ViewBag.Title);
+            Assert.AreEqual("Dispatcher", result.ViewBag.Title);
         }
     }
 }

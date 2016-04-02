@@ -6,7 +6,7 @@ namespace Dispatcher.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Dispatcher";
 
             return View();
         }
