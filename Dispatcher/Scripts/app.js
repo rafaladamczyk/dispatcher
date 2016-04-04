@@ -1,4 +1,5 @@
-﻿var ViewModel = function () {
+﻿var siteRoot = "/Dispatcher";
+var ViewModel = function () {
     var self = this;
     self.activeRequests = ko.observableArray();
     self.usersAndRoles = ko.observableArray();
@@ -78,17 +79,17 @@
     }
     
     self.getActiveRequests = function () {
-        self.getData('/api/ActiveRequests/', self.activeRequests, function () { self.activeRequests.removeAll(); });
+        self.getData(siteRoot + '/api/ActiveRequests/', self.activeRequests, function () { self.activeRequests.removeAll(); });
     }
 
     self.getProvidersAndTasks = function() {
         if (self.availabilityVisible()) {
-            self.getData('/api/Account/ProvidersAndTasks/', self.providersAndTheirTasks);
+            self.getData(siteRoot + '/api/Account/ProvidersAndTasks/', self.providersAndTheirTasks);
         }
     }
 	
     self.getUsersAndRoles = function () {
-        self.getData('/api/Account/UsersAndRoles/', function(data) {
+        self.getData(siteRoot + '/api/Account/UsersAndRoles/', function (data) {
             var mappedUsers = $.map(data, function (item) { return new UserWithRoles(item) });
             self.usersAndRoles(mappedUsers);
         });
@@ -106,7 +107,7 @@
         
         $.ajax({
             type: 'POST',
-            url: '/api/Account/UsersAndRoles',
+            url: siteRoot + '/api/Account/UsersAndRoles',
             headers: headers,
             data: ko.toJSON(self.usersAndRoles),
             contentType: "application/json"
@@ -121,11 +122,11 @@
     }
 
     self.getRequestTypes = function() {
-        self.getData('/api/DispatchRequestTypes/', self.requestTypes);
+        self.getData(siteRoot + '/api/DispatchRequestTypes/', self.requestTypes);
     }
 
     self.getSpecialRequestTypes = function() {
-        self.getData('/api/selfRequestTypes/', self.specialRequestTypes);
+        self.getData(siteRoot + '/api/selfRequestTypes/', self.specialRequestTypes);
     }
     
     self.getData = function (uri, callback, errorCallback) {
@@ -162,7 +163,7 @@
 
         $.ajax({
             type: 'PUT',
-            url: '/api/CompleteRequest/' + request.Id,
+            url: siteRoot + '/api/CompleteRequest/' + request.Id,
             headers: headers
         }).fail(function (jx) {
             showError(jx);
@@ -182,7 +183,7 @@
 
         $.ajax({
             type: 'PUT',
-            url: '/api/CancelRequest/' + request.Id,
+            url: siteRoot + '/api/CancelRequest/' + request.Id,
             headers: headers
         }).fail(function (jx) {
             showError(jx);
@@ -203,7 +204,7 @@
 
         $.ajax({
             type: 'DELETE',
-            url: '/api/DeleteRequest/' + request.Id,
+            url: siteRoot + '/api/DeleteRequest/' + request.Id,
             headers: headers
         }).fail(function (jx) {
             showError(jx);
@@ -223,7 +224,7 @@
 
         $.ajax({
             type: 'PUT',
-            url: '/api/AcceptRequest/' + request.Id,
+            url: siteRoot + '/api/AcceptRequest/' + request.Id,
             headers: headers
         }).fail(function (err) {
             showError(err);
@@ -233,11 +234,11 @@
     }
 
     self.createRequest = function (requestType) {
-        self.getData('/api/CreateRequest/' + requestType.Id, function() {self.getActiveRequests()});
+        self.getData(siteRoot + '/api/CreateRequest/' + requestType.Id, function () { self.getActiveRequests() });
     }
 
     self.createSpecialRequest = function(requestType) {
-        self.getData('/api/CreateSpecialRequest/' + requestType.Id, function() { self.getActiveRequests() });
+        self.getData(siteRoot + '/api/CreateSpecialRequest/' + requestType.Id, function () { self.getActiveRequests() });
     }
 
     self.createSpecialRequestType = function(form) {
@@ -251,7 +252,7 @@
         self.disableButton(form[1]);
         $.ajax({
             type: 'POST',
-            url: '/api/DispatchRequestTypes/',
+            url: siteRoot + '/api/DispatchRequestTypes/',
             data: { Name: self.newSpecialRequestTypeInput(), ForSelf: true },
             headers: headers
         }).fail(function (jx) {
@@ -275,7 +276,7 @@
         self.disableButton(form[1]);
         $.ajax({
             type: 'POST',
-            url: '/api/DispatchRequestTypes/',
+            url: siteRoot + '/api/DispatchRequestTypes/',
             data: { Name: self.newRequestTypeInput() },
             headers: headers
         }).fail(function (jx) {
@@ -319,7 +320,7 @@
         
         $.ajax({
             type: 'GET',
-            url: '/api/Account/UserInfo',
+            url: siteRoot + '/api/Account/UserInfo',
             headers: headers
         }).done(function (data) {
             self.user(data.Name);
@@ -350,7 +351,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '/api/Account/Register',
+            url: siteRoot + '/api/Account/Register',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function() {
@@ -369,7 +370,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '/Token',
+            url: siteRoot + '/Token',
             data: loginData
         }).done(function (data) {
             localStorage.setItem(tokenKey, data.access_token);
