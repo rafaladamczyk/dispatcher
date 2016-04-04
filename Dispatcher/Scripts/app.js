@@ -52,12 +52,10 @@ var ViewModel = function () {
     }
 
     self.gotoDefault = function() {
-        if (!self.user()) {
-            self.gotoLogin();
-        }
-
         if (!location.hash) {
-            if (self.isAdmin())
+            if (!self.user()) 
+                self.gotoLogin();
+            else if (self.isAdmin())
                 self.gotoRequests();
             else if (self.isRequester())
                 self.gotoCreateRequests();
@@ -312,7 +310,8 @@ var ViewModel = function () {
     self.getUserInfo = function (callback) {
         var token = localStorage.getItem(tokenKey);
         if (!token) {
-            self.gotoLogin();
+            if (callback)
+                callback();
             return;
         }
         var headers = {};
@@ -382,7 +381,6 @@ var ViewModel = function () {
             });
         }).fail(function (error) {
             showError(error);
-            self.gotoLogin();
         });
     }
 
@@ -488,8 +486,10 @@ var ViewModel = function () {
     }).run();
 
     // Fetch the initial data.
-    self.getUserInfo(function() {
-        self.getUsersAndRoles();
+    self.getUserInfo(function () {
+        if (self.isAdmin()) {
+            self.getUsersAndRoles();
+        }
         self.gotoDefault();
     });
     self.getActiveRequests();
