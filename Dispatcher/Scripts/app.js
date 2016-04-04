@@ -375,7 +375,11 @@ var ViewModel = function () {
         }).done(function (data) {
             localStorage.setItem(tokenKey, data.access_token);
             self.clearForms();
-            self.getUserInfo(function() { self.getActiveRequests(); self.gotoDefault(); });
+            self.getUserInfo(function () {
+                self.getActiveRequests();
+                location.hash = '';
+                self.gotoDefault();
+            });
         }).fail(function (error) {
             showError(error);
             self.gotoLogin();
