@@ -478,6 +478,9 @@ var ViewModel = function () {
             self.hideAllPages();
             self.administrationVisible(true);
         });
+        this._checkFormSubmission = function(form) {
+            return false;
+        }
     }).run();
 
     // Fetch the initial data.
