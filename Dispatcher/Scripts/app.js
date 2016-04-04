@@ -507,6 +507,9 @@ window.setInterval(viewModel.getProvidersAndTasks, 13000);
 ko.applyBindings(viewModel);
 
 moment.locale('pl');
+$("a.collapse-menu-after-click").click(function() {
+    $(".navbar-collapse.in").collapse('hide');
+});
 
 function parseDate(date) {
     if (date) {

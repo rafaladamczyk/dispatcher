@@ -1,7 +1,4 @@
 ﻿<div class="container-fluid" data-bind="visible: true" style="display: none;">
-unselectable="on"
-onselectstart="return false;"
-onmousedown="return false;">>
 <div class="row">
     <div class="col-md-12">
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -14,7 +11,7 @@ onmousedown="return false;">>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav" data-bind="foreach: pages">
                     <li data-bind="css: { active: $data == $root.currentPage() }">
-                        <a href="#" data-bind="text: $data,
+                        <a class="collapse-menu-after-click" href="#" data-bind="text: $data,
                                attr: { href: '#' + $data }"></a>
                     </li>
                 </ul>
@@ -24,11 +21,11 @@ onmousedown="return false;">>
                         <ul class="dropdown-menu">
                             <!-- FOR LOGGED-IN USER-->
                             <li data-bind="visible: user()" class="loginDropdown">
-                                <a class="dropdownText" href="#" data-bind="click: logout">Wyloguj</a>
+                                <a class="dropdownText collapse-menu-after-click" href="#" data-bind="click: logout">Wyloguj</a>
                             </li>
                             <!-- FOR ANONYMOUES -->
                             <li data-bind="visible: !user()" class="loginDropdown">
-                                <a class="dropdownText" href="#" data-bind="click: gotoLogin">Zaloguj</a>
+                                <a class="dropdownText collapse-menu-after-click" href="#" data-bind="click: gotoLogin">Zaloguj</a>
                             </li>
                         </ul>
                     </li>
