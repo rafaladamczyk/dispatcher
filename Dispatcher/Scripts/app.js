@@ -102,23 +102,52 @@ var ViewModel = function () {
     }
     
     self.getActiveRequests = function () {
-        self.getData(siteRoot + '/api/ActiveRequests/', function (data) {
-            var sortedData = data.sort(function(left, right) { return (isEmpty(left.ProvidingUserName) && isEmpty(right.ProvidingUserName)) ? 0 : (isEmpty(left.ProvidingUserName) ? -1 : 1) });
-            self.activeRequests(sortedData);
-        }, function () { self.activeRequests.removeAll(); });
+        self.getData(siteRoot + '/api/ActiveRequests/', self.updateActiveRequests, function () { self.activeRequests.removeAll(); });
     }
 
-    self.getProvidersAndTasks = function() {
-        if (self.availabilityVisible()) {
-            self.getData(siteRoot + '/api/Account/ProvidersAndTasks/', self.providersAndTheirTasks);
-        }
-    }
-	
-    self.getUsersAndRoles = function () {
-        self.getData(siteRoot + '/api/Account/UsersAndRoles/', function (data) {
-            var mappedUsers = $.map(data, function (item) { return new UserWithRoles(item) });
-            self.usersAndRoles(mappedUsers);
+    self.updateActiveRequests = function(data) {
+        var sortedData = data.sort(function(left, right) { return (isEmpty(left.ProvidingUserName) && isEmpty(right.ProvidingUserName)) ? 0 : (isEmpty(left.ProvidingUserName) ? -1 : 1) });
+        self.activeRequests(sortedData);
+        self.updateTasks();
+    };
+
+    self.updateTasks = function()
+    {
+        var perUserDict = {};
+
+        self.usersAndRoles().forEach(function (user) {
+            perUserDict[user.Name] = { Name: user.Name, Tasks: [], SpecialTasks: [] };
         });
+
+        self.requestsAssignedToSomeone().forEach(function (element) {
+            if (!perUserDict.hasOwnProperty(element.ProvidingUserName)) {
+                perUserDict[element.ProvidingUserName] = { Name: element.ProvidingUserName, Tasks: [], SpecialTasks: [] };
+            }
+            var existingEntry = perUserDict[element.ProvidingUserName];
+            if (element.Type.ForSelf) {
+                existingEntry.SpecialTasks.push(element);
+            } else {
+                existingEntry.Tasks.push(element);
+            }
+        });
+
+        var arrayOfTasksPerUser = [];
+        for (var key in perUserDict) {
+            if (perUserDict.hasOwnProperty(key)) {
+                arrayOfTasksPerUser.push(perUserDict[key]);
+            }
+        }
+        self.providersAndTheirTasks(arrayOfTasksPerUser);
+    }
+    
+    self.getUsersAndRoles = function () {
+        self.getData(siteRoot + '/api/Account/UsersAndRoles/', self.updateUsersAndRoles);
+    }
+
+    self.updateUsersAndRoles = function(data) {
+        var mappedUsers = $.map(data, function(item) { return new UserWithRoles(item) });
+        self.usersAndRoles(mappedUsers);
+        self.updateTasks();
     }
 
     self.saveRoles = function (request, event) {
@@ -138,7 +167,6 @@ var ViewModel = function () {
             data: ko.toJSON(self.usersAndRoles),
             contentType: "application/json"
         }).done(function() {
-            self.getUsersAndRoles();
             self.getUserInfo();
         }).fail(function(jx) {
             showError(jx);
@@ -191,10 +219,8 @@ var ViewModel = function () {
             type: 'PUT',
             url: siteRoot + '/api/CompleteRequest/' + request.Id,
             headers: headers
-        }).fail(function (jx) {
+        }).fail(function(jx) {
             showError(jx);
-        }).always(function () {
-            self.getActiveRequests();
         });
     }
 
@@ -211,13 +237,10 @@ var ViewModel = function () {
             type: 'PUT',
             url: siteRoot + '/api/CancelRequest/' + request.Id,
             headers: headers
-        }).fail(function (jx) {
+        }).fail(function(jx) {
             showError(jx);
-        }).always(function() {
-            self.getActiveRequests();
         });
     }
-
 
     self.deleteRequest = function (request, event) {
         var token = localStorage.getItem(tokenKey);
@@ -232,10 +255,8 @@ var ViewModel = function () {
             type: 'DELETE',
             url: siteRoot + '/api/DeleteRequest/' + request.Id,
             headers: headers
-        }).fail(function (jx) {
+        }).fail(function(jx) {
             showError(jx);
-        }).always(function () {
-            self.getActiveRequests();
         });
     }
 	
@@ -252,19 +273,17 @@ var ViewModel = function () {
             type: 'PUT',
             url: siteRoot + '/api/AcceptRequest/' + request.Id,
             headers: headers
-        }).fail(function (err) {
+        }).fail(function(err) {
             showError(err);
-        }).always(function () {
-            self.getActiveRequests();
         });
     }
 
     self.createRequest = function (requestType) {
-        self.getData(siteRoot + '/api/CreateRequest/' + requestType.Id, function () { self.getActiveRequests() });
+        self.getData(siteRoot + '/api/CreateRequest/' + requestType.Id);
     }
 
     self.createSpecialRequest = function(requestType) {
-        self.getData(siteRoot + '/api/CreateSpecialRequest/' + requestType.Id, function () { self.getActiveRequests() });
+        self.getData(siteRoot + '/api/CreateSpecialRequest/' + requestType.Id);
     }
 
     self.createSpecialRequestType = function(form) {
@@ -322,6 +341,7 @@ var ViewModel = function () {
             var msg = jqXHR.responseJSON.Message;
             text = err ? err : (msg ? msg : '');
         }
+
         window.scrollTo(0, 0);
         self.error(jqXHR.status + ': ' + jqXHR.statusText + '. ' + text);
         if (self.errorTimeout != null) {
@@ -403,7 +423,6 @@ var ViewModel = function () {
             localStorage.setItem(tokenKey, data.access_token);
             self.clearForms();
             self.getUserInfo(function () {
-                self.getActiveRequests();
                 location.hash = '';
                 self.gotoDefault();
             });
@@ -431,17 +450,23 @@ var ViewModel = function () {
         return self.userRoles().indexOf('TworzenieZlecen') > -1;
     }, self);
 
-    self.requestsAssignedToMe = ko.pureComputed(function () {
+    self.requestsAssignedToSomeone = ko.pureComputed(function () {
         return self.activeRequests().filter(function (el) {
+            return !isEmpty(el.ProvidingUserName);
+        });
+    });
+
+    self.requestsAssignedToMe = ko.pureComputed(function () {
+        return self.requestsAssignedToSomeone().filter(function (el) {
             return el.ProvidingUserName === self.user();
         });
-    }, self);
+    });
 
     self.requestsCreatedByMe = ko.pureComputed(function() {
         return self.activeRequests().filter(function (el) {
             return el.RequestingUserName === self.user();
         });
-    }, self);
+    });
 
     self.requestTypeActiveForMe = function(id) {
         var temp = self.requestsCreatedByMe().filter(function (el) {
@@ -470,7 +495,6 @@ var ViewModel = function () {
             self.currentPage('Status');
             self.hideAllPages();
             self.availabilityVisible(true);
-            self.getProvidersAndTasks();
         });
         this.get('#Rejestracja', function () {
             self.currentPage('Rejestracja');
@@ -500,7 +524,6 @@ var ViewModel = function () {
         });
         this.get('#Admin', function () {
             if (self.isAdmin()) {
-                self.getUsersAndRoles();
                 self.getRequestTypes();
                 self.getSpecialRequestTypes();
             }
@@ -515,15 +538,12 @@ var ViewModel = function () {
 
     // Fetch the initial data.
     self.getUserInfo(function () {
-        if (self.isAdmin()) {
-            self.getUsersAndRoles();
-        }
         self.gotoDefault();
     });
+    self.getUsersAndRoles();
     self.getActiveRequests();
     self.getRequestTypes();
     self.getSpecialRequestTypes();
-    self.getProvidersAndTasks();
 };
 
 function UserWithRoles(data) {
@@ -534,9 +554,18 @@ function UserWithRoles(data) {
 }
 
 var viewModel = new ViewModel();
-window.setInterval(viewModel.getActiveRequests, 5000);
-window.setInterval(viewModel.getProvidersAndTasks, 13000);
 ko.applyBindings(viewModel);
+
+var hub = $.connection.requestsHub;
+hub.client.updateActiveRequests = function (data) {
+    viewModel.updateActiveRequests(data);
+};
+hub.client.updateUsersAndRoles = function(data) {
+    viewModel.updateUsersAndRoles(data);
+}
+
+// Start the connection.
+$.connection.hub.start();
 
 moment.locale('pl');
 $("a.collapse-menu-after-click").click(function() {
@@ -557,10 +586,11 @@ function parseTask(task) {
     var started = moment.utc(task.PickedUpDate);
     var now = moment.utc();
     var diff = moment.duration(now.diff(started)).humanize();
-    var text = task.Name + ' (' + diff + ')';
+    var text = task.Type.Name + ' (' + diff + ')';
     return text.split(' ').join(String.fromCharCode(160));
 }
 
 function isEmpty(str) {
     return (!str || 0 === str.length);
 }
+

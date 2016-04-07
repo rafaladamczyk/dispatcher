@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Dispatcher.Models;
+using Microsoft.AspNet.SignalR;
 using NUnit.Framework;
 
 namespace Dispatcher.Controllers
@@ -40,16 +42,6 @@ namespace Dispatcher.Controllers
            return Ok(activeRequests);
         }
 
-        [HttpGet]
-        [Authorize]
-        [Route("api/MyRequests")]
-        [ResponseType(typeof(List<DispatchRequest>))]
-        public async Task<IHttpActionResult> GetMyRequests()
-        {
-            var myRequests = await db.Requests.Where(r => r.Active).Where(r => r.ProvidingUserName == User.Identity.Name).ToListAsync();
-            return Ok(myRequests);
-        }
-
         [ResponseType(typeof(DispatchRequest))]
         public async Task<IHttpActionResult> GetDispatchRequest(int id)
         {
@@ -63,7 +55,7 @@ namespace Dispatcher.Controllers
         }
         
         [HttpGet]
-        [Authorize(Roles = "TworzenieZlecen")]
+        [System.Web.Http.Authorize(Roles = "TworzenieZlecen")]
         [Route("api/CreateRequest/{typeId}")]
         [ResponseType(typeof(DispatchRequest))]
         public async Task<IHttpActionResult> CreateNewRequest(int typeId)
@@ -93,12 +85,14 @@ namespace Dispatcher.Controllers
             var newRequest = new DispatchRequest { RequestingUserName = User.Identity.Name, Active = true, TypeId = typeId, CreationDate = DateTime.UtcNow, CompletionDate = null, Type = type};
             db.Requests.Add(newRequest);
             await db.SaveChangesAsync();
+
+            BroadcastActiveRequests();
            
             return CreatedAtRoute("DefaultApi", new { controller = "DispatchRequest",id = newRequest.Id }, newRequest);
         }
 
         [HttpGet]
-        [Authorize(Roles="ObslugaZlecen")]
+        [System.Web.Http.Authorize(Roles="ObslugaZlecen")]
         [Route("api/CreateSpecialRequest/{typeId}")]
         [ResponseType(typeof(DispatchRequest))]
         public async Task<IHttpActionResult> CreateNewSpecialRequest(int typeId)
@@ -129,13 +123,15 @@ namespace Dispatcher.Controllers
             db.Requests.Add(newRequest);
             await db.SaveChangesAsync();
 
+            BroadcastActiveRequests();
+
             return CreatedAtRoute("DefaultApi", new { controller = "DispatchRequest", id = newRequest.Id }, newRequest);
         }
 
         [HttpDelete]
         [Route("api/DeleteRequest/{id}")]
         [ResponseType(typeof(DispatchRequest))]
-        [Authorize(Roles = "TworzenieZlecen")]
+        [System.Web.Http.Authorize(Roles = "TworzenieZlecen")]
         public async Task<IHttpActionResult> DeleteRequest(int id)
         {
             var request = await db.Requests.FindAsync(id);
@@ -151,6 +147,8 @@ namespace Dispatcher.Controllers
 
             db.Requests.Remove(request);
             await db.SaveChangesAsync();
+            
+            BroadcastActiveRequests();
 
             return Ok(request);
         }
@@ -158,7 +156,7 @@ namespace Dispatcher.Controllers
         [HttpPut]
         [HttpPost]
         [Route("api/AcceptRequest/{requestId}")]
-        [Authorize(Roles = "ObslugaZlecen")]
+        [System.Web.Http.Authorize(Roles = "ObslugaZlecen")]
         public async Task<IHttpActionResult> AcceptRequest(int requestId)
         {
             if (!ModelState.IsValid)
@@ -186,13 +184,15 @@ namespace Dispatcher.Controllers
             request.ProvidingUserName = User.Identity.Name;
             await db.SaveChangesAsync();
 
+            BroadcastActiveRequests();
+
             return Ok();
         }
 
 
         [HttpPut]
         [Route("api/CancelRequest/{requestId}")]
-        [Authorize(Roles = "ObslugaZlecen")]
+        [System.Web.Http.Authorize(Roles = "ObslugaZlecen")]
         public async Task<IHttpActionResult> CancelRequest(int requestId)
         {
             if (!ModelState.IsValid)
@@ -227,12 +227,15 @@ namespace Dispatcher.Controllers
             }
 
             await db.SaveChangesAsync();
+
+            BroadcastActiveRequests();
+
             return Ok();
         }
         
         [HttpPut]
         [Route("api/CompleteRequest/{requestId}")]
-        [Authorize(Roles = "ObslugaZlecen")]
+        [System.Web.Http.Authorize(Roles = "ObslugaZlecen")]
         public async Task<IHttpActionResult> CompleteRequest(int requestId)
         {
             if (!ModelState.IsValid)
@@ -262,6 +265,8 @@ namespace Dispatcher.Controllers
             request.ServiceDuration = request.CompletionDate - request.PickedUpDate;
             await db.SaveChangesAsync();
 
+            BroadcastActiveRequests();
+
             return Ok();
         }
 
@@ -273,6 +278,12 @@ namespace Dispatcher.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void BroadcastActiveRequests()
+        {
+            var activeRequests = db.Requests.Where(r => r.Active).ToList();
+            GlobalHost.ConnectionManager.GetHubContext<RequestsHub>().Clients.All.updateActiveRequests(activeRequests);
         }
     }
 }

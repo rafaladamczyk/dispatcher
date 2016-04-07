@@ -11,10 +11,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Dispatcher.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.SignalR;
 
 namespace Dispatcher.Controllers
 {
-    [Authorize]
+    [System.Web.Http.Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
@@ -52,25 +53,6 @@ namespace Dispatcher.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("ProvidersAndTasks")]
-        [AllowAnonymous]
-        public IEnumerable<TasksForProviderDto> GetProvidersAndTasks()
-        {
-            var providers = UserManager.Users.OrderBy(u => u.UserName).ToList().Where(u => UserManager.IsInRole(u.Id, "ObslugaZlecen"));
-            var activeRequests = db.Requests.Where(r => r.Active).ToList();
-            return providers.Select(p => new TasksForProviderDto {
-                Name = p.UserName,
-                Tasks = activeRequests.Where(r => !r.Type.ForSelf && r.ProvidingUserName == p.UserName).Select(CreateTaskDto).ToList(),
-                SpecialTasks = activeRequests.Where(r => r.Type.ForSelf && r.ProvidingUserName == p.UserName).Select(CreateTaskDto).ToList()
-            });
-        }
-
-        private static TaskDto CreateTaskDto(DispatchRequest request)
-        {
-            return new TaskDto { Name = request.Type.Name, PickedUpDate = request.PickedUpDate };
-        }
-
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         // GET api/Account/UserInfo
@@ -86,6 +68,7 @@ namespace Dispatcher.Controllers
         }
         
         [Route("UsersAndRoles")]
+        [AllowAnonymous]
         [HttpGet]
         public List<UserInfoViewModel> GetUsersAndRoles()
         {
@@ -108,7 +91,7 @@ namespace Dispatcher.Controllers
             return result;
         }
 
-        [Authorize(Roles = "Admin")]
+        [System.Web.Http.Authorize(Roles = "Admin")]
         [Route("UsersAndRoles")]
         [HttpPost]
         public void SaveUsersAndRoles(List<UserRoleModel> usersAndRoles)
@@ -120,6 +103,8 @@ namespace Dispatcher.Controllers
                 AddOrRemoveRole(user.Id, "ObslugaZlecen", userRoleModel.IsServiceProvider);
                 AddOrRemoveRole(user.Id, "TworzenieZlecen", userRoleModel.IsRequester);
             }
+
+            BroadcastUsersAndRoles();
         }
 
         private void AddOrRemoveRole(string userId, string role, bool add)
@@ -197,6 +182,8 @@ namespace Dispatcher.Controllers
                 return GetErrorResult(result);
             }
 
+            BroadcastUsersAndRoles();
+
             return Ok();
         }
 
@@ -226,6 +213,11 @@ namespace Dispatcher.Controllers
             }
 
             return null;
+        }
+
+        private void BroadcastUsersAndRoles()
+        {
+            GlobalHost.ConnectionManager.GetHubContext<RequestsHub>().Clients.All.updateUsersAndRoles(GetUsersAndRoles());
         }
 
         #endregion
