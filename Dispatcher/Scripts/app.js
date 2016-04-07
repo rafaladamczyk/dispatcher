@@ -9,16 +9,41 @@ var ViewModel = function () {
     self.error = ko.observable();
     self.errorTimeout = null;
 
-    self.pages = ['Administracja','Rejestracja', 'Logowanie', 'Tworzenie Zleceń', 'Obsługa Zleceń', 'Dostępność'];
-	self.visibiliy = {};
     self.currentPage = ko.observable();
 	self.loginVisible = ko.observable();
 	self.requestsVisible = ko.observable();
     self.createRequestsVisible = ko.observable();
-	self.administrationVisible = ko.observable();
+    self.administrationVisible = ko.observable();
 	self.registerVisible = ko.observable();
     self.availabilityVisible = ko.observable();
     
+    self.pages = ko.observableArray([
+        {
+            Name: 'Admin',
+            Enabled: ko.pureComputed(function(){return self.isAdmin()})
+        },
+        {
+            Name: 'Rejestracja',
+            Enabled: ko.pureComputed(function () { return true; })
+        },
+        {
+            Name: 'Logowanie',
+            Enabled: ko.pureComputed(function () { return true; })
+        },
+        {
+            Name: 'Tworzenie',
+            Enabled: ko.pureComputed(function () { return self.isRequester() })
+        },
+        {
+            Name: 'Zlecenia',
+            Enabled: ko.pureComputed(function () { return true; })
+        },
+        {
+            Name: 'Status',
+            Enabled: ko.pureComputed(function () { return self.isServiceProvider() || self.isAdmin(); })
+        }
+    ]);
+	
     var tokenKey = 'accessToken';
 
     self.user = ko.observable();
@@ -69,11 +94,11 @@ var ViewModel = function () {
     }
 
     self.gotoRequests = function () {
-        location.hash = 'Obsługa Zleceń';
+        location.hash = 'Zlecenia';
     }
 
     self.gotoCreateRequests = function() {
-        location.hash = 'Tworzenie Zleceń';
+        location.hash = 'Tworzenie';
     }
     
     self.getActiveRequests = function () {
@@ -256,7 +281,7 @@ var ViewModel = function () {
         }).fail(function (jx) {
             showError(jx);
         }).always(function () {
-            location.hash = 'Administracja';
+            location.hash = 'Admin';
             self.getSpecialRequestTypes();
             self.newSpecialRequestTypeInput(null);
             self.enableButton(form[1], originalText);
@@ -280,7 +305,7 @@ var ViewModel = function () {
         }).fail(function (jx) {
             showError(jx);
         }).always(function () {
-            location.hash = 'Administracja';
+            location.hash = 'Admin';
             self.getRequestTypes();
             self.newRequestTypeInput(null);
             self.enableButton(form[1], originalText);
@@ -438,8 +463,8 @@ var ViewModel = function () {
 
     // Initialize the navigation
     Sammy(function () {
-        this.get('#Dostępność', function() {
-            self.currentPage('Dostępność');
+        this.get('#Status', function() {
+            self.currentPage('Status');
             self.hideAllPages();
             self.availabilityVisible(true);
             self.getProvidersAndTasks();
@@ -454,29 +479,29 @@ var ViewModel = function () {
             self.hideAllPages();
             self.loginVisible(true);
         });
-        this.get('#Obsługa Zleceń', function () {
+        this.get('#Zlecenia', function () {
             if (self.isServiceProvider()) {
                 self.getSpecialRequestTypes();
             }
-            self.currentPage('Obsługa Zleceń');
+            self.currentPage('Zlecenia');
             self.hideAllPages();
             self.requestsVisible(true);
         });
-        this.get('#Tworzenie Zleceń', function () {
+        this.get('#Tworzenie', function () {
             if (self.isRequester()) {
                 self.getRequestTypes();
             }
-            self.currentPage('Tworzenie Zleceń');
+            self.currentPage('Tworzenie');
             self.hideAllPages();
             self.createRequestsVisible(true);
         });
-        this.get('#Administracja', function () {
+        this.get('#Admin', function () {
             if (self.isAdmin()) {
                 self.getUsersAndRoles();
                 self.getRequestTypes();
                 self.getSpecialRequestTypes();
             }
-            self.currentPage('Administracja');
+            self.currentPage('Admin');
             self.hideAllPages();
             self.administrationVisible(true);
         });
@@ -532,5 +557,3 @@ function parseTask(task) {
     var text = task.Name + ' (' + diff + ')';
     return text.split(' ').join(String.fromCharCode(160));
 }
-
-   

@@ -10,9 +10,10 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav" data-bind="foreach: pages">
-                    <li data-bind="css: { active: $data == $root.currentPage() }">
-                        <a class="collapse-menu-after-click" href="#" data-bind="text: $data,
-                               attr: { href: '#' + $data }"></a>
+                    <li data-bind="css: { active: $data.Name == $root.currentPage() }">
+                        <a class="collapse-menu-after-click" href="#" data-bind="text: $data.Name,
+                               attr: { href: '#' + $data.Name },
+                               visible: $data.Enabled()"></a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -95,8 +96,8 @@
             </table>
         </div>
     </div>
-    <div class="col-md-6">
-        <h1 class="text-center">
+    <div data-bind="css: { 'col-md-6': requestsAssignedToMe().length > 0, 'col-md-12': requestsAssignedToMe().length == 0}" >
+        <h1 class="text-center" data-bind="visible: requestsAssignedToMe().length > 0">
             Zlecenia
         </h1>
         <table class="table table-striped table-hover">
@@ -176,7 +177,7 @@
 
         <div data-bind="visible: requestsCreatedByMe().length">
             <h1 class="text-center">
-                Utworzone zlecenia
+                Utworzyłeś:
             </h1>
             <table class="table table-striped table-hover">
                 <thead>
@@ -270,8 +271,8 @@
                             <tr>
                                 <th class="text-center"></th>
                                 <th class="text-center">Admin</th>
-                                <th class="text-center">Obsługa Zleceń</th>
-                                <th class="text-center">Tworzenie Zleceń</th>
+                                <th class="text-center">Zlecenia</th>
+                                <th class="text-center">Tworzenie</th>
                             </tr>
                             </thead>
                             <tbody data-bind="foreach: usersAndRoles">
@@ -356,16 +357,13 @@
 
 <div class="row" data-bind="visible: availabilityVisible">
     <div>
-        <h1 class="text-center">
-            Obsługujący
-        </h1>
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th class="text-center">
                         <h2>Użytkownik</h2></th>
                     <th class="text-center">
-                        <h2>Obsługiwane zlecenia (czas trwania)</h2></th>
+                        <h2>Obsługuje (czas trwania)</h2></th>
                     <th class="text-center">
                         <h2>Zadania specjalne (czas trwania)</h2></th>
                 </tr>
