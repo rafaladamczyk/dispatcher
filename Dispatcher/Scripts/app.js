@@ -484,7 +484,6 @@ var ViewModel = function () {
     
     self.logout = function () {
         self.clearUserInfo();
-        self.usersAndRoles.removeAll();
         localStorage.removeItem(tokenKey);
         self.gotoLogin();
     }
