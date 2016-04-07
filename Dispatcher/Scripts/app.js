@@ -102,7 +102,10 @@ var ViewModel = function () {
     }
     
     self.getActiveRequests = function () {
-        self.getData(siteRoot + '/api/ActiveRequests/', self.activeRequests, function () { self.activeRequests.removeAll(); });
+        self.getData(siteRoot + '/api/ActiveRequests/', function (data) {
+            var sortedData = data.sort(function(left, right) { return (isEmpty(left.ProvidingUserName) && isEmpty(right.ProvidingUserName)) ? 0 : (isEmpty(left.ProvidingUserName) ? -1 : 1) });
+            self.activeRequests(sortedData);
+        }, function () { self.activeRequests.removeAll(); });
     }
 
     self.getProvidersAndTasks = function() {
@@ -556,4 +559,8 @@ function parseTask(task) {
     var diff = moment.duration(now.diff(started)).humanize();
     var text = task.Name + ' (' + diff + ')';
     return text.split(' ').join(String.fromCharCode(160));
+}
+
+function isEmpty(str) {
+    return (!str || 0 === str.length);
 }
