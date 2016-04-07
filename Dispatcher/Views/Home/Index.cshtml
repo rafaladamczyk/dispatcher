@@ -1,6 +1,6 @@
 ﻿<div class="container-fluid" data-bind="visible: true" style="display: none;">
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-lg-12">
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -38,7 +38,7 @@
 <div class="row" style="padding-top: 75px;">
 </div>
 <div class="row" data-bind="visible: error">
-    <div class="col-md-12 alert-danger" style="font-size: x-large" data-bind="text: error"></div>
+    <div class="col-lg-12 alert-danger" style="font-size: x-large" data-bind="text: error"></div>
 </div>
 <div class="row" data-bind="visible: requestsVisible">
     <div data-bind="visible: isServiceProvider">
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <div class="col-md-6" data-bind="visible: isServiceProvider">
+    <div class="col-lg-6" data-bind="visible: isServiceProvider">
         <div data-bind="visible: requestsAssignedToMe().length">
             <h1 class="text-center">
                 Obsługiwane przez Ciebie
@@ -84,11 +84,11 @@
                     <td style="vertical-align: middle" class="text-center">
                         <h3 data-bind="text: RequestingUserName"></h3>
                     </td>
-                    <td class="col-md-3">
+                    <td class="col-lg-3">
                         <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.cancelRequest">Anuluj</button>
                     </td>
-                    <td class="col-md-1"></td>
-                    <td class="col-md-4">
+                    <td class="col-lg-1"></td>
+                    <td class="col-lg-4">
                         <button type="button" class="btn btn-block btn-success btn-huge " data-bind="click: $parent.completeRequest">Zakończ</button>
                     </td>
                 </tr>
@@ -96,7 +96,7 @@
             </table>
         </div>
     </div>
-    <div data-bind="css: { 'col-md-6': requestsAssignedToMe().length > 0, 'col-md-12': requestsAssignedToMe().length == 0}" >
+    <div data-bind="css: { 'col-lg-6': requestsAssignedToMe().length > 0, 'col-lg-12': requestsAssignedToMe().length == 0}" >
         <h1 class="text-center" data-bind="visible: requestsAssignedToMe().length > 0">
             Zlecenia
         </h1>
@@ -134,7 +134,7 @@
 </div>
 
 <div class="row" data-bind="visible: registerVisible">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-lg-6 col-lg-offset-3">
         <form data-bind="submit: register">
             <h2>Nowy użytkownik</h2>
             <div class="form-group">
@@ -222,14 +222,14 @@
 
 
     </div>
-    <div class="col-md-6 col-md-offset-3" data-bind="visible: !isRequester()">
+    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: !isRequester()">
         <h1 class="text-center">
             Nie masz uprawnień do tworzenia zleceń.
         </h1>
     </div>
 </div>
 <div class="row" data-bind="visible: loginVisible">
-    <div class="col-md-6 col-md-offset-3" data-bind="visible: !user()">
+    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: !user()">
         <h2>Logowanie</h2>
         <form data-bind="submit: login">
             <div class="form-group">
@@ -247,7 +247,7 @@
         </form>
     </div>
 
-    <div class="col-md-6 col-md-offset-3" data-bind="visible: user">
+    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: user">
         <h2 data-bind="text: loginMessage"></h2>
         <div>
             <button class="btn btn-info btn-huge" data-bind="click: logout"> Wyloguj </button>
@@ -256,7 +256,7 @@
 </div>
 
 <div class="row" style="margin-bottom: 50px" data-bind="visible: administrationVisible">
-    <div class="col-md-6 col-md-offset-3" data-bind="visible: isAdmin">
+    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: isAdmin">
         <div class="panel-group">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -347,7 +347,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-md-offset-3" data-bind="visible: !isAdmin()">
+    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: !isAdmin()">
         <h1 class="text-center">
             Nie jesteś administratorem.
         </h1>
