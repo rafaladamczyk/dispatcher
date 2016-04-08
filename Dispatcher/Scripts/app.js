@@ -7,6 +7,7 @@ var ViewModel = function () {
     self.specialRequestTypes = ko.observableArray();
     self.providersAndTheirTasks = ko.observableArray();
     self.error = ko.observable();
+    self.connectionError = ko.observable();
     self.errorTimeout = null;
 
     self.currentPage = ko.observable();
@@ -60,11 +61,11 @@ var ViewModel = function () {
     self.newSpecialRequestTypeInput = ko.observable();
     
 	self.disableButton = function (element) {
-	    $(element).removeClass("btn-info btn-success").addClass("btn-default").text("Czekaj").prop('disabled', true);
+	    $(element).removeClass("btn-info btn-success btn-danger").addClass("btn-default").text("Czekaj").prop('disabled', true);
 	}
 
-	self.enableButton = function(element, text) {
-        $(element).addClass("btn-info").removeClass("btn-default").text(text).prop('disabled', false);
+	self.enableButton = function(element, text, css) {
+        $(element).addClass(css).removeClass("btn-default").text(text).prop('disabled', false);
 	}
 
     self.hideAllPages = function() {
@@ -171,8 +172,8 @@ var ViewModel = function () {
         }).fail(function(jx) {
             showError(jx);
         }).always(function() {
-            self.enableButton(event.target, originalText);
-        });
+            self.enableButton(event.target, originalText, "btn-info");
+        })
     }
 
     self.getRequestTypes = function() {
@@ -213,6 +214,7 @@ var ViewModel = function () {
             headers.Authorization = 'Bearer ' + token;
         }
         
+        var originalText = event.target.textContent;
         self.disableButton(event.target);
 
         $.ajax({
@@ -221,6 +223,8 @@ var ViewModel = function () {
             headers: headers
         }).fail(function(jx) {
             showError(jx);
+        }).always(function() {
+            self.enableButton(event.target, originalText, "btn-success");
         });
     }
 
@@ -231,6 +235,7 @@ var ViewModel = function () {
             headers.Authorization = 'Bearer ' + token;
         }
 
+        var originalText = event.target.textContent;
         self.disableButton(event.target);
 
         $.ajax({
@@ -239,6 +244,8 @@ var ViewModel = function () {
             headers: headers
         }).fail(function(jx) {
             showError(jx);
+        }).always(function () {
+            self.enableButton(event.target, originalText, "btn-danger");
         });
     }
 
@@ -249,6 +256,7 @@ var ViewModel = function () {
             headers.Authorization = 'Bearer ' + token;
         }
 
+        var originalText = event.target.textContent;
         self.disableButton(event.target);
 
         $.ajax({
@@ -257,6 +265,8 @@ var ViewModel = function () {
             headers: headers
         }).fail(function(jx) {
             showError(jx);
+        }).always(function () {
+            self.enableButton(event.target, originalText, "btn-danger");
         });
     }
 	
@@ -267,6 +277,7 @@ var ViewModel = function () {
             headers.Authorization = 'Bearer ' + token;
         }
 
+        var originalText = event.target.textContent;
         self.disableButton(event.target);
 
         $.ajax({
@@ -275,6 +286,8 @@ var ViewModel = function () {
             headers: headers
         }).fail(function(err) {
             showError(err);
+        }).always(function () {
+            self.enableButton(event.target, originalText, "btn-success");
         });
     }
 
@@ -306,7 +319,7 @@ var ViewModel = function () {
             location.hash = 'Admin';
             self.getSpecialRequestTypes();
             self.newSpecialRequestTypeInput(null);
-            self.enableButton(form[1], originalText);
+            self.enableButton(form[1], originalText, "btn-info");
         });
     }
 
@@ -330,7 +343,7 @@ var ViewModel = function () {
             location.hash = 'Admin';
             self.getRequestTypes();
             self.newRequestTypeInput(null);
-            self.enableButton(form[1], originalText);
+            self.enableButton(form[1], originalText, "btn-info");
         });
     }
 
@@ -564,7 +577,24 @@ hub.client.updateUsersAndRoles = function(data) {
 }
 
 // Start the connection.
-$.connection.hub.start();
+$.connection.hub.start().done(function () { viewModel.connectionError(null) });
+
+$.connection.hub.reconnecting(function () {
+    viewModel.connectionError("Utracono połączenie z serwerem");
+});
+
+$.connection.hub.reconnected(function () {
+    viewModel.connectionError(null);
+});
+
+// Reconnect after disconnect
+$.connection.hub.disconnected(function () {
+    setTimeout(function () {
+        $.connection.hub.start().done(function () { viewModel.connectionError(null) });
+    }, 5000); // Restart connection after 5 seconds.
+});
+
+
 
 moment.locale('pl');
 $("a.collapse-menu-after-click").click(function() {

@@ -37,8 +37,8 @@
 </div>
 <div class="row" style="padding-top: 75px;">
 </div>
-<div class="row" data-bind="visible: error">
-    <div class="col-lg-12 alert-danger" style="font-size: x-large" data-bind="text: error"></div>
+<div class="row" data-bind="visible: error() || connectionError()">
+    <div class="col-lg-12 alert-danger" style="font-size: x-large" data-bind="text: connectionError() ? connectionError : error"></div>
 </div>
 <div class="row" data-bind="visible: requestsVisible">
     <div data-bind="visible: isServiceProvider">
