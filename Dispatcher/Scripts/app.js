@@ -117,7 +117,9 @@ var ViewModel = function () {
         var perUserDict = {};
 
         self.usersAndRoles().forEach(function (user) {
-            perUserDict[user.Name] = { Name: user.Name, Tasks: [], SpecialTasks: [] };
+            if (user.IsServiceProvider()) {
+                perUserDict[user.Name] = { Name: user.Name, Tasks: [], SpecialTasks: [] };
+            }
         });
 
         self.requestsAssignedToSomeone().forEach(function (element) {
