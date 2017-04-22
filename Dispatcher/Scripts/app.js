@@ -7,6 +7,7 @@ var ViewModel = function () {
     self.specialRequestTypes = ko.observableArray();
     self.providersAndTheirTasks = ko.observableArray();
     self.error = ko.observable();
+    self.connectionError = ko.observable();
     self.errorTimeout = null;
 
     self.currentPage = ko.observable();
@@ -60,11 +61,11 @@ var ViewModel = function () {
     self.newSpecialRequestTypeInput = ko.observable();
     
 	self.disableButton = function (element) {
-	    $(element).removeClass("btn-info btn-success").addClass("btn-default").text("Czekaj").prop('disabled', true);
+	    $(element).removeClass("btn-info btn-success btn-danger").addClass("btn-default").text("Czekaj").prop('disabled', true);
 	}
 
-	self.enableButton = function(element, text) {
-        $(element).addClass("btn-info").removeClass("btn-default").text(text).prop('disabled', false);
+	self.enableButton = function(element, text, css) {
+        $(element).addClass(css).removeClass("btn-default").text(text).prop('disabled', false);
 	}
 
     self.hideAllPages = function() {
@@ -101,24 +102,68 @@ var ViewModel = function () {
         location.hash = 'Tworzenie';
     }
     
-    self.getActiveRequests = function () {
-        self.getData(siteRoot + '/api/ActiveRequests/', function (data) {
-            var sortedData = data.sort(function(left, right) { return (isEmpty(left.ProvidingUserName) && isEmpty(right.ProvidingUserName)) ? 0 : (isEmpty(left.ProvidingUserName) ? -1 : 1) });
-            self.activeRequests(sortedData);
-        }, function () { self.activeRequests.removeAll(); });
+    self.updateActiveRequests = function(data) {
+        var sortedData = data.sort(function (left, right) {
+            if (isEmpty(left.ProvidingUserName) && isEmpty(right.ProvidingUserName)) {
+                return Date.parse(left.CreationDate) - Date.parse(right.CreationDate);
+            } else if (!isEmpty(left.ProvidingUserName) && !isEmpty(right.ProvidingUserName)) {
+                return Date.parse(left.CreationDate) - Date.parse(right.CreationDate);
+            }
+            else {
+                return isEmpty(left.ProvidingUserName) ? -1 : 1;
+            }
+        });
+        self.activeRequests(sortedData);
+        self.updateTasks();
+    };
+
+    self.updateRequestTypes = function(data) {
+        var normalTypes = data.filter(function (el) { return !el.ForSelf });
+        var specialTypes = data.filter(function (el) { return el.ForSelf });
+
+        self.requestTypes(normalTypes);
+        self.specialRequestTypes(specialTypes);
     }
 
-    self.getProvidersAndTasks = function() {
-        if (self.availabilityVisible()) {
-            self.getData(siteRoot + '/api/Account/ProvidersAndTasks/', self.providersAndTheirTasks);
-        }
-    }
-	
-    self.getUsersAndRoles = function () {
-        self.getData(siteRoot + '/api/Account/UsersAndRoles/', function (data) {
-            var mappedUsers = $.map(data, function (item) { return new UserWithRoles(item) });
-            self.usersAndRoles(mappedUsers);
+    self.updateTasks = function()
+    {
+        var perUserDict = {};
+
+        self.usersAndRoles().forEach(function (user) {
+            if (user.IsServiceProvider()) {
+                perUserDict[user.Name] = { Name: user.Name, Tasks: [], SpecialTasks: [] };
+            }
         });
+
+        self.requestsAssignedToSomeone().forEach(function (element) {
+            if (!perUserDict.hasOwnProperty(element.ProvidingUserName)) {
+                perUserDict[element.ProvidingUserName] = { Name: element.ProvidingUserName, Tasks: [], SpecialTasks: [] };
+            }
+            var existingEntry = perUserDict[element.ProvidingUserName];
+            if (element.Type.ForSelf) {
+                existingEntry.SpecialTasks.push(element);
+            } else {
+                existingEntry.Tasks.push(element);
+            }
+        });
+
+        var arrayOfTasksPerUser = [];
+        for (var key in perUserDict) {
+            if (perUserDict.hasOwnProperty(key)) {
+                arrayOfTasksPerUser.push(perUserDict[key]);
+            }
+        }
+        self.providersAndTheirTasks(arrayOfTasksPerUser);
+    }
+    
+    self.getUsersAndRoles = function () {
+        self.getData(siteRoot + '/api/Account/UsersAndRoles/', self.updateUsersAndRoles);
+    }
+
+    self.updateUsersAndRoles = function(data) {
+        var mappedUsers = $.map(data, function(item) { return new UserWithRoles(item) });
+        self.usersAndRoles(mappedUsers);
+        self.updateTasks();
     }
 
     self.saveRoles = function (request, event) {
@@ -130,7 +175,7 @@ var ViewModel = function () {
 
         var originalText = event.target.textContent;
         self.disableButton(event.target);
-        
+
         $.ajax({
             type: 'POST',
             url: siteRoot + '/api/Account/UsersAndRoles',
@@ -138,23 +183,14 @@ var ViewModel = function () {
             data: ko.toJSON(self.usersAndRoles),
             contentType: "application/json"
         }).done(function() {
-            self.getUsersAndRoles();
             self.getUserInfo();
         }).fail(function(jx) {
             showError(jx);
         }).always(function() {
-            self.enableButton(event.target, originalText);
+            self.enableButton(event.target, originalText, "btn-info");
         });
     }
 
-    self.getRequestTypes = function() {
-        self.getData(siteRoot + '/api/DispatchRequestTypes/', self.requestTypes);
-    }
-
-    self.getSpecialRequestTypes = function() {
-        self.getData(siteRoot + '/api/selfRequestTypes/', self.specialRequestTypes);
-    }
-    
     self.getData = function (uri, callback, errorCallback) {
 	     var token = localStorage.getItem(tokenKey);
 	     var headers = {};
@@ -185,16 +221,16 @@ var ViewModel = function () {
             headers.Authorization = 'Bearer ' + token;
         }
         
+        var originalText = event.target.textContent;
         self.disableButton(event.target);
 
         $.ajax({
             type: 'PUT',
             url: siteRoot + '/api/CompleteRequest/' + request.Id,
             headers: headers
-        }).fail(function (jx) {
+        }).fail(function(jx) {
+            self.enableButton(event.target, originalText, "btn-success");
             showError(jx);
-        }).always(function () {
-            self.getActiveRequests();
         });
     }
 
@@ -205,19 +241,18 @@ var ViewModel = function () {
             headers.Authorization = 'Bearer ' + token;
         }
 
+        var originalText = event.target.textContent;
         self.disableButton(event.target);
 
         $.ajax({
             type: 'PUT',
             url: siteRoot + '/api/CancelRequest/' + request.Id,
             headers: headers
-        }).fail(function (jx) {
+        }).fail(function(jx) {
+            self.enableButton(event.target, originalText, "btn-danger");
             showError(jx);
-        }).always(function() {
-            self.getActiveRequests();
         });
     }
-
 
     self.deleteRequest = function (request, event) {
         var token = localStorage.getItem(tokenKey);
@@ -226,16 +261,16 @@ var ViewModel = function () {
             headers.Authorization = 'Bearer ' + token;
         }
 
+        var originalText = event.target.textContent;
         self.disableButton(event.target);
 
         $.ajax({
             type: 'DELETE',
             url: siteRoot + '/api/DeleteRequest/' + request.Id,
             headers: headers
-        }).fail(function (jx) {
+        }).fail(function(jx) {
+            self.enableButton(event.target, originalText, "btn-danger");
             showError(jx);
-        }).always(function () {
-            self.getActiveRequests();
         });
     }
 	
@@ -246,25 +281,25 @@ var ViewModel = function () {
             headers.Authorization = 'Bearer ' + token;
         }
 
+        var originalText = event.target.textContent;
         self.disableButton(event.target);
 
         $.ajax({
             type: 'PUT',
             url: siteRoot + '/api/AcceptRequest/' + request.Id,
             headers: headers
-        }).fail(function (err) {
+        }).fail(function(err) {
             showError(err);
-        }).always(function () {
-            self.getActiveRequests();
+            self.enableButton(event.target, originalText, "btn-info");
         });
     }
 
     self.createRequest = function (requestType) {
-        self.getData(siteRoot + '/api/CreateRequest/' + requestType.Id, function () { self.getActiveRequests() });
+        self.getData(siteRoot + '/api/CreateRequest/' + requestType.Id);
     }
 
     self.createSpecialRequest = function(requestType) {
-        self.getData(siteRoot + '/api/CreateSpecialRequest/' + requestType.Id, function () { self.getActiveRequests() });
+        self.getData(siteRoot + '/api/CreateSpecialRequest/' + requestType.Id);
     }
 
     self.createSpecialRequestType = function(form) {
@@ -285,9 +320,8 @@ var ViewModel = function () {
             showError(jx);
         }).always(function () {
             location.hash = 'Admin';
-            self.getSpecialRequestTypes();
             self.newSpecialRequestTypeInput(null);
-            self.enableButton(form[1], originalText);
+            self.enableButton(form[1], originalText, "btn-info");
         });
     }
 
@@ -309,10 +343,13 @@ var ViewModel = function () {
             showError(jx);
         }).always(function () {
             location.hash = 'Admin';
-            self.getRequestTypes();
             self.newRequestTypeInput(null);
-            self.enableButton(form[1], originalText);
+            self.enableButton(form[1], originalText, "btn-info");
         });
+    }
+
+    self.showErrors = function(data) {
+        showError(data);
     }
 
     function showError(jqXHR) {
@@ -322,6 +359,7 @@ var ViewModel = function () {
             var msg = jqXHR.responseJSON.Message;
             text = err ? err : (msg ? msg : '');
         }
+
         window.scrollTo(0, 0);
         self.error(jqXHR.status + ': ' + jqXHR.statusText + '. ' + text);
         if (self.errorTimeout != null) {
@@ -403,7 +441,6 @@ var ViewModel = function () {
             localStorage.setItem(tokenKey, data.access_token);
             self.clearForms();
             self.getUserInfo(function () {
-                self.getActiveRequests();
                 location.hash = '';
                 self.gotoDefault();
             });
@@ -431,17 +468,23 @@ var ViewModel = function () {
         return self.userRoles().indexOf('TworzenieZlecen') > -1;
     }, self);
 
-    self.requestsAssignedToMe = ko.pureComputed(function () {
+    self.requestsAssignedToSomeone = ko.pureComputed(function () {
         return self.activeRequests().filter(function (el) {
+            return !isEmpty(el.ProvidingUserName);
+        });
+    });
+
+    self.requestsAssignedToMe = ko.pureComputed(function () {
+        return self.requestsAssignedToSomeone().filter(function (el) {
             return el.ProvidingUserName === self.user();
         });
-    }, self);
+    });
 
     self.requestsCreatedByMe = ko.pureComputed(function() {
         return self.activeRequests().filter(function (el) {
             return el.RequestingUserName === self.user();
         });
-    }, self);
+    });
 
     self.requestTypeActiveForMe = function(id) {
         var temp = self.requestsCreatedByMe().filter(function (el) {
@@ -459,7 +502,6 @@ var ViewModel = function () {
     
     self.logout = function () {
         self.clearUserInfo();
-        self.usersAndRoles.removeAll();
         localStorage.removeItem(tokenKey);
         self.gotoLogin();
     }
@@ -470,7 +512,6 @@ var ViewModel = function () {
             self.currentPage('Status');
             self.hideAllPages();
             self.availabilityVisible(true);
-            self.getProvidersAndTasks();
         });
         this.get('#Rejestracja', function () {
             self.currentPage('Rejestracja');
@@ -483,47 +524,30 @@ var ViewModel = function () {
             self.loginVisible(true);
         });
         this.get('#Zlecenia', function () {
-            if (self.isServiceProvider()) {
-                self.getSpecialRequestTypes();
-            }
             self.currentPage('Zlecenia');
             self.hideAllPages();
             self.requestsVisible(true);
         });
         this.get('#Tworzenie', function () {
-            if (self.isRequester()) {
-                self.getRequestTypes();
-            }
             self.currentPage('Tworzenie');
             self.hideAllPages();
             self.createRequestsVisible(true);
         });
         this.get('#Admin', function () {
-            if (self.isAdmin()) {
-                self.getUsersAndRoles();
-                self.getRequestTypes();
-                self.getSpecialRequestTypes();
-            }
             self.currentPage('Admin');
             self.hideAllPages();
             self.administrationVisible(true);
         });
-        this._checkFormSubmission = function(form) {
+        this._checkFormSubmission = function() {
             return false;
         }
     }).run();
 
     // Fetch the initial data.
     self.getUserInfo(function () {
-        if (self.isAdmin()) {
-            self.getUsersAndRoles();
-        }
         self.gotoDefault();
     });
-    self.getActiveRequests();
-    self.getRequestTypes();
-    self.getSpecialRequestTypes();
-    self.getProvidersAndTasks();
+    self.getUsersAndRoles();
 };
 
 function UserWithRoles(data) {
@@ -534,9 +558,53 @@ function UserWithRoles(data) {
 }
 
 var viewModel = new ViewModel();
-window.setInterval(viewModel.getActiveRequests, 5000);
-window.setInterval(viewModel.getProvidersAndTasks, 13000);
 ko.applyBindings(viewModel);
+
+var requestsHub = $.connection.requestsHub;
+requestsHub.client.updateActiveRequests = function (data) {
+    viewModel.updateActiveRequests(data);
+};
+requestsHub.client.updateUsersAndRoles = function(data) {
+    viewModel.updateUsersAndRoles(data);
+}
+requestsHub.client.updateRequestTypes = function(data) {
+    viewModel.updateRequestTypes(data);
+}
+
+// Start the connection.
+$.connection.hub.start().done(initialize);
+
+$.connection.hub.reconnecting(function () {
+    viewModel.connectionError("Utracono połączenie z serwerem");
+});
+
+$.connection.hub.reconnected(initialize);
+
+// Reconnect after disconnect
+$.connection.hub.disconnected(function () {
+    setTimeout(function () {
+        $.connection.hub.start().done(initialize);
+    }, 5000); // Restart connection after 5 seconds.
+});
+
+function initialize() {
+    viewModel.connectionError(null);
+
+    requestsHub.server.getActiveRequests()
+        .done(function(result) {
+            viewModel.updateActiveRequests(result);
+        }).fail(function(data) {
+            self.showErrors(data);
+        });
+
+    requestsHub.server.getRequestTypes()
+        .done(function (result) {
+            viewModel.updateRequestTypes(result);
+        }).fail(function (data) {
+            self.showErrors(data);
+        });
+}
+
 
 moment.locale('pl');
 $("a.collapse-menu-after-click").click(function() {
@@ -557,10 +625,11 @@ function parseTask(task) {
     var started = moment.utc(task.PickedUpDate);
     var now = moment.utc();
     var diff = moment.duration(now.diff(started)).humanize();
-    var text = task.Name + ' (' + diff + ')';
+    var text = task.Type.Name + ' (' + diff + ')';
     return text.split(' ').join(String.fromCharCode(160));
 }
 
 function isEmpty(str) {
     return (!str || 0 === str.length);
 }
+
