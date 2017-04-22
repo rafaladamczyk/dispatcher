@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -7,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Dispatcher.Models;
+using Microsoft.AspNet.SignalR;
 
 namespace Dispatcher.Controllers
 {
@@ -42,7 +42,7 @@ namespace Dispatcher.Controllers
         }
 
         // PUT: api/DispatchRequestTypes/5
-        [Authorize(Roles = "Admin")]
+        [System.Web.Http.Authorize(Roles = "Admin")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutDispatchRequestType(int id, DispatchRequestType dispatchRequestType)
         {
@@ -61,6 +61,7 @@ namespace Dispatcher.Controllers
             try
             {
                 await db.SaveChangesAsync();
+                BroadcastRequestTypes();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,7 +79,7 @@ namespace Dispatcher.Controllers
         }
 
         // POST: api/DispatchRequestTypes
-        [Authorize(Roles = "Admin")]
+        [System.Web.Http.Authorize(Roles = "Admin")]
         [ResponseType(typeof(DispatchRequestType))]
         public async Task<IHttpActionResult> PostDispatchRequestType(DispatchRequestType dispatchRequestType)
         {
@@ -101,12 +102,14 @@ namespace Dispatcher.Controllers
             db.Types.Add(dispatchRequestType);
             await db.SaveChangesAsync();
 
+            BroadcastRequestTypes();
+
             return CreatedAtRoute("DefaultApi", new { id = dispatchRequestType.Id }, dispatchRequestType);
         }
 
         // DELETE: api/DispatchRequestTypes/5
         [ResponseType(typeof(DispatchRequestType))]
-        [Authorize(Roles = "Admin")]
+        [System.Web.Http.Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> DeleteDispatchRequestType(int id)
         {
             DispatchRequestType dispatchRequestType = await db.Types.FindAsync(id);
@@ -117,6 +120,8 @@ namespace Dispatcher.Controllers
 
             db.Types.Remove(dispatchRequestType);
             await db.SaveChangesAsync();
+
+            BroadcastRequestTypes();
 
             return Ok(dispatchRequestType);
         }
@@ -133,6 +138,11 @@ namespace Dispatcher.Controllers
         private bool DispatchRequestTypeExists(int id)
         {
             return db.Types.Count(e => e.Id == id) > 0;
+        }
+
+        private void BroadcastRequestTypes()
+        {
+            GlobalHost.ConnectionManager.GetHubContext<RequestsHub>().Clients.All.updateRequestTypes(db.Types.ToList());
         }
     }
 }

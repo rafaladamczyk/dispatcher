@@ -1,9 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Owin;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartup(typeof(Dispatcher.Startup))]

@@ -102,15 +102,28 @@ var ViewModel = function () {
         location.hash = 'Tworzenie';
     }
     
-    self.getActiveRequests = function () {
-        self.getData(siteRoot + '/api/ActiveRequests/', self.updateActiveRequests, function () { self.activeRequests.removeAll(); });
-    }
-
     self.updateActiveRequests = function(data) {
-        var sortedData = data.sort(function(left, right) { return (isEmpty(left.ProvidingUserName) && isEmpty(right.ProvidingUserName)) ? 0 : (isEmpty(left.ProvidingUserName) ? -1 : 1) });
+        var sortedData = data.sort(function (left, right) {
+            if (isEmpty(left.ProvidingUserName) && isEmpty(right.ProvidingUserName)) {
+                return Date.parse(left.CreationDate) - Date.parse(right.CreationDate);
+            } else if (!isEmpty(left.ProvidingUserName) && !isEmpty(right.ProvidingUserName)) {
+                return Date.parse(left.CreationDate) - Date.parse(right.CreationDate);
+            }
+            else {
+                return isEmpty(left.ProvidingUserName) ? -1 : 1;
+            }
+        });
         self.activeRequests(sortedData);
         self.updateTasks();
     };
+
+    self.updateRequestTypes = function(data) {
+        var normalTypes = data.filter(function (el) { return !el.ForSelf });
+        var specialTypes = data.filter(function (el) { return el.ForSelf });
+
+        self.requestTypes(normalTypes);
+        self.specialRequestTypes(specialTypes);
+    }
 
     self.updateTasks = function()
     {
@@ -162,7 +175,7 @@ var ViewModel = function () {
 
         var originalText = event.target.textContent;
         self.disableButton(event.target);
-        
+
         $.ajax({
             type: 'POST',
             url: siteRoot + '/api/Account/UsersAndRoles',
@@ -175,17 +188,9 @@ var ViewModel = function () {
             showError(jx);
         }).always(function() {
             self.enableButton(event.target, originalText, "btn-info");
-        })
+        });
     }
 
-    self.getRequestTypes = function() {
-        self.getData(siteRoot + '/api/DispatchRequestTypes/', self.requestTypes);
-    }
-
-    self.getSpecialRequestTypes = function() {
-        self.getData(siteRoot + '/api/selfRequestTypes/', self.specialRequestTypes);
-    }
-    
     self.getData = function (uri, callback, errorCallback) {
 	     var token = localStorage.getItem(tokenKey);
 	     var headers = {};
@@ -224,9 +229,8 @@ var ViewModel = function () {
             url: siteRoot + '/api/CompleteRequest/' + request.Id,
             headers: headers
         }).fail(function(jx) {
-            showError(jx);
-        }).always(function() {
             self.enableButton(event.target, originalText, "btn-success");
+            showError(jx);
         });
     }
 
@@ -245,9 +249,8 @@ var ViewModel = function () {
             url: siteRoot + '/api/CancelRequest/' + request.Id,
             headers: headers
         }).fail(function(jx) {
-            showError(jx);
-        }).always(function () {
             self.enableButton(event.target, originalText, "btn-danger");
+            showError(jx);
         });
     }
 
@@ -266,9 +269,8 @@ var ViewModel = function () {
             url: siteRoot + '/api/DeleteRequest/' + request.Id,
             headers: headers
         }).fail(function(jx) {
-            showError(jx);
-        }).always(function () {
             self.enableButton(event.target, originalText, "btn-danger");
+            showError(jx);
         });
     }
 	
@@ -288,8 +290,7 @@ var ViewModel = function () {
             headers: headers
         }).fail(function(err) {
             showError(err);
-        }).always(function () {
-            self.enableButton(event.target, originalText, "btn-success");
+            self.enableButton(event.target, originalText, "btn-info");
         });
     }
 
@@ -319,7 +320,6 @@ var ViewModel = function () {
             showError(jx);
         }).always(function () {
             location.hash = 'Admin';
-            self.getSpecialRequestTypes();
             self.newSpecialRequestTypeInput(null);
             self.enableButton(form[1], originalText, "btn-info");
         });
@@ -343,10 +343,13 @@ var ViewModel = function () {
             showError(jx);
         }).always(function () {
             location.hash = 'Admin';
-            self.getRequestTypes();
             self.newRequestTypeInput(null);
             self.enableButton(form[1], originalText, "btn-info");
         });
+    }
+
+    self.showErrors = function(data) {
+        showError(data);
     }
 
     function showError(jqXHR) {
@@ -521,31 +524,21 @@ var ViewModel = function () {
             self.loginVisible(true);
         });
         this.get('#Zlecenia', function () {
-            if (self.isServiceProvider()) {
-                self.getSpecialRequestTypes();
-            }
             self.currentPage('Zlecenia');
             self.hideAllPages();
             self.requestsVisible(true);
         });
         this.get('#Tworzenie', function () {
-            if (self.isRequester()) {
-                self.getRequestTypes();
-            }
             self.currentPage('Tworzenie');
             self.hideAllPages();
             self.createRequestsVisible(true);
         });
         this.get('#Admin', function () {
-            if (self.isAdmin()) {
-                self.getRequestTypes();
-                self.getSpecialRequestTypes();
-            }
             self.currentPage('Admin');
             self.hideAllPages();
             self.administrationVisible(true);
         });
-        this._checkFormSubmission = function(form) {
+        this._checkFormSubmission = function() {
             return false;
         }
     }).run();
@@ -555,9 +548,6 @@ var ViewModel = function () {
         self.gotoDefault();
     });
     self.getUsersAndRoles();
-    self.getActiveRequests();
-    self.getRequestTypes();
-    self.getSpecialRequestTypes();
 };
 
 function UserWithRoles(data) {
@@ -570,32 +560,50 @@ function UserWithRoles(data) {
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
 
-var hub = $.connection.requestsHub;
-hub.client.updateActiveRequests = function (data) {
+var requestsHub = $.connection.requestsHub;
+requestsHub.client.updateActiveRequests = function (data) {
     viewModel.updateActiveRequests(data);
 };
-hub.client.updateUsersAndRoles = function(data) {
+requestsHub.client.updateUsersAndRoles = function(data) {
     viewModel.updateUsersAndRoles(data);
+}
+requestsHub.client.updateRequestTypes = function(data) {
+    viewModel.updateRequestTypes(data);
 }
 
 // Start the connection.
-$.connection.hub.start().done(function () { viewModel.connectionError(null) });
+$.connection.hub.start().done(initialize);
 
 $.connection.hub.reconnecting(function () {
     viewModel.connectionError("Utracono połączenie z serwerem");
 });
 
-$.connection.hub.reconnected(function () {
-    viewModel.connectionError(null);
-});
+$.connection.hub.reconnected(initialize);
 
 // Reconnect after disconnect
 $.connection.hub.disconnected(function () {
     setTimeout(function () {
-        $.connection.hub.start().done(function () { viewModel.connectionError(null) });
+        $.connection.hub.start().done(initialize);
     }, 5000); // Restart connection after 5 seconds.
 });
 
+function initialize() {
+    viewModel.connectionError(null);
+
+    requestsHub.server.getActiveRequests()
+        .done(function(result) {
+            viewModel.updateActiveRequests(result);
+        }).fail(function(data) {
+            self.showErrors(data);
+        });
+
+    requestsHub.server.getRequestTypes()
+        .done(function (result) {
+            viewModel.updateRequestTypes(result);
+        }).fail(function (data) {
+            self.showErrors(data);
+        });
+}
 
 
 moment.locale('pl');

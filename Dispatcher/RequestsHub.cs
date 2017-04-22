@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using Dispatcher.Models;
 using Microsoft.AspNet.SignalR;
 
 namespace Dispatcher
 {
     public class RequestsHub : Hub
     {
-        public void Affiramtive(string message)
+        public List<DispatchRequest> GetActiveRequests()
         {
-            throw new ArgumentException(message);
+            return new DispatcherContext().Requests.Where(r => r.Active).ToList();
+        }
+
+        public List<DispatchRequestType> GetRequestTypes()
+        {
+            return new DispatcherContext().Types.ToList();
         }
     }
 }
