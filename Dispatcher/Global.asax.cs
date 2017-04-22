@@ -58,11 +58,12 @@ namespace Dispatcher
                                 db.SaveChanges();
                                 var activeRequests = db.Requests.Where(r => r.Active).ToList();
                                 GlobalHost.ConnectionManager.GetHubContext<RequestsHub>().Clients.All.updateActiveRequests(activeRequests);
-                                await Task.Delay(TimeSpan.FromMinutes(5), cancellationTokenSource.Token);
                             }
                             catch
                             {
                             }
+
+                            await Task.Delay(TimeSpan.FromMinutes(5), cancellationTokenSource.Token);
                         }
                     },cancellationTokenSource.Token,
                     TaskCreationOptions.LongRunning).Start();
