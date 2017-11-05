@@ -273,7 +273,7 @@ var ViewModel = function () {
             showError(jx);
         });
     }
-	
+    
     self.acceptRequest = function (request, event) {
         var token = localStorage.getItem(tokenKey);
         var headers = {};
@@ -395,6 +395,26 @@ var ViewModel = function () {
             }
         }).fail(function(error) {
             showError(error);
+        });
+    }
+
+    self.deleteUser = function (userAndRoles, event) {
+        var token = localStorage.getItem(tokenKey);
+        var headers = {};
+        if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+
+        var originalText = event.target.textContent;
+        self.disableButton(event.target);
+
+        $.ajax({
+            type: 'DELETE',
+            url: siteRoot + '/api/Account/User/' + userAndRoles.Name,
+            headers: headers
+        }).fail(function(jx) {
+            self.enableButton(event.target, originalText, "btn-danger");
+            showError(jx);
         });
     }
 

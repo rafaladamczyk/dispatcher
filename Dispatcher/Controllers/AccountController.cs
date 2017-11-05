@@ -105,6 +105,23 @@ namespace Dispatcher.Controllers
             BroadcastUsersAndRoles();
         }
 
+        [HttpDelete]
+        [Route("User/{name}")]
+        [System.Web.Http.Authorize(Roles = "Admin")]
+        public IHttpActionResult DeleteUser(string name)
+        {
+            ApplicationUser user = UserManager.FindByName(name);
+            if (user == null)
+            {
+                NotFound();
+            }
+            
+            UserManager.Delete(user);
+
+            BroadcastUsersAndRoles();
+            return Ok();
+        }
+
         private void AddOrRemoveRole(string userId, string role, bool add)
         {
             if (add)

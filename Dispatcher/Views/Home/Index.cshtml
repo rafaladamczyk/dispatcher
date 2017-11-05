@@ -276,6 +276,7 @@
                                 <th class="text-center">Admin</th>
                                 <th class="text-center">Zlecenia</th>
                                 <th class="text-center">Tworzenie</th>
+                                <th class="text-center"></th>
                             </tr>
                             </thead>
                             <tbody data-bind="foreach: usersAndRoles">
@@ -291,6 +292,9 @@
                                 </td>
                                 <td style="vertical-align: middle" class="text-center">
                                     <input type="checkbox" data-bind="checked: IsRequester"/>
+                                </td>
+                                <td style="vertical-align: middle" class="text-center">
+                                    <button type="button" class="btn btn-block btn-danger" data-bind="click: $parent.deleteUser">Usuń</button>
                                 </td>
                             </tr>
                             </tbody>
