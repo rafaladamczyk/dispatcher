@@ -26,29 +26,32 @@ namespace Dispatcher
 
             try
             {
-                new Task(
+                Task.Run(
                     async () =>
                     {
-                        while (true)
+                        while (!cancellationTokenSource.Token.IsCancellationRequested)
                         {
                             IDispatcherContext db = DispatcherContext.Create();
-                            
+
                             try
                             {
                                 DateTime expiryDate = DateTime.UtcNow - TimeSpan.FromHours(1);
-                                var overdueRequests =
-                                    db.Requests.Where(
-                                        r =>
-                                            r.Active && r.PickedUpDate.HasValue && !r.Type.ForSelf
-                                            && DbFunctions.CreateDateTime(
-                                                r.PickedUpDate.Value.Year,
-                                                r.PickedUpDate.Value.Month,
-                                                r.PickedUpDate.Value.Day,
-                                                r.PickedUpDate.Value.Hour,
-                                                r.PickedUpDate.Value.Minute,
-                                                r.PickedUpDate.Value.Second)
-                                            < DbFunctions.CreateDateTime(expiryDate.Year, expiryDate.Month, expiryDate.Day, expiryDate.Hour, expiryDate.Minute, expiryDate.Second));
-                                
+                                var overdueRequests = db.Requests.Where(
+                                    r => r.Active && r.PickedUpDate.HasValue && !r.Type.ForSelf
+                                         && DbFunctions.CreateDateTime(
+                                             r.PickedUpDate.Value.Year,
+                                             r.PickedUpDate.Value.Month,
+                                             r.PickedUpDate.Value.Day,
+                                             r.PickedUpDate.Value.Hour,
+                                             r.PickedUpDate.Value.Minute,
+                                             r.PickedUpDate.Value.Second) < DbFunctions.CreateDateTime(
+                                             expiryDate.Year,
+                                             expiryDate.Month,
+                                             expiryDate.Day,
+                                             expiryDate.Hour,
+                                             expiryDate.Minute,
+                                             expiryDate.Second));
+
                                 foreach (var request in overdueRequests)
                                 {
                                     request.PickedUpDate = null;
@@ -65,10 +68,14 @@ namespace Dispatcher
 
                             await Task.Delay(TimeSpan.FromMinutes(5), cancellationTokenSource.Token);
                         }
-                    },cancellationTokenSource.Token,
-                    TaskCreationOptions.LongRunning).Start();
+                    },
+                    cancellationTokenSource.Token);
             }
             catch (TaskCanceledException)
+            {
+            }
+
+            catch (OperationCanceledException)
             {
             }
         }

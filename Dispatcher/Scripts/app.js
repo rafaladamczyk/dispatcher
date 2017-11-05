@@ -473,6 +473,21 @@ var ViewModel = function () {
             return !isEmpty(el.ProvidingUserName);
         });
     });
+    
+    self.requestsPending = ko.pureComputed(function () {
+        return self.activeRequests()
+            .filter(function (el) {
+                return isEmpty(el.ProvidingUserName);
+            })
+            .sort(function (left, right) {
+                return Date.parse(left.CreationDate) - Date.parse(right.CreationDate);
+            });
+    });
+    
+    self.placeInQueue = function (request) {
+        var index = self.requestsPending().indexOf(request);
+        return index;
+    }
 
     self.requestsAssignedToMe = ko.pureComputed(function () {
         return self.requestsAssignedToSomeone().filter(function (el) {
@@ -627,6 +642,16 @@ function parseTask(task) {
     var diff = moment.duration(now.diff(started)).humanize();
     var text = task.Type.Name + ' (' + diff + ')';
     return text.split(' ').join(String.fromCharCode(160));
+}
+
+function getPendingText(request) {
+    var position = viewModel.placeInQueue(request) + 1;
+    if (position > 0)
+    {
+        return "Oczekuje na miejscu " + position + " w kolejce"
+    }
+    
+    return "";
 }
 
 function isEmpty(str) {

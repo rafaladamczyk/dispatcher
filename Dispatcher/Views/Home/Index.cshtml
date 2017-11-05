@@ -204,8 +204,11 @@
                     <td style="vertical-align: middle" class="text-center">
                         <h3 data-bind="text: parseDate(CreationDate)"></h3>
                     </td>
-                    <td style="vertical-align: middle" class="text-center">
+                    <td data-bind="visible: ProvidingUserName" style="vertical-align: middle" class="text-center">
                         <h3 data-bind="text: parseDate(PickedUpDate)"></h3>
+                    </td>
+                    <td data-bind="visible: !ProvidingUserName" style="vertical-align: middle" class="text-center">
+                        <h3 data-bind="text: getPendingText($data)"></h3>
                     </td>
                     <td data-bind="visible: ProvidingUserName">
                         <button type="button" class="btn btn-block btn-huge btn-default" disabled="disabled" data-bind="
