@@ -50,17 +50,20 @@ namespace Dispatcher
                                              expiryDate.Day,
                                              expiryDate.Hour,
                                              expiryDate.Minute,
-                                             expiryDate.Second));
+                                             expiryDate.Second)).ToArray();
 
-                                foreach (var request in overdueRequests)
+                                if (overdueRequests.Any())
                                 {
-                                    request.PickedUpDate = null;
-                                    request.ProvidingUserName = null;
-                                }
+                                    foreach (var request in overdueRequests)
+                                    {
+                                        request.PickedUpDate = null;
+                                        request.ProvidingUserName = null;
+                                    }
 
-                                db.SaveChanges();
-                                var activeRequests = db.Requests.Where(r => r.Active).ToList();
-                                GlobalHost.ConnectionManager.GetHubContext<RequestsHub>().Clients.All.updateActiveRequests(activeRequests);
+                                    db.SaveChanges();
+                                    var activeRequests = db.Requests.Where(r => r.Active).ToList();
+                                    GlobalHost.ConnectionManager.GetHubContext<RequestsHub>().Clients.All.updateActiveRequests(activeRequests);
+                                }
                             }
                             catch
                             {
