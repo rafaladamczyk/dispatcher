@@ -90,17 +90,14 @@ namespace Dispatcher.Controllers
         }
 
         [System.Web.Http.Authorize(Roles = "Admin")]
-        [Route("UsersAndRoles")]
+        [Route("UserAndRoles")]
         [HttpPost]
-        public void SaveUsersAndRoles(List<UserRoleModel> usersAndRoles)
+        public void SaveUsersAndRoles(UserRoleModel userAndRoles)
         {
-            foreach (var userRoleModel in usersAndRoles)
-            {
-                var user = UserManager.FindByName(userRoleModel.Name);
-                AddOrRemoveRole(user.Id, "Admin", userRoleModel.IsAdmin);
-                AddOrRemoveRole(user.Id, "ObslugaZlecen", userRoleModel.IsServiceProvider);
-                AddOrRemoveRole(user.Id, "TworzenieZlecen", userRoleModel.IsRequester);
-            }
+            var user = UserManager.FindByName(userAndRoles.Name);
+            AddOrRemoveRole(user.Id, "Admin", userAndRoles.IsAdmin);
+            AddOrRemoveRole(user.Id, "ObslugaZlecen", userAndRoles.IsServiceProvider);
+            AddOrRemoveRole(user.Id, "TworzenieZlecen", userAndRoles.IsRequester);
 
             BroadcastUsersAndRoles();
         }

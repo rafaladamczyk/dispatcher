@@ -10,8 +10,6 @@ namespace Dispatcher.Models
     {
         public string Name { get; set; }
 
-        public IReadOnlyCollection<string> Roles { get; set; } 
-
-        public bool HasRegistered { get; set; }
+        public IReadOnlyCollection<string> Roles { get; set; }
     }
 }

@@ -17,6 +17,7 @@ var ViewModel = function () {
     self.administrationVisible = ko.observable();
 	self.registerVisible = ko.observable();
     self.availabilityVisible = ko.observable();
+    self.statsVisible = ko.observable();
     
     self.pages = ko.observableArray([
         {
@@ -42,6 +43,10 @@ var ViewModel = function () {
         {
             Name: 'Status',
             Enabled: ko.pureComputed(function () { return self.isServiceProvider() || self.isAdmin(); })
+        },
+        {
+            Name: 'Statystyki',
+            Enabled: ko.pureComputed(function () { return false; })
         }
     ]);
 	
@@ -62,11 +67,11 @@ var ViewModel = function () {
     
 	self.disableButton = function (element) {
 	    $(element).removeClass("btn-info btn-success btn-danger").addClass("btn-default").text("Czekaj").prop('disabled', true);
-	}
+	};
 
 	self.enableButton = function(element, text, css) {
         $(element).addClass(css).removeClass("btn-default").text(text).prop('disabled', false);
-	}
+	};
 
     self.hideAllPages = function() {
         self.registerVisible(false);
@@ -75,7 +80,7 @@ var ViewModel = function () {
         self.administrationVisible(false);
         self.createRequestsVisible(false);
         self.availabilityVisible(false);
-    }
+    };
 
     self.gotoDefault = function() {
         if (!location.hash) {
@@ -88,19 +93,19 @@ var ViewModel = function () {
             else
                 self.gotoRequests();
         }
-    }
+    };
 
     self.gotoLogin = function() {
         location.hash = 'Logowanie';
-    }
+    };
 
     self.gotoRequests = function () {
         location.hash = 'Zlecenia';
-    }
+    };
 
     self.gotoCreateRequests = function() {
         location.hash = 'Tworzenie';
-    }
+    };
     
     self.updateActiveRequests = function(data) {
         var sortedData = data.sort(function (left, right) {
@@ -123,7 +128,7 @@ var ViewModel = function () {
 
         self.requestTypes(normalTypes);
         self.specialRequestTypes(specialTypes);
-    }
+    };
 
     self.updateTasks = function()
     {
@@ -154,19 +159,19 @@ var ViewModel = function () {
             }
         }
         self.providersAndTheirTasks(arrayOfTasksPerUser);
-    }
+    };
     
     self.getUsersAndRoles = function () {
         self.getData(siteRoot + '/api/Account/UsersAndRoles/', self.updateUsersAndRoles);
-    }
+    };
 
     self.updateUsersAndRoles = function(data) {
         var mappedUsers = $.map(data, function(item) { return new UserWithRoles(item) });
         self.usersAndRoles(mappedUsers);
         self.updateTasks();
-    }
+    };
 
-    self.saveRoles = function (request, event) {
+    self.saveRoles = function (userAndRoles, event) {
         var token = localStorage.getItem(tokenKey);
         var headers = {};
         if (token) {
@@ -178,9 +183,9 @@ var ViewModel = function () {
 
         $.ajax({
             type: 'POST',
-            url: siteRoot + '/api/Account/UsersAndRoles',
+            url: siteRoot + '/api/Account/UserAndRoles',
             headers: headers,
-            data: ko.toJSON(self.usersAndRoles),
+            data: ko.toJSON(userAndRoles),
             contentType: "application/json"
         }).done(function() {
             self.getUserInfo();
@@ -189,7 +194,7 @@ var ViewModel = function () {
         }).always(function() {
             self.enableButton(event.target, originalText, "btn-info");
         });
-    }
+    };
 
     self.getData = function (uri, callback, errorCallback) {
 	     var token = localStorage.getItem(tokenKey);
@@ -211,7 +216,7 @@ var ViewModel = function () {
 	         }
 	         showError(err);
 	     });
-	 }
+	 };
 
 
     self.completeRequest = function(request, event) {
@@ -232,7 +237,7 @@ var ViewModel = function () {
             self.enableButton(event.target, originalText, "btn-success");
             showError(jx);
         });
-    }
+    };
 
     self.cancelRequest = function (request, event) {
         var token = localStorage.getItem(tokenKey);
@@ -252,7 +257,7 @@ var ViewModel = function () {
             self.enableButton(event.target, originalText, "btn-danger");
             showError(jx);
         });
-    }
+    };
 
     self.deleteRequest = function (request, event) {
         var token = localStorage.getItem(tokenKey);
@@ -272,7 +277,7 @@ var ViewModel = function () {
             self.enableButton(event.target, originalText, "btn-danger");
             showError(jx);
         });
-    }
+    };
     
     self.acceptRequest = function (request, event) {
         var token = localStorage.getItem(tokenKey);
@@ -292,15 +297,15 @@ var ViewModel = function () {
             showError(err);
             self.enableButton(event.target, originalText, "btn-info");
         });
-    }
+    };
 
     self.createRequest = function (requestType) {
         self.getData(siteRoot + '/api/CreateRequest/' + requestType.Id);
-    }
+    };
 
     self.createSpecialRequest = function(requestType) {
         self.getData(siteRoot + '/api/CreateSpecialRequest/' + requestType.Id);
-    }
+    };
 
     self.createSpecialRequestType = function(form) {
         var token = localStorage.getItem(tokenKey);
@@ -323,7 +328,7 @@ var ViewModel = function () {
             self.newSpecialRequestTypeInput(null);
             self.enableButton(form[1], originalText, "btn-info");
         });
-    }
+    };
 
     self.createRequestType = function(form) {
         var token = localStorage.getItem(tokenKey);
@@ -346,11 +351,15 @@ var ViewModel = function () {
             self.newRequestTypeInput(null);
             self.enableButton(form[1], originalText, "btn-info");
         });
-    }
+    };
+    
+    self.computeStats = function () {
+        self.getData(siteRoot + '/api/Stats/')
+    };
 
     self.showErrors = function(data) {
         showError(data);
-    }
+    };
 
     function showError(jqXHR) {
         var text = '';
@@ -371,7 +380,7 @@ var ViewModel = function () {
     self.clearUserInfo = function() {
         self.user(null);
         self.userRoles.removeAll();
-    }
+    };
 
     self.getUserInfo = function (callback) {
         var token = localStorage.getItem(tokenKey);
@@ -396,7 +405,28 @@ var ViewModel = function () {
         }).fail(function(error) {
             showError(error);
         });
-    }
+    };
+    
+    self.displayDeleteUserConfirmation = function (usersAndRoles,  event){
+        var dialogDiv = $( "#dialog-confirm");
+        dialogDiv.find("p").text("Jesteś pewien, że chcesz usunąć użytkownika '" + usersAndRoles.Name + "'?\n");
+        dialogDiv.dialog({
+            resizable: false,
+            height:200,
+            width: 300,
+            modal: true,
+            title: "Na pewno?",
+            buttons: {
+                "Usuń": function() {
+                    $(this).dialog( "close" );
+                    self.deleteUser(usersAndRoles, event);
+                },
+                "Anuluj": function() {
+                    $(this).dialog( "close" );
+                }
+            }
+        });
+    };
 
     self.deleteUser = function (userAndRoles, event) {
         var token = localStorage.getItem(tokenKey);
@@ -416,7 +446,7 @@ var ViewModel = function () {
             self.enableButton(event.target, originalText, "btn-danger");
             showError(jx);
         });
-    }
+    };
 
     self.clearForms = function () {
         self.registerUsername('');
@@ -424,7 +454,7 @@ var ViewModel = function () {
         self.registerPassword2('');
         self.loginUsername('');
         self.loginPassword('');
-    }
+    };
 
     self.register = function () {
         
@@ -442,7 +472,7 @@ var ViewModel = function () {
         }).done(function() {
             self.clearForms();
         }).fail(showError);
-    }
+    };
 
     self.login = function () {
         self.logout();
@@ -467,7 +497,7 @@ var ViewModel = function () {
         }).fail(function (error) {
             showError(error);
         });
-    }
+    };
 
     self.loggedInUser = ko.pureComputed(function () {
         return self.user() ? self.user() + "  " : "Niezalogowany  ";
@@ -507,7 +537,7 @@ var ViewModel = function () {
     self.placeInQueue = function (request) {
         var index = self.requestsPending().indexOf(request);
         return index;
-    }
+    };
 
     self.requestsAssignedToMe = ko.pureComputed(function () {
         return self.requestsAssignedToSomeone().filter(function (el) {
@@ -526,23 +556,29 @@ var ViewModel = function () {
             return el.Type.Id === id;
         });
         return temp.length > 0;
-    }
+    };
 
     self.specialRequestTypeActiveForMe = function(id) {
         var temp = self.requestsAssignedToMe().filter(function(el) {
             return el.TypeId === id;
         });
         return temp.length > 0;
-    }
+    };
     
     self.logout = function () {
         self.clearUserInfo();
         localStorage.removeItem(tokenKey);
         self.gotoLogin();
-    }
+    };
 
     // Initialize the navigation
     Sammy(function () {
+        this.get('#Statystyki', function () {
+           self.currentPage('Statystyki');
+           self.hideAllPages();
+           //self.statsVisible(true);
+           //self.computeStats();
+        });
         this.get('#Status', function() {
             self.currentPage('Status');
             self.hideAllPages();
@@ -601,10 +637,10 @@ requestsHub.client.updateActiveRequests = function (data) {
 };
 requestsHub.client.updateUsersAndRoles = function(data) {
     viewModel.updateUsersAndRoles(data);
-}
+};
 requestsHub.client.updateRequestTypes = function(data) {
     viewModel.updateRequestTypes(data);
-}
+};
 
 // Start the connection.
 $.connection.hub.start().done(initialize);

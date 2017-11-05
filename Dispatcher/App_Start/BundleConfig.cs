@@ -22,17 +22,22 @@ namespace Dispatcher
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
-
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.min.css",
-                      "~/Content/bootstrap-switch.min.css",
-                      "~/Content/style.css"));
-
+            
+            bundles.Add(
+                new StyleBundle("~/Content/css").Include(
+                    "~/Content/bootstrap.min.css",
+                    "~/Content/bootstrap-switch.min.css",
+                    "~/Content/style.css",
+                    "~/Content/jquery-ui.min.css",
+                    "~/Content/jquery-ui.structure.min.css",
+                    "~/Content/jquery-ui.theme.min.css"));
+            
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                 "~/Scripts/bootstrap-switch.min.js",
                 "~/Scripts/moment-with-locales.min.js",
                 "~/Scripts/sammy-latest.min.js",
                 "~/Scripts/knockout-{version}.js",
+                "~/Scripts/jquery-ui.min.js",
                 "~/Scripts/app.js"));
         }
     }
