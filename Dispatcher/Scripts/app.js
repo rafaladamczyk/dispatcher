@@ -702,9 +702,8 @@ function parseTask(task) {
 
 function getPendingText(request) {
     var position = viewModel.placeInQueue(request) + 1;
-    if (position > 0)
-    {
-        return "Oczekuje na miejscu " + position + " w kolejce"
+    if (position > 0) {
+        return "Oczekuje na miejscu " + position + " w kolejce";
     }
     
     return "";

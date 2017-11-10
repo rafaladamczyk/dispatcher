@@ -74,12 +74,6 @@ namespace Dispatcher.Controllers
                 return BadRequest($"Zlecenie typu '{type.Name}' jest zleceniem specjalnym.");
             }
 
-            var existingRequest = await db.Requests.FirstOrDefaultAsync(r => r.Active && r.RequestingUserName == User.Identity.Name && r.TypeId == typeId);
-            if (existingRequest != null)
-            {
-                return BadRequest($"Zlecenie typu '{type.Name}' dla użytkownika '{User.Identity.Name}' już istnieje.");
-            }
-
             var newRequest = new DispatchRequest { RequestingUserName = User.Identity.Name, Active = true, TypeId = typeId, CreationDate = DateTime.UtcNow, CompletionDate = null, Type = type};
             db.Requests.Add(newRequest);
             await db.SaveChangesAsync();

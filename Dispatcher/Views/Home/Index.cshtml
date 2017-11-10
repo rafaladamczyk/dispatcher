@@ -169,9 +169,7 @@
                 <li>
                     <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-big btn-info" data-bind="
                             text: $data.Name, 
-                            css: { 'btn-info' : !$parent.requestTypeActiveForMe($data.Id), 'btn-default' : $parent.requestTypeActiveForMe($data.Id)},
-                            click: $parent.createRequest,
-                            enable: !$parent.requestTypeActiveForMe($data.Id)
+                            click: $parent.createRequest
                             ">
                     </button>
                 </li>
