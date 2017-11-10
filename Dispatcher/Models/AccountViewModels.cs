@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Objects.DataClasses;
+﻿using System.Collections.Generic;
 
 namespace Dispatcher.Models
 {
@@ -8,8 +6,10 @@ namespace Dispatcher.Models
 
     public class UserInfoViewModel
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
-        public IReadOnlyCollection<string> Roles { get; set; }
+        public ISet<string> Roles { get; set; }
     }
 }

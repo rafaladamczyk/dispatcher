@@ -108,7 +108,6 @@
     <Compile Include="Controllers\DispatchRequestControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
-    <Compile Include="TestContext.cs" />
     <Compile Include="TestDbSet.cs" />
   </ItemGroup>
   <ItemGroup>

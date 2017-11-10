@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dispatcher.Data;
 using Dispatcher.Models;
 using Microsoft.AspNet.SignalR;
 
@@ -7,14 +8,24 @@ namespace Dispatcher
 {
     public class RequestsHub : Hub
     {
-        public List<DispatchRequest> GetActiveRequests()
+        public DispatcherUow Uow = new DispatcherUow();
+
+        public List<Request> GetActiveRequests()
         {
-            return new DispatcherContext().Requests.Where(r => r.Active).ToList();
+            return Uow.Requests.GetAll().Where(r => r.Active).ToList();
         }
 
-        public List<DispatchRequestType> GetRequestTypes()
+        public List<RequestType> GetRequestTypes()
         {
-            return new DispatcherContext().Types.ToList();
+            return Uow.RequestTypes.GetAll().ToList();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            Uow.Dispose();
+            Uow = null;
+
+            base.Dispose(disposing);
         }
     }
 }

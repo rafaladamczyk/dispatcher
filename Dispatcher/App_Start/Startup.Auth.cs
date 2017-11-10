@@ -1,4 +1,5 @@
 ﻿using System;
+using Dispatcher.Data;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;

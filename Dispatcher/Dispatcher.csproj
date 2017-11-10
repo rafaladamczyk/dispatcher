@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\..\mi\rulesets\Granta.MI.CSharp6.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -222,12 +223,33 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\DispatchRequestController.cs" />
-    <Compile Include="Controllers\DispatchRequestTypesController.cs" />
+    <Compile Include="Controllers\AbstractBaseController.cs" />
+    <Compile Include="Controllers\RequestsController.cs" />
+    <Compile Include="Controllers\RequestTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Data\DispatcherUow.cs" />
+    <Compile Include="Data\EFRepository.cs" />
+    <Compile Include="Data\Interfaces\IDispatcherUow.cs" />
+    <Compile Include="Data\Interfaces\IRepository.cs" />
     <Compile Include="Migrations\201604021836560_InitialCreate.cs" />
     <Compile Include="Migrations\201604021836560_InitialCreate.Designer.cs">
       <DependentUpon>201604021836560_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711100712046_foreignUserKey.cs" />
+    <Compile Include="Migrations\201711100712046_foreignUserKey.Designer.cs">
+      <DependentUpon>201711100712046_foreignUserKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711101211086_rowversion.cs" />
+    <Compile Include="Migrations\201711101211086_rowversion.Designer.cs">
+      <DependentUpon>201711101211086_rowversion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711101250476_ExpandingUser.cs" />
+    <Compile Include="Migrations\201711101250476_ExpandingUser.Designer.cs">
+      <DependentUpon>201711101250476_ExpandingUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711101629538_renames.cs" />
+    <Compile Include="Migrations\201711101629538_renames.Designer.cs">
+      <DependentUpon>201711101629538_renames.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
@@ -235,12 +257,10 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\DispatcherContext.cs" />
-    <Compile Include="Models\DispatchRequest.cs" />
-    <Compile Include="Models\DispatchRequestType.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\IDispatcherContext.cs" />
-    <Compile Include="Models\UserRoleModel.cs" />
+    <Compile Include="Data\DispatcherContext.cs" />
+    <Compile Include="Models\Request.cs" />
+    <Compile Include="Models\RequestType.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="RequestsHub.cs" />
@@ -270,13 +290,64 @@
     <Content Include="Content\jquery-ui.theme.css" />
     <Content Include="Content\jquery-ui.theme.min.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
+    <None Include="Scripts\lib\amplify-vsdoc.js" />
+    <Content Include="Scripts\app\binder.js" />
+    <Content Include="Scripts\app\bootstrapper.js" />
+    <Content Include="Scripts\app\config.js" />
+    <Content Include="Scripts\app\datacontext.js" />
+    <Content Include="Scripts\app\dataprimer.js" />
+    <Content Include="Scripts\app\dataservice.js" />
+    <Content Include="Scripts\app\dataservice.machine.js" />
+    <Content Include="Scripts\app\dataservice.request.js" />
+    <Content Include="Scripts\app\dataservice.requestType.js" />
+    <Content Include="Scripts\app\dataservice.user.js" />
+    <Content Include="Scripts\app\messenger.js" />
+    <Content Include="Scripts\app\model.js" />
+    <Content Include="Scripts\app\model.machine.js" />
+    <Content Include="Scripts\app\model.mapper.js" />
+    <Content Include="Scripts\app\model.request.js" />
+    <Content Include="Scripts\app\model.requestType.js" />
+    <Content Include="Scripts\app\model.user.js" />
+    <Content Include="Scripts\app\presenter.js" />
+    <Content Include="Scripts\app\route-config.js" />
+    <Content Include="Scripts\app\auth.js" />
+    <Content Include="Scripts\app\route-mediator.js" />
+    <Content Include="Scripts\app\router.js" />
+    <Content Include="Scripts\app\utils.js" />
+    <Content Include="Scripts\app\vm.account.js" />
+    <Content Include="Scripts\app\vm.admin.js" />
+    <Content Include="Scripts\app\vm.js" />
+    <Content Include="Scripts\app\vm.machines.js" />
+    <Content Include="Scripts\app\vm.requests.js" />
+    <Content Include="Scripts\app\vm.shell.js" />
+    <Content Include="Scripts\lib\amplify.js" />
+    <Content Include="Scripts\lib\amplify.min.js" />
+    <Content Include="Scripts\lib\amplify.core.js" />
+    <Content Include="Scripts\lib\amplify.core.min.js" />
+    <Content Include="Scripts\lib\amplify.request.js" />
+    <Content Include="Scripts\lib\amplify.request.min.js" />
+    <Content Include="Scripts\lib\amplify.store.js" />
+    <Content Include="Scripts\lib\amplify.store.min.js" />
     <Content Include="Scripts\app.js" />
-    <Content Include="Scripts\bootstrap-switch.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\lib\infuser-amd.js" />
+    <Content Include="Scripts\lib\infuser-amd.min.gz.js" />
+    <Content Include="Scripts\lib\infuser-amd.min.js" />
+    <Content Include="Scripts\lib\infuser.js" />
+    <Content Include="Scripts\lib\infuser.min.gz.js" />
+    <Content Include="Scripts\lib\infuser.min.js" />
+    <Content Include="Scripts\lib\knockout.activity.js" />
+    <Content Include="Scripts\lib\knockout.command.js" />
+    <Content Include="Scripts\lib\knockout.dirtyFlag.js" />
+    <Content Include="Scripts\lib\bootstrap-switch.min.js" />
+    <Content Include="Scripts\lib\bootstrap.js" />
+    <Content Include="Scripts\lib\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
@@ -297,27 +368,50 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <None Include="Properties\PublishProfiles\Test.pubxml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\HtmlPage1.html" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-ui.js" />
-    <Content Include="Scripts\jquery-ui.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.1.2.js" />
-    <Content Include="Scripts\jquery.signalR-2.1.2.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-3.4.0.debug.js" />
-    <Content Include="Scripts\knockout-3.4.0.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\moment-with-locales.min.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\sammy-latest.min.js" />
-    <Content Include="Web.config" />
+    <None Include="Scripts\lib\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\lib\jquery-1.10.2.js" />
+    <Content Include="Scripts\lib\jquery-1.10.2.min.js" />
+    <None Include="Scripts\lib\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\lib\jquery-ui.js" />
+    <Content Include="Scripts\lib\jquery-ui.min.js" />
+    <Content Include="Scripts\lib\jquery.signalR-2.1.2.js" />
+    <Content Include="Scripts\lib\jquery.signalR-2.1.2.min.js" />
+    <Content Include="Scripts\lib\jquery.validate.js" />
+    <Content Include="Scripts\lib\jquery.validate.min.js" />
+    <Content Include="Scripts\lib\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\lib\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lib\knockout-3.4.0.debug.js" />
+    <Content Include="Scripts\lib\knockout-3.4.0.js" />
+    <Content Include="Scripts\lib\knockout.validation.js" />
+    <Content Include="Scripts\lib\koExternalTemplateEngine.js" />
+    <Content Include="Scripts\lib\modernizr-2.6.2.js" />
+    <Content Include="Scripts\lib\moment-with-locales.js" />
+    <Content Include="Scripts\lib\moment-with-locales.min.js" />
+    <Content Include="Scripts\lib\moment.js" />
+    <Content Include="Scripts\lib\moment.min.js" />
+    <Content Include="Scripts\lib\respond.js" />
+    <Content Include="Scripts\lib\respond.min.js" />
+    <Content Include="Scripts\lib\sammy-latest.min.js" />
+    <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\lib\r.js" />
+    <Content Include="Scripts\lib\require.js" />
+    <Content Include="Scripts\lib\toastr.js" />
+    <Content Include="Scripts\lib\toastr.min.js" />
+    <Content Include="Scripts\lib\TrafficCop-amd.js" />
+    <Content Include="Scripts\lib\TrafficCop-amd.min.gz.js" />
+    <Content Include="Scripts\lib\TrafficCop-amd.min.js" />
+    <Content Include="Scripts\lib\TrafficCop.js" />
+    <Content Include="Scripts\lib\TrafficCop.min.gz.js" />
+    <Content Include="Scripts\lib\TrafficCop.min.js" />
+    <Content Include="Scripts\lib\underscore.js" />
+    <Content Include="Scripts\lib\underscore.min.js" />
+    <Content Include="Views\account.cshtml" />
+    <Content Include="Views\requests.cshtml" />
+    <Content Include="Views\machines.cshtml" />
+    <Content Include="Views\admin.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -325,15 +419,14 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Scripts\lib\underscore.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -341,11 +434,22 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604021836560_InitialCreate.resx">
       <DependentUpon>201604021836560_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711100712046_foreignUserKey.resx">
+      <DependentUpon>201711100712046_foreignUserKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711101211086_rowversion.resx">
+      <DependentUpon>201711101211086_rowversion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711101250476_ExpandingUser.resx">
+      <DependentUpon>201711101250476_ExpandingUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711101629538_renames.resx">
+      <DependentUpon>201711101629538_renames.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

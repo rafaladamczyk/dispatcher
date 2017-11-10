@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using Dispatcher.Data;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using Dispatcher.Models;
 
 namespace Dispatcher
 {

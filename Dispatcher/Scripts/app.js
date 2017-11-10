@@ -1,5 +1,4 @@
-﻿var siteRoot = "/Dispatcher";
-var ViewModel = function () {
+﻿var ViewModel = function () {
     var self = this;
     self.activeRequests = ko.observableArray();
     self.usersAndRoles = ko.observableArray();
@@ -52,7 +51,7 @@ var ViewModel = function () {
 	
     var tokenKey = 'accessToken';
 
-    self.user = ko.observable();
+    self.user = { Name: ko.observable(), Id: ko.observable() }
     self.userRoles = ko.observableArray();
 
     self.registerUsername = ko.observable();
@@ -84,7 +83,7 @@ var ViewModel = function () {
 
     self.gotoDefault = function() {
         if (!location.hash) {
-            if (!self.user()) 
+            if (!self.user.Id()) 
                 self.gotoLogin();
             else if (self.isAdmin())
                 self.gotoRequests();
@@ -106,16 +105,27 @@ var ViewModel = function () {
     self.gotoCreateRequests = function() {
         location.hash = 'Tworzenie';
     };
-    
+
+    self.updateRequest = function(request) {
+        var match = ko.utils.arrayFirst(self.activeRequests(),
+            function(item) {
+                return item.Id === request.Id;
+            });
+
+        if (!match) {
+            self.activeRequests().push(request);
+        }
+    }
+
     self.updateActiveRequests = function(data) {
         var sortedData = data.sort(function (left, right) {
-            if (isEmpty(left.ProvidingUserName) && isEmpty(right.ProvidingUserName)) {
+            if (isEmpty(left.ProviderId) && isEmpty(right.ProviderId)) {
                 return Date.parse(left.CreationDate) - Date.parse(right.CreationDate);
-            } else if (!isEmpty(left.ProvidingUserName) && !isEmpty(right.ProvidingUserName)) {
+            } else if (!isEmpty(left.ProviderId) && !isEmpty(right.ProviderId)) {
                 return Date.parse(left.CreationDate) - Date.parse(right.CreationDate);
             }
             else {
-                return isEmpty(left.ProvidingUserName) ? -1 : 1;
+                return !left.ProviderId ? -1 : 1;
             }
         });
         self.activeRequests(sortedData);
@@ -141,10 +151,10 @@ var ViewModel = function () {
         });
 
         self.requestsAssignedToSomeone().forEach(function (element) {
-            if (!perUserDict.hasOwnProperty(element.ProvidingUserName)) {
-                perUserDict[element.ProvidingUserName] = { Name: element.ProvidingUserName, Tasks: [], SpecialTasks: [] };
+            if (!perUserDict.hasOwnProperty(element.ProviderId)) {
+                perUserDict[element.Provider.UserName] = { Name: element.Provider.UserName, Tasks: [], SpecialTasks: [] };
             }
-            var existingEntry = perUserDict[element.ProvidingUserName];
+            var existingEntry = perUserDict[element.Provider.UserName];
             if (element.Type.ForSelf) {
                 existingEntry.SpecialTasks.push(element);
             } else {
@@ -162,7 +172,7 @@ var ViewModel = function () {
     };
     
     self.getUsersAndRoles = function () {
-        self.getData(siteRoot + '/api/Account/UsersAndRoles/', self.updateUsersAndRoles);
+        self.getData(window.siteRoot + '/api/Account/Users/', self.updateUsersAndRoles);
     };
 
     self.updateUsersAndRoles = function(data) {
@@ -231,7 +241,7 @@ var ViewModel = function () {
 
         $.ajax({
             type: 'PUT',
-            url: siteRoot + '/api/CompleteRequest/' + request.Id,
+            url: window.siteRoot + '/api/CompleteRequest/' + request.Id,
             headers: headers
         }).fail(function(jx) {
             self.enableButton(event.target, originalText, "btn-success");
@@ -251,7 +261,7 @@ var ViewModel = function () {
 
         $.ajax({
             type: 'PUT',
-            url: siteRoot + '/api/CancelRequest/' + request.Id,
+            url: window.siteRoot + '/api/CancelRequest/' + request.Id,
             headers: headers
         }).fail(function(jx) {
             self.enableButton(event.target, originalText, "btn-danger");
@@ -271,7 +281,7 @@ var ViewModel = function () {
 
         $.ajax({
             type: 'DELETE',
-            url: siteRoot + '/api/DeleteRequest/' + request.Id,
+            url: window.siteRoot + '/api/DeleteRequest/' + request.Id,
             headers: headers
         }).fail(function(jx) {
             self.enableButton(event.target, originalText, "btn-danger");
@@ -291,7 +301,7 @@ var ViewModel = function () {
 
         $.ajax({
             type: 'PUT',
-            url: siteRoot + '/api/AcceptRequest/' + request.Id,
+            url: window.siteRoot + '/api/AcceptRequest/' + request.Id,
             headers: headers
         }).fail(function(err) {
             showError(err);
@@ -300,11 +310,22 @@ var ViewModel = function () {
     };
 
     self.createRequest = function (requestType) {
-        self.getData(siteRoot + '/api/CreateRequest/' + requestType.Id);
+        var token = localStorage.getItem(tokenKey);
+        var headers = {};
+        if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+        $.ajax({
+            type: 'POST',
+            url: window.siteRoot + '/api/Request/',
+            data: { TypeId: requestType.Id
+            },
+            headers: headers
+        });
     };
 
     self.createSpecialRequest = function(requestType) {
-        self.getData(siteRoot + '/api/CreateSpecialRequest/' + requestType.Id);
+        self.getData(window.siteRoot + '/api/CreateSpecialRequest/' + requestType.Id);
     };
 
     self.createSpecialRequestType = function(form) {
@@ -318,7 +339,7 @@ var ViewModel = function () {
         self.disableButton(form[1]);
         $.ajax({
             type: 'POST',
-            url: siteRoot + '/api/DispatchRequestTypes/',
+            url: window.siteRoot + '/api/DispatchRequestTypes/',
             data: { Name: self.newSpecialRequestTypeInput(), ForSelf: true },
             headers: headers
         }).fail(function (jx) {
@@ -341,7 +362,7 @@ var ViewModel = function () {
         self.disableButton(form[1]);
         $.ajax({
             type: 'POST',
-            url: siteRoot + '/api/DispatchRequestTypes/',
+            url: window.siteRoot + '/api/DispatchRequestTypes/',
             data: { Name: self.newRequestTypeInput() },
             headers: headers
         }).fail(function (jx) {
@@ -354,7 +375,7 @@ var ViewModel = function () {
     };
     
     self.computeStats = function () {
-        self.getData(siteRoot + '/api/Stats/')
+        self.getData(window.siteRoot + '/api/Stats/')
     };
 
     self.showErrors = function(data) {
@@ -378,7 +399,8 @@ var ViewModel = function () {
     }
     
     self.clearUserInfo = function() {
-        self.user(null);
+        self.user.Name(null);
+        self.user.Id(null);
         self.userRoles.removeAll();
     };
 
@@ -394,10 +416,11 @@ var ViewModel = function () {
         
         $.ajax({
             type: 'GET',
-            url: siteRoot + '/api/Account/UserInfo',
+            url: window.siteRoot + '/api/Account/User',
             headers: headers
         }).done(function (data) {
-            self.user(data.Name);
+            self.user.Name(data.Name);
+            self.user.Id(data.Id);
             self.userRoles(data.Roles);
             if (callback) {
                 callback();
@@ -500,10 +523,10 @@ var ViewModel = function () {
     };
 
     self.loggedInUser = ko.pureComputed(function () {
-        return self.user() ? self.user() + "  " : "Niezalogowany  ";
+        return self.user.Id() ? self.user.Name() + "  " : "Niezalogowany  ";
     }, self);
     self.loginMessage = ko.pureComputed(function () {
-        return self.user() ? "Zalogowany jako: " + self.user() : "Niezalogowany";
+        return self.user.Id() ? "Zalogowany jako: " + self.user.Name() : "Niezalogowany";
     }, self);
 
     self.isAdmin = ko.pureComputed(function () {
@@ -520,14 +543,14 @@ var ViewModel = function () {
 
     self.requestsAssignedToSomeone = ko.pureComputed(function () {
         return self.activeRequests().filter(function (el) {
-            return !isEmpty(el.ProvidingUserName);
+            return el.Provider;
         });
     });
     
     self.requestsPending = ko.pureComputed(function () {
         return self.activeRequests()
             .filter(function (el) {
-                return isEmpty(el.ProvidingUserName);
+                return !el.Provider;
             })
             .sort(function (left, right) {
                 return Date.parse(left.CreationDate) - Date.parse(right.CreationDate);
@@ -541,13 +564,13 @@ var ViewModel = function () {
 
     self.requestsAssignedToMe = ko.pureComputed(function () {
         return self.requestsAssignedToSomeone().filter(function (el) {
-            return el.ProvidingUserName === self.user();
+            return el.Provider && el.Provider.UserName === self.user.Name();
         });
     });
 
     self.requestsCreatedByMe = ko.pureComputed(function() {
         return self.activeRequests().filter(function (el) {
-            return el.RequestingUserName === self.user();
+            return el.Creator && el.Creator.UserName === self.user.Name();
         });
     });
 
@@ -632,14 +655,11 @@ var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
 
 var requestsHub = $.connection.requestsHub;
-requestsHub.client.updateActiveRequests = function (data) {
-    viewModel.updateActiveRequests(data);
-};
-requestsHub.client.updateUsersAndRoles = function(data) {
-    viewModel.updateUsersAndRoles(data);
-};
-requestsHub.client.updateRequestTypes = function(data) {
-    viewModel.updateRequestTypes(data);
+requestsHub.client.updateRequest = function (request) {
+    viewModel.updateRequest(request);
+}
+requestsHub.client.updateRequestType = function(type) {
+    viewModel.updateRequestTypes(type);
 };
 
 // Start the connection.
@@ -661,21 +681,9 @@ $.connection.hub.disconnected(function () {
 function initialize() {
     viewModel.connectionError(null);
 
-    requestsHub.server.getActiveRequests()
-        .done(function(result) {
-            viewModel.updateActiveRequests(result);
-        }).fail(function(data) {
-            self.showErrors(data);
-        });
-
-    requestsHub.server.getRequestTypes()
-        .done(function (result) {
-            viewModel.updateRequestTypes(result);
-        }).fail(function (data) {
-            self.showErrors(data);
-        });
-}
-
+    viewModel.getData(window.siteRoot + '/api/ActiveRequests/', viewModel.updateActiveRequests, viewModel.showErrors);
+    viewModel.getData(window.siteRoot + '/api/RequestTypes/', viewModel.updateRequestTypes, viewModel.showErrors);
+ }
 
 moment.locale('pl');
 $("a.collapse-menu-after-click").click(function() {
@@ -702,9 +710,8 @@ function parseTask(task) {
 
 function getPendingText(request) {
     var position = viewModel.placeInQueue(request) + 1;
-    if (position > 0)
-    {
-        return "Oczekuje na miejscu " + position + " w kolejce"
+    if (position > 0) {
+        return "Oczekuje na miejscu " + position + " w kolejce";
     }
     
     return "";

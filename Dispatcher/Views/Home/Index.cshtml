@@ -1,10 +1,11 @@
 ﻿<div id="dialog-confirm">
     <p id="dialog-message"><span class="ui-icon ui-icon-alert" style="display: none; float:left; margin:0 7px 20px 0;"></span></p>
 </div>
+<div id="busyindicator"></div>
 <div class="container-fluid" data-bind="visible: true" style="display: none;">
 <div class="row">
     <div class="col-lg-12">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav id="shellTop-view" class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
@@ -24,11 +25,11 @@
                         <a href="#" data-bind="text: loggedInUser" class="dropdown-toggle dropdownText" data-toggle="dropdown"><strong class="caret"></strong></a>
                         <ul class="dropdown-menu">
                             <!-- FOR LOGGED-IN USER-->
-                            <li data-bind="visible: user()" class="loginDropdown">
+                            <li data-bind="if: user.Id" class="loginDropdown">
                                 <a class="dropdownText collapse-menu-after-click" href="#" data-bind="click: logout">Wyloguj</a>
                             </li>
                             <!-- FOR ANONYMOUES -->
-                            <li data-bind="visible: !user()" class="loginDropdown">
+                            <li data-bind="ifnot: user.Id" class="loginDropdown">
                                 <a class="dropdownText collapse-menu-after-click" href="#" data-bind="click: gotoLogin">Zaloguj</a>
                             </li>
                         </ul>
@@ -85,7 +86,7 @@
                         <h3 data-bind="text: Type.Name"></h3>
                     </td>
                     <td style="vertical-align: middle" class="text-center">
-                        <h3 data-bind="text: RequestingUserName"></h3>
+                        <h3 data-bind="text: Creator.UserName"></h3>
                     </td>
                     <td class="col-lg-3">
                         <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.cancelRequest">Anuluj</button>
@@ -119,15 +120,15 @@
                 <td style="vertical-align: middle" class="text-center">
                     <h3 data-bind="text: Type.Name"></h3></td>
                 <td style="vertical-align: middle" class="text-center">
-                    <h3 data-bind="text: RequestingUserName"></h3></td>
+                    <h3 data-bind="text: Creator.UserName"></h3></td>
                 <td style="vertical-align: middle" class="text-center">
                     <h3 data-bind="text: parseDate(CreationDate)"></h3></td>
                 <td><button type="button" class="btn btn-block btn-huge " data-bind="
 						click: $parent.acceptRequest,
-						css: { 'btn-info' : !ProvidingUserName, 'btn-default' : ProvidingUserName},
-						enable: !ProvidingUserName,
-                        text: ProvidingUserName ? ProvidingUserName : 'Przyjmij', 
-						visible: (ProvidingUserName || $parent.isServiceProvider)
+						css: { 'btn-info' : !Provider.Id, 'btn-default' : Provider.Id},
+						enable: !Provider.Id,
+                        text: Provider.Id ? Provider.UserName : 'Przyjmij', 
+						visible: (Provider.Id || $parent.isServiceProvider)
                         "></button>
                 </td>
             </tr>
@@ -207,18 +208,18 @@
                     <td style="vertical-align: middle" class="text-center">
                         <h3 data-bind="text: parseDate(CreationDate)"></h3>
                     </td>
-                    <td data-bind="visible: ProvidingUserName" style="vertical-align: middle" class="text-center">
+                    <td data-bind="visible: Provider.Id" style="vertical-align: middle" class="text-center">
                         <h3 data-bind="text: parseDate(PickedUpDate)"></h3>
                     </td>
-                    <td data-bind="visible: !ProvidingUserName" style="vertical-align: middle" class="text-center">
+                    <td data-bind="visible: !Provider.Id" style="vertical-align: middle" class="text-center">
                         <h3 data-bind="text: getPendingText($data)"></h3>
                     </td>
-                    <td data-bind="visible: ProvidingUserName">
+                    <td data-bind="visible: Provider.Id">
                         <button type="button" class="btn btn-block btn-huge btn-default" disabled="disabled" data-bind="
-                                    text: ProvidingUserName,
+                                    text: Provider.UserName,
                                     "></button>
                     </td>
-                    <td data-bind="visible: !ProvidingUserName">
+                    <td data-bind="visible: !Provider.Id">
                         <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.deleteRequest">Usuń</button>
                     </td>
                 </tr>
@@ -235,7 +236,7 @@
     </div>
 </div>
 <div class="row" data-bind="visible: loginVisible">
-    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: !user()">
+    <div class="col-lg-6 col-lg-offset-3" data-bind="ifnot: user.Id">
         <h2>Logowanie</h2>
         <form data-bind="submit: login">
             <div class="form-group">
@@ -253,7 +254,7 @@
         </form>
     </div>
 
-    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: user">
+    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: user.Id">
         <h2 data-bind="text: loginMessage"></h2>
         <div>
             <button class="btn btn-info btn-huge" data-bind="click: logout"> Wyloguj </button>

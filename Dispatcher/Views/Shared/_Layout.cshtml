@@ -9,10 +9,16 @@
 </head>
 <body>
 @RenderBody()
+<script type="text/javascript">
+    var siteRoot = '@VirtualPathUtility.ToAbsolute("~/")'
+</script>
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/signalR")
 <script type="text/javascript" src="~/signalr/hubs"></script>
 @Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/libs")
+@Scripts.Render("~/Scripts/lib/require.js") 
 @Scripts.Render("~/bundles/app")
+@Scripts.Render("~/Scripts/main.js")
 </body>
 </html>
