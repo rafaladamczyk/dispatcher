@@ -11,6 +11,7 @@ namespace Dispatcher.Data
         private Lazy<IRepository<Request>> requests;
         private Lazy<IRepository<RequestType>> requestTypes;
         private Lazy<IRepository<ApplicationUser>> users;
+        private Lazy<IRepository<Machine>> machines;
 
         public DispatcherUow()
         {
@@ -31,6 +32,7 @@ namespace Dispatcher.Data
         public IRepository<RequestType> RequestTypes => requestTypes.Value;
 
         public IRepository<ApplicationUser> Users => users.Value;
+        public IRepository<Machine> Machines => machines.Value;
 
         protected void CreateDbContext()
         {
@@ -45,6 +47,7 @@ namespace Dispatcher.Data
             requests = new Lazy<IRepository<Request>>(() => new EFRepository<Request>(DbContext), LazyThreadSafetyMode.PublicationOnly);
             requestTypes = new Lazy<IRepository<RequestType>>(() => new EFRepository<RequestType>(DbContext), LazyThreadSafetyMode.PublicationOnly);
             users = new Lazy<IRepository<ApplicationUser>>(() => new EFRepository<ApplicationUser>(DbContext), LazyThreadSafetyMode.PublicationOnly);
+            machines = new Lazy<IRepository<Machine>>(() => new EFRepository<Machine>(DbContext), LazyThreadSafetyMode.PublicationOnly);
         }
 
         public void Dispose()

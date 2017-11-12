@@ -15,6 +15,7 @@ namespace Dispatcher.Models
         [Index]
         public bool Active { get; set; }
 
+        [Required]
         public DateTime CreationDate { get; set; }
 
         public DateTime? PickedUpDate { get; set; }
@@ -30,14 +31,19 @@ namespace Dispatcher.Models
         public long ServiceDurationTicks { get; set; }
 
         public int TypeId { get; set; }
+
+        [Required]
         [ForeignKey("TypeId")]
         public virtual RequestType Type { get; set; }
         
         public string CreatorId { get; set; }
+
+        [Required]
         [ForeignKey("CreatorId")]
         public virtual ApplicationUser Creator { get; set; }
         
         public string ProviderId { get; set; }
+
         [ForeignKey("ProviderId")]
         public virtual ApplicationUser Provider { get; set; }
     }

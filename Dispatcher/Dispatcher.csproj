@@ -224,6 +224,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AbstractBaseController.cs" />
+    <Compile Include="Controllers\MachinesController.cs" />
     <Compile Include="Controllers\RequestsController.cs" />
     <Compile Include="Controllers\RequestTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -251,6 +252,14 @@
     <Compile Include="Migrations\201711101629538_renames.Designer.cs">
       <DependentUpon>201711101629538_renames.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711120916325_machines.cs" />
+    <Compile Include="Migrations\201711120916325_machines.Designer.cs">
+      <DependentUpon>201711120916325_machines.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711120924335_more_machines.cs" />
+    <Compile Include="Migrations\201711120924335_more_machines.Designer.cs">
+      <DependentUpon>201711120924335_more_machines.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -258,6 +267,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Data\DispatcherContext.cs" />
+    <Compile Include="Models\Machine.cs" />
     <Compile Include="Models\Request.cs" />
     <Compile Include="Models\RequestType.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -428,6 +438,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Machines\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -451,6 +462,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711101629538_renames.resx">
       <DependentUpon>201711101629538_renames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711120916325_machines.resx">
+      <DependentUpon>201711120916325_machines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711120924335_more_machines.resx">
+      <DependentUpon>201711120924335_more_machines.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

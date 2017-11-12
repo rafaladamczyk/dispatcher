@@ -11,5 +11,7 @@ namespace Dispatcher.Data.Interfaces
         IRepository<RequestType> RequestTypes { get; }
 
         IRepository<ApplicationUser> Users { get; }
+
+        IRepository<Machine> Machines { get; }
     }
 }

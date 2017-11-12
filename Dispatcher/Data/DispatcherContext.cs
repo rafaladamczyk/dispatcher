@@ -16,6 +16,8 @@ namespace Dispatcher.Data
 
         public DbSet<RequestType> Types { get; set; }
 
+        public DbSet<Machine> Machines { get; set; }
+
         public static DispatcherContext Create()
         {
             return new DispatcherContext();

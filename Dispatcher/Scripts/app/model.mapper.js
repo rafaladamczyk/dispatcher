@@ -15,9 +15,9 @@ define('model.mapper',
                 getDtoId: function(dto) { return dto.Id; },
                 fromDto: function(dto, item) {
                     item = item || new model.Request().id(dto.Id);
-                    item.creatorId(dto.CreatorId)
-                        .providerId(dto.ProviderId)
-                        .typeId(dto.TypeId)
+                    item.creatorId(dto.Creator_Id)
+                        .providerId(dto.Provider_Id)
+                        .typeId(dto.RequestType_Id)
                         .createdDate(dto.CreationDate)
                         .pickedUpDate(dto.PickedUpDate)
                         .completedDate(dto.CompletionDate)
