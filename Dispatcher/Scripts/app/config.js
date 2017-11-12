@@ -21,8 +21,7 @@
             stateKeys = {
                 lastView: 'state.active-hash'
             },
-            storeExpirationMs = (1000 * 60 * 60 * 24), // 1 day
-            //storeExpirationMs = (1000 * 5), // 5 seconds
+                
             throttle = 400,
             title = 'CodeCamper > ',
             toastrTimeout = 2000,
@@ -80,7 +79,6 @@
             logger: logger,
             messages: messages,
             stateKeys: stateKeys,
-            storeExpirationMs: storeExpirationMs,
             throttle: throttle,
             title: title,
             toasts: toasts,

@@ -11,6 +11,22 @@ define('model.request',
             self.createdDate = ko.observable();
             self.pickedUpDate = ko.observable();
             self.completedDate = ko.observable();
+            self.active = ko.observable();
+            
+            self.duration = ko.computed(function(){
+                var started = moment.utc(self.createdDate());
+                var now = self.completedDate() ? moment.utc(self.completedDate()) : moment.utc();
+                return moment.duration(now.diff(started));
+            });
+            self.serviceDuration = ko.computed(function () {
+                var started = self.pickedUpDate() ? moment.utc(self.pickedUpDate()) : null;
+                if (started) {
+                    var now = self.completedDate() ? moment.utc(self.completedDate()) : moment.utc();
+                    return moment.duration(now.diff(started));
+                }else {
+                    return null;
+                }
+            });
 
             self.createdAgo = ko.computed(function () {
                 return self.createdDate() ? moment.utc(self.createdDate()).local().fromNow() : ''
@@ -29,7 +45,8 @@ define('model.request',
         Request.Nullo = new Request().id(0).creatorId(0).providerId(0).typeId(0)
             .createdDate(new Date(1985, 1, 1, 1, 0, 0, 0))
             .pickedUpDate(new Date(1986, 1, 1, 1, 0, 0, 0))
-            .completedDate(new Date(1987, 1, 1, 1, 0, 0, 0));
+            .completedDate(new Date(1987, 1, 1, 1, 0, 0, 0))
+            .active(false);
         Request.Nullo.isNullo = true;
 
         Request.datacontext = function (dc) {

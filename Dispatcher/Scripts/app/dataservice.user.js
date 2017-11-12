@@ -27,6 +27,22 @@ define('dataservice.user',
                     dataType: 'json',
                     type: 'DELETE'
                 });
+                
+                amplify.request.define('login', 'ajax',{
+                    url: utils.url('/Token'),
+                    dataType: 'json',
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8'
+                });
+            },
+            
+            login = function(callbacks, data) {
+                return amplify.request({
+                    resourceId: 'login',
+                    data: data,
+                    success: callbacks.success,
+                    error: callbacks.error
+                });
             },
 
             getCurrentUser = function (callbacks) {
@@ -66,6 +82,7 @@ define('dataservice.user',
         init();
 
         return {
+            login: login, 
             getCurrentUser: getCurrentUser,
             getUsers: getUsers,
             updateUser: updateUser,
