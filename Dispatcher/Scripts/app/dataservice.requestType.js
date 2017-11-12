@@ -3,60 +3,61 @@ define('dataservice.requestType',
     function (amplify, utils) {
         var
             init = function () {
-                amplify.request.define('user', 'ajax', {
-                    url: utils.url('/api/Account/User'),
+                amplify.request.define('type', 'ajax', {
+                    url: utils.url('/api/RequestTypes/{id}'),
                     dataType: 'json',
                     type: 'GET'
                 });
 
-                amplify.request.define('users', 'ajax', {
-                    url: utils.url('/api/Account/Users'),
+                amplify.request.define('types', 'ajax', {
+                    url: utils.url('/api/RequestTypes'),
                     dataType: 'json',
                     type: 'GET'
                 });
 
-                amplify.request.define('userUpdate', 'ajax', {
-                    url: utils.url('/api/Account/Users'),
+                amplify.request.define('updateType', 'ajax', {
+                    url: utils.url('/api/RequestTypes'),
                     dataType: 'json',
                     type: 'PUT',
                     contentType: 'application/json; charset=utf-8'
                 });
 
-                amplify.request.define('userDelete', 'ajax', {
-                    url: utils.url('/api/Account/Users/{id}'),
+                amplify.request.define('deleteType', 'ajax', {
+                    url: utils.url('/api/RequestTypes/{id}'),
                     dataType: 'json',
                     type: 'DELETE'
                 });
             },
 
-            getCurrentUser = function (callbacks) {
+            getType = function (callbacks, id) {
                 return amplify.request({
-                    resourceId: 'user',
+                    resourceId: 'type',
+                    data: {id: id},
                     success: callbacks.success,
                     error: callbacks.error
                 });
             },
 
-            getUsers = function (callbacks) {
+            getTypes = function (callbacks) {
                 return amplify.request({
-                    resourceId: 'users',
+                    resourceId: 'types',
                     success: callbacks.success,
                     error: callbacks.error
                 });
             },
 
-            updateUser = function (callbacks, data) {
+            updateType = function (callbacks, data) {
                 return amplify.request({
-                    resourceId: 'userUpdate',
+                    resourceId: 'updateType',
                     data: data,
                     success: callbacks.success,
                     error: callbacks.error
                 });
             },
 
-            deleteUser = function (callbacks, id) {
+            deleteType = function (callbacks, id) {
                 return amplify.request({
-                    resourceId: 'userDelete',
+                    resourceId: 'deleteType',
                     data: { id: id },
                     success: callbacks.success,
                     error: callbacks.error
@@ -66,9 +67,9 @@ define('dataservice.requestType',
         init();
 
         return {
-            getCurrentUser: getCurrentUser,
-            getUsers: getUsers,
-            updateUser: updateUser,
-            deleteUser: deleteUser
+            getType: getType,
+            getTypes: getTypes,
+            updateType: updateType,
+            deleteType: deleteType
         };
     });

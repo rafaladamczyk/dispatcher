@@ -13,34 +13,19 @@ define('model.user',
             User = function () {
                 var self = this;
                 self.id = ko.observable();
-                self.userName = ko.observable().extend({ required: true });
+                self.name = ko.observable().extend({ required: true });
                 self.gender = ko.observable();
                 self.roles = ko.observableArray();
-
-                self.speakerSessions = ko.computed({
-                    read: function () {
-                        return self.id() ? User.datacontext().users.getLocalSpeakerSessions(self.id()) : [];
-                    },
-
-                    // Delay the eval til the data needed for the computed is ready
-                    deferEvaluation: true
-                });
-
                 self.isNullo = false;
-
-                self.dirtyFlag = new ko.DirtyFlag([
-                    self.userName,
-                    self.roles]);
                 return self;
             };
 
         User.Nullo = new User()
             .id(0)
-            .userName('Nullo User')
+            .name('Nullo User')
             .gender('M')
             .roles([]);
         User.Nullo.isNullo = true;
-        User.Nullo.dirtyFlag().reset();
 
         return User;
     });

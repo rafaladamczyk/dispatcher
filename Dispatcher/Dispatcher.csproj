@@ -406,6 +406,7 @@
     <Content Include="Scripts\lib\underscore.js" />
     <Content Include="Scripts\lib\underscore.min.js" />
     <Content Include="Views\account.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\requests.cshtml" />
     <Content Include="Views\machines.cshtml" />
     <Content Include="Views\admin.cshtml" />
@@ -421,7 +422,7 @@
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\index.chuj" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\lib\underscore.min.map" />
   </ItemGroup>

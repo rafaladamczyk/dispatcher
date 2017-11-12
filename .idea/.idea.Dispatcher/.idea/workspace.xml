@@ -2,43 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e07eacbd-81e4-46c5-a533-80188c4a6d82" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/auth.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.machine.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.request.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.requestType.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.user.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/messenger.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/model.machine.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/route-mediator.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/router.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/utils.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/vm.account.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/vm.admin.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/vm.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/vm.machines.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/vm.requests.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/vm.shell.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/lib/knockout.validation.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Views/account.cshtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Views/admin.cshtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Views/machines.cshtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dispatcher/Views/requests.cshtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.Dispatcher/.idea/contentModel.xml" afterPath="$PROJECT_DIR$/.idea/.idea.Dispatcher/.idea/contentModel.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.Dispatcher/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.Dispatcher/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Controllers/AccountController.cs" afterPath="$PROJECT_DIR$/Dispatcher/Controllers/AccountController.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/App_Start/BundleConfig.cs" afterPath="$PROJECT_DIR$/Dispatcher/App_Start/BundleConfig.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Controllers/RequestsController.cs" afterPath="$PROJECT_DIR$/Dispatcher/Controllers/RequestsController.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Dispatcher.csproj" afterPath="$PROJECT_DIR$/Dispatcher/Dispatcher.csproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/binder.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/binder.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/bootstrapper.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/bootstrapper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/config.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/config.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/datacontext.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/datacontext.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataprimer.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataprimer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/model.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/model.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/model.request.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/model.request.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/model.requestType.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/model.requestType.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.machine.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.machine.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.request.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.request.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.requestType.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.requestType.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/model.mapper.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/model.mapper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/model.user.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/model.user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/app/route-config.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/app/route-config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Scripts/lib/knockout.activity.js" afterPath="$PROJECT_DIR$/Dispatcher/Scripts/lib/knockout.activity.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dispatcher/Views/Home/Index.cshtml" afterPath="$PROJECT_DIR$/Dispatcher/Views/Home/Index.cshtml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,61 +25,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AccountController.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Dispatcher/Controllers/AccountController.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1300">
-              <caret line="76" column="24" lean-forward="true" selection-start-line="76" selection-start-column="24" selection-end-line="76" selection-end-column="24" />
-              <folding>
-                <marker date="1510446836354" expanded="false" signature="6:345" ph="..." />
-                <marker date="1510446836354" expanded="true" signature="379:5377" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="490:5375" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="655:724" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="865:1025" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="1076:1254" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="1405:1680" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="1469:1669" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="1807:2522" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="2092:2485" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="2674:3165" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="3311:3635" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="3412:3512" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="3712:3827" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="3989:4334" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="4036:4155" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="4503:5101" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="4550:4669" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="4848:5028" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="5158:5369" ph="{...}" />
-                <marker date="1510446836354" expanded="true" signature="5218:5321" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AccountViewModels.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Dispatcher/Models/AccountViewModels.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
-              <folding>
-                <marker date="1510345915958" expanded="true" signature="62:297" ph="{...}" />
-                <marker date="1510345915958" expanded="true" signature="153:295" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="699" column="0" lean-forward="true" selection-start-line="699" selection-start-column="0" selection-end-line="699" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="binder.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/binder.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -115,21 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bootstrapper.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="bootstrapper.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/bootstrapper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="7" column="36" lean-forward="true" selection-start-line="7" selection-start-column="36" selection-end-line="7" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/config.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1180">
-              <caret line="59" column="14" lean-forward="false" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="14" />
+            <state relative-caret-position="340">
+              <caret line="17" column="16" lean-forward="true" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -138,14 +48,12 @@
       <file leaf-file-name="datacontext.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/datacontext.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1820">
-              <caret line="156" column="51" lean-forward="false" selection-start-line="156" selection-start-column="50" selection-end-line="156" selection-end-column="51" />
+            <state relative-caret-position="2680">
+              <caret line="167" column="20" lean-forward="true" selection-start-line="167" selection-start-column="20" selection-end-line="167" selection-end-column="20" />
               <folding>
                 <element signature="e#310#1052#0" expanded="false" />
                 <element signature="e#1146#1694#0" expanded="false" />
-                <element signature="e#2324#2381#0" expanded="false" />
                 <element signature="e#2621#2696#0" expanded="false" />
-                <element signature="e#2743#4395#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -154,28 +62,68 @@
       <file leaf-file-name="dataprimer.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataprimer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="23" column="21" lean-forward="false" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
+            <state relative-caret-position="900">
+              <caret line="45" column="21" lean-forward="true" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HostAuthenticationAttribute.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3AF1BE95-D662-4FEE-83DF-21798930C383/78/70f58d4e/HostAuthenticationAttribute.cs">
+      <file leaf-file-name="dataservice.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="14" column="22" lean-forward="false" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
+            <state relative-caret-position="240">
+              <caret line="12" column="12" lean-forward="false" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="router.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/router.js">
+      <file leaf-file-name="dataservice.request.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.request.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="760">
-              <caret line="38" column="23" lean-forward="false" selection-start-line="38" selection-start-column="23" selection-end-line="38" selection-end-column="23" />
+            <state relative-caret-position="2360">
+              <caret line="118" column="12" lean-forward="false" selection-start-line="118" selection-start-column="12" selection-end-line="118" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="messenger.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/messenger.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="19" column="39" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="model.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="10" column="16" lean-forward="false" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="model.machine.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.machine.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="presenter.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/presenter.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1058">
+              <caret line="72" column="12" lean-forward="false" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -193,9 +141,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>foreach</find>
-      <find>deleteuser</find>
-      <find>deleteue</find>
       <find>@render</find>
       <find>images</find>
       <find>tworzenie</find>
@@ -223,41 +168,46 @@
       <find>store</find>
       <find>getcurr</find>
       <find>/toeken</find>
+      <find>web</find>
+      <find>getCurrent</find>
+      <find>mo</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Dispatcher/Controllers/AccountController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Dispatcher/App_Start/BundleConfig.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Dispatcher/Views/machines.cshtml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1722374D-B59B-42DF-883D-8C695DC145B3/8d/65768aae/BundleTable.cs" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/Dispatcher/Views/requests.cshtml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Dispatcher/Views/admin.cshtml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/71E0D042-CA0A-405E-A629-7B2703D2273D/42/81596262/Task.cs" root0="SKIP_INSPECTION" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/243B5E96-3CBB-419D-8D0E-A0E9B01676A0/16/ce8e68c3/ConcurrencyCheckAttribute.cs" root0="SKIP_INSPECTION" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F99F496C-B0D2-49C1-A945-C1FCABCE1695/ec/5e4f9737/ApiController.cs" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/Dispatcher/Views/Shared/_Layout.cshtml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Dispatcher/Views/Home/Index.cshtml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/243B5E96-3CBB-419D-8D0E-A0E9B01676A0/16/ce8e68c3/ConcurrencyCheckAttribute.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/Views/Shared/_Layout.cshtml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/Views/Home/index.chuj" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Dispatcher/Views/account.cshtml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Dispatcher/Views/_ViewStart.cshtml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Dispatcher/Areas/HelpPage/Views/Shared/_Layout.cshtml" root0="SKIP_INSPECTION" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/000F5452-2AD1-45BF-987B-3043022F9799/01/89bd39f7/DbFunctions.cs" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/Dispatcher.Tests/TestDbSet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Dispatcher/Web.config" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3AF1BE95-D662-4FEE-83DF-21798930C383/78/70f58d4e/HostAuthenticationAttribute.cs" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/Dispatcher/Models/AccountViewModels.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Dispatcher/Global.asax" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Dispatcher/App_Start/WebApiConfig.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Dispatcher/App_Start/Startup.Auth.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1722374D-B59B-42DF-883D-8C695DC145B3/0c/8d507f90/Bundle.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/Controllers/AccountController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/App_Start/BundleConfig.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/Web.Release.config" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/Views/machines.cshtml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1722374D-B59B-42DF-883D-8C695DC145B3/8d/65768aae/BundleTable.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/Views/requests.cshtml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/Views/admin.cshtml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F99F496C-B0D2-49C1-A945-C1FCABCE1695/ec/5e4f9737/ApiController.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/Areas/HelpPage/Views/Shared/_Layout.cshtml" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/Models/AccountViewModels.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/Controllers/RequestsController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Dispatcher/Controllers/RequestTypesController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Dispatcher/RequestsHub.cs" />
-        <option value="$PROJECT_DIR$/Dispatcher/Web.config" />
         <option value="$PROJECT_DIR$/Dispatcher/Global.asax.cs" />
         <option value="$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F99F496C-B0D2-49C1-A945-C1FCABCE1695/ec/5e4f9737/ApiController.cs" />
         <option value="$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1722374D-B59B-42DF-883D-8C695DC145B3/8d/65768aae/BundleTable.cs" />
@@ -267,7 +217,6 @@
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/main.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/presenter.js" />
-        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/model.mapper.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Views/users.html" />
         <option value="$PROJECT_DIR$/Dispatcher/Views/users.cshtml" />
         <option value="$PROJECT_DIR$/Dispatcher/Views/account.cshtml" />
@@ -275,7 +224,6 @@
         <option value="$PROJECT_DIR$/Dispatcher/Views/machines.cshtml" />
         <option value="$PROJECT_DIR$/Dispatcher/Views/requests.cshtml" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/vm.js" />
-        <option value="$PROJECT_DIR$/Dispatcher/App_Start/BundleConfig.cs" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/model.machine.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/model.requestType.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/messenger.js" />
@@ -284,11 +232,9 @@
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/token.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/utils.js" />
-        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/dataprimer.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/route-config.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/route-mediator.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/config.js" />
-        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/model.user.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/vm.shell.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/vm.requests.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/vm.machines.js" />
@@ -296,16 +242,22 @@
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/vm.account.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/binder.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/lib/knockout.activity.js" />
-        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/datacontext.js" />
-        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.machine.js" />
-        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.request.js" />
-        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.requestType.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.user.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Views/Home/Index.cshtml" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/store.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/auth.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/router.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Controllers/AccountController.cs" />
+        <option value="$PROJECT_DIR$/Dispatcher/Web.config" />
+        <option value="$PROJECT_DIR$/Dispatcher/App_Start/BundleConfig.cs" />
+        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/model.user.js" />
+        <option value="$PROJECT_DIR$/Dispatcher/Controllers/RequestsController.cs" />
+        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.request.js" />
+        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.requestType.js" />
+        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.machine.js" />
+        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/model.mapper.js" />
+        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/datacontext.js" />
+        <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/dataprimer.js" />
         <option value="$PROJECT_DIR$/Dispatcher/Scripts/app/bootstrapper.js" />
       </list>
     </option>
@@ -316,7 +268,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="2576" />
@@ -375,13 +327,6 @@
               <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
               <item name="Dispatcher (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Dispatcher" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Scripts" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="lib" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Dispatcher (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Dispatcher" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Views" type="977d5f41:SolutionExplorerNodeRider" />
             </path>
             <path>
@@ -398,6 +343,12 @@
               <item name="Views" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
             </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Dispatcher (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Dispatcher" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Web.config" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -409,7 +360,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="app.js&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app.js&#10;accountcont&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/AccountController.cs&#10;index.&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Views/Home/Index.cshtml&#10;au&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/auth.js&#10;dataservice&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/dataservice.user.js&#10;index.c&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Views/Home/Index.cshtml&#10;getcurren&#9;null&#9;null&#10;bundle&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/App_Start/BundleConfig.cs&#10;dataservice.ma&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/dataservice.machine.js&#10;model.us&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/model.user.js&#10;bundleco&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/App_Start/BundleConfig.cs&#10;config.js&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/config.js&#10;index&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Views/Home/Index.cshtml&#10;requ&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Models/DispatchRequest.cs&#10;account&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/AccountController.cs&#10;accountcontrol&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/AccountController.cs&#10;accountcon&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/AccountController.cs&#10;deleterequest&#9;null&#9;null&#10;accountcontro&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/AccountController.cs" />
+    <property name="SearchEverywhereHistoryKey" value="boot&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/bootstrapper.js&#10;binder&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/binder.js&#10;config&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/config.js&#10;bootst&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/bootstrapper.js&#10;dataprim&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/dataprimer.js&#10;model.mapper&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/model.mapper.js&#10;requesttype&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/dataservice.requestType.js&#10;reqtcon&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/RequestTypesController.cs&#10;requescontro&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/RequestTypesController.cs&#10;reqcon&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/RequestTypesController.cs&#10;reqtypecont&#9;null&#9;null&#10;model.user&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/model.user.js&#10;usermod&#9;null&#9;null&#10;bundle&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/App_Start/BundleConfig.cs&#10;web.config&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Web.config&#10;bundleco&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/App_Start/BundleConfig.cs&#10;app.js&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app.js&#10;accountcont&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/AccountController.cs&#10;index.&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Views/Home/Index.cshtml&#10;au&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/auth.js&#10;dataservice&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/dataservice.user.js&#10;index.c&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Views/Home/Index.cshtml&#10;getcurren&#9;null&#9;null&#10;dataservice.ma&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/dataservice.machine.js&#10;model.us&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/model.user.js&#10;config.js&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Scripts/app/config.js&#10;index&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Views/Home/Index.cshtml&#10;requ&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Models/DispatchRequest.cs&#10;account&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/AccountController.cs&#10;accountcontrol&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/AccountController.cs&#10;accountcon&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/AccountController.cs&#10;deleterequest&#9;null&#9;null&#10;accountcontro&#9;FILE&#9;file://C:/git/dispatcher/Dispatcher/Controllers/AccountController.cs" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -457,12 +408,13 @@
       <workItem from="1510006776059" duration="862000" />
       <workItem from="1510278200180" duration="1464000" />
       <workItem from="1510347990185" duration="4056000" />
-      <workItem from="1510435645993" duration="11332000" />
+      <workItem from="1510435645993" duration="11932000" />
+      <workItem from="1510468490482" duration="3513000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38120000" />
+    <option name="totallyTimeSpent" value="42233000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -474,8 +426,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="2576" height="1416" extended-state="7" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -485,7 +436,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21992187" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21992187" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924962" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924962" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -510,7 +461,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Dispatcher/Views/Home/Index.cshtml</url>
+          <url>file://$PROJECT_DIR$/Dispatcher/Views/Home/index.chuj</url>
           <line>5</line>
           <properties documentPath="$PROJECT_DIR$/Dispatcher/Views/Home/Index.cshtml">
             <startOffsets>
@@ -528,51 +479,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Controllers/DispatchRequestController.cs" />
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="15" column="62" lean-forward="false" selection-start-line="15" selection-start-column="62" selection-end-line="15" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/lib/knockout.dirtyFlag.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="42" column="44" lean-forward="false" selection-start-line="42" selection-start-column="44" selection-end-line="42" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Views/account.cshtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1" column="51" lean-forward="false" selection-start-line="1" selection-start-column="51" selection-end-line="1" selection-end-column="51" />
-          <folding>
-            <marker date="1510436474917" expanded="true" signature="0:92" ph="&lt;section.../&gt;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Views/admin.cshtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" column="82" lean-forward="false" selection-start-line="3" selection-start-column="82" selection-end-line="3" selection-end-column="82" />
-          <folding>
-            <marker date="1510436515859" expanded="true" signature="0:186" ph="&lt;section.../&gt;" />
-            <marker date="1510436515859" expanded="true" signature="31:174" ph="&lt;p.../&gt;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Dispatcher/Views/machines.cshtml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="5" column="16" lean-forward="false" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
-          <folding>
-            <marker date="1510436560784" expanded="true" signature="0:205" ph="&lt;section.../&gt;" />
-            <marker date="1510436560784" expanded="true" signature="34:193" ph="&lt;p.../&gt;" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -580,10 +490,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="5" column="10" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="10" />
-          <folding>
-            <marker date="1510436609695" expanded="true" signature="0:198" ph="&lt;section.../&gt;" />
-            <marker date="1510436609695" expanded="true" signature="34:186" ph="&lt;p.../&gt;" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -591,9 +497,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1455815161994" expanded="true" signature="0:50" ph="@..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -601,7 +504,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="22" column="233" lean-forward="false" selection-start-line="22" selection-start-column="233" selection-end-line="22" selection-end-column="233" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -613,50 +515,171 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/messenger.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="19" column="39" lean-forward="true" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.mapper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" column="16" lean-forward="false" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.requestType.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="25" lean-forward="false" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.machine.js">
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/utils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="100">
+          <caret line="6" column="14" lean-forward="false" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.js">
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/route-config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1740">
+          <caret line="87" column="7" lean-forward="false" selection-start-line="87" selection-start-column="7" selection-end-line="87" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/route-mediator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="760">
+          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/lib/knockout.validation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-13960">
+          <caret line="30" column="47" lean-forward="false" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="16" column="7" lean-forward="true" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.shell.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
-          <caret line="22" column="14" lean-forward="false" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
+          <caret line="22" column="10" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.requests.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.machines.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.admin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="16" lean-forward="false" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.account.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="18" lean-forward="false" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/lib/knockout.command.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/lib/knockout.activity.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="27" column="44" lean-forward="false" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/HTML5.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="426">
+          <caret line="1530" column="0" lean-forward="false" selection-start-line="1530" selection-start-column="0" selection-end-line="1530" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/store.js" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3AF1BE95-D662-4FEE-83DF-21798930C383/78/70f58d4e/HostAuthenticationAttribute.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="14" column="22" lean-forward="false" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.request.js">
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Controllers/AccountController.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="23" column="12" lean-forward="false" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
+        <state relative-caret-position="0">
+          <caret line="76" column="24" lean-forward="false" selection-start-line="76" selection-start-column="24" selection-end-line="76" selection-end-column="24" />
+          <folding>
+            <marker date="1510447190431" expanded="false" signature="6:345" ph="..." />
+            <marker date="1510447190431" expanded="true" signature="379:5377" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="490:5375" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="655:724" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="865:1025" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="1076:1254" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="1405:1680" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="1469:1669" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="1807:2522" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="2092:2485" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="2674:3165" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="3311:3635" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="3412:3512" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="3712:3827" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="3989:4334" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="4036:4155" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="4503:5101" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="4550:4669" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="4848:5028" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="5158:5369" ph="{...}" />
+            <marker date="1510447190431" expanded="true" signature="5218:5321" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13980">
+          <caret line="699" column="0" lean-forward="false" selection-start-line="699" selection-start-column="0" selection-end-line="699" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Web.Release.config">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="17" column="59" lean-forward="true" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Web.config">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="16" column="28" lean-forward="false" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="8" column="28" lean-forward="false" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
           <folding />
         </state>
       </provider>
@@ -666,220 +689,315 @@
         <state relative-caret-position="240">
           <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="16" />
           <folding>
-            <marker date="1510347111291" expanded="true" signature="16:697" ph="&lt;html.../&gt;" />
-            <marker date="1510347111291" expanded="true" signature="23:237" ph="&lt;head.../&gt;" />
-            <marker date="1510347111291" expanded="true" signature="238:689" ph="&lt;body.../&gt;" />
-            <marker date="1510347111291" expanded="true" signature="259:358" ph="&lt;script.../&gt;" />
+            <marker date="1510447188782" expanded="true" signature="16:697" ph="&lt;html.../&gt;" />
+            <marker date="1510447188782" expanded="true" signature="23:237" ph="&lt;head.../&gt;" />
+            <marker date="1510447188782" expanded="true" signature="238:689" ph="&lt;body.../&gt;" />
+            <marker date="1510447188782" expanded="true" signature="259:358" ph="&lt;script.../&gt;" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/utils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="6" column="14" lean-forward="false" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/route-config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1740">
-          <caret line="87" column="7" lean-forward="false" selection-start-line="87" selection-start-column="7" selection-end-line="87" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/route-mediator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="760">
-          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/lib/knockout.validation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-13960">
-          <caret line="30" column="47" lean-forward="false" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="7" lean-forward="true" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="820">
-          <caret line="41" column="31" lean-forward="true" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.shell.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="22" column="10" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.requests.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.machines.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.admin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="16" lean-forward="false" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/vm.account.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="18" lean-forward="false" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" column="6" lean-forward="false" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Dispatcher/App_Start/BundleConfig.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="35" column="53" lean-forward="false" selection-start-line="35" selection-start-column="53" selection-end-line="35" selection-end-column="53" />
+        <state relative-caret-position="718">
+          <caret line="46" column="57" lean-forward="true" selection-start-line="46" selection-start-column="57" selection-end-line="46" selection-end-column="57" />
           <folding>
-            <marker date="1510439491453" expanded="true" signature="52:2961" ph="{...}" />
-            <marker date="1510439491453" expanded="true" signature="84:2959" ph="{...}" />
-            <marker date="1510439491453" expanded="true" signature="256:2953" ph="{...}" />
-            <marker date="1510439491453" expanded="true" signature="548:754" ph="/* Use the development version of Modernizr to develop with and learn from. Then, when you're ... */" />
+            <marker date="1510468731454" expanded="true" signature="52:3027" ph="{...}" />
+            <marker date="1510468731454" expanded="true" signature="84:3025" ph="{...}" />
+            <marker date="1510468731454" expanded="true" signature="256:3019" ph="{...}" />
+            <marker date="1510468731454" expanded="true" signature="548:754" ph="/* Use the development version of Modernizr to develop with and learn from. Then, when you're ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Views/Home/Index.cshtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Views/Home/index.chuj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="25" column="50" lean-forward="true" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+          <folding>
+            <marker date="1510447190595" expanded="true" signature="0:163" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="195:19163" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="274:2396" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="296:2389" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="328:2378" ph="&lt;nav.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="430:823" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="474:768" ph="&lt;button.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="837:2363" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="926:1342" ph="&lt;ul.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="1001:1320" ph="&lt;li.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="1093:1294" ph="&lt;a.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="1359:2344" ph="&lt;ul.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="1420:2322" ph="&lt;li.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="1643:2296" ph="&lt;ul.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="1753:1966" ph="&lt;li.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="2047:2266" ph="&lt;li.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="2397:2448" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="2449:2659" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="2660:6938" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="2719:3604" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="2854:3593" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="2932:3578" ph="&lt;ul.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="3017:3560" ph="&lt;li.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="3042:3538" ph="&lt;button.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="3610:5279" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="3680:5268" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="3749:3832" ph="&lt;h1.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="3845:5253" ph="&lt;table.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="3897:4284" ph="&lt;thead.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="3921:4259" ph="&lt;tr.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="3946:4033" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="4054:4147" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="4301:5232" ph="&lt;tbody.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="4367:5207" ph="&lt;tr.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="4392:4535" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="4556:4706" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="4727:4920" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="4988:5185" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="5284:6931" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="5414:5528" ph="&lt;h1.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="5537:6920" ph="&lt;table.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="5585:5952" ph="&lt;thead.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="5605:5931" ph="&lt;tr.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="5609:5671" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="5688:5756" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="5773:5841" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="5858:5926" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="5965:6903" ph="&lt;tbody.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="6021:6882" ph="&lt;tr.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="6042:6160" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="6177:6302" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="6319:6451" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="6468:6864" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="6472:6842" ph="&lt;button.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="6940:7870" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="6999:7863" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="7046:7852" ph="&lt;form.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="7131:7314" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="7327:7499" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="7512:7693" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="7706:7836" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="7872:11153" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="7937:10957" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="7984:8056" ph="&lt;h1.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="8065:8732" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="8083:8717" ph="&lt;ul.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="8161:8699" ph="&lt;li.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="8186:8677" ph="&lt;button.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="8742:10944" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="8810:8880" ph="&lt;h1.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="8893:10929" ph="&lt;table.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="8945:9469" ph="&lt;thead.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="8969:9444" ph="&lt;tr.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="8994:9081" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="9102:9195" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="9216:9308" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="9329:9422" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="9486:10908" ph="&lt;tbody.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="9551:10883" ph="&lt;tr.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="9576:9719" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="9740:9897" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="9918:10108" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="10129:10318" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="10339:10632" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="10401:10606" ph="&lt;button.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="10653:10861" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="10962:11146" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="11045:11135" ph="&lt;h1.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="11154:12218" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="11210:11954" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="11311:11943" ph="&lt;form.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="11356:11521" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="11534:11703" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="11716:11846" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="11960:12211" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12085:12200" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12220:17704" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12313:17524" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12389:17513" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12427:14828" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12477:12682" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12525:12659" ph="&lt;h1.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12699:14809" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12772:14786" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12821:14759" ph="&lt;table.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12885:13328" ph="&lt;thead.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="12921:13291" ph="&lt;tr.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="13357:14726" ph="&lt;tbody.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="13428:14689" ph="&lt;tr.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="13465:13627" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="13660:13869" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="13902:14121" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="14154:14367" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="14400:14655" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="14841:16096" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="14891:15096" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="14939:15073" ph="&lt;h1.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="15113:16077" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="15186:16054" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="15235:15456" ph="&lt;ul.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="15481:16027" ph="&lt;form.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="15600:15995" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="15786:15960" ph="&lt;span.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="16109:17498" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="16159:16374" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="16207:16351" ph="&lt;h1.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="16391:17479" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="16464:17456" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="16616:16844" ph="&lt;ul.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="16869:17429" ph="&lt;form.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="16995:17397" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="17188:17362" ph="&lt;span.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="17529:17697" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="17608:17686" ph="&lt;h1.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="17707:19151" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="17770:19144" ph="&lt;div.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="17802:19133" ph="&lt;table.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="17850:18209" ph="&lt;thead.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="17874:18188" ph="&lt;tr.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="17899:17972" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="17993:18065" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="18086:18166" ph="&lt;th.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="18222:19116" ph="&lt;tbody.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="18290:19095" ph="&lt;tr.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="18315:18453" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="18474:18756" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="18554:18730" ph="&lt;ul.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="18777:19073" ph="&lt;td.../&gt;" />
+            <marker date="1510447190595" expanded="true" signature="18857:19047" ph="&lt;ul.../&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Models/AccountViewModels.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+          <folding>
+            <marker date="1510447179513" expanded="true" signature="62:297" ph="{...}" />
+            <marker date="1510447179513" expanded="true" signature="153:295" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.request.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" column="48" lean-forward="true" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Controllers/RequestsController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="147" column="28" lean-forward="false" selection-start-line="147" selection-start-column="28" selection-end-line="147" selection-end-column="28" />
+          <folding>
+            <marker date="1510470012825" expanded="false" signature="6:278" ph="..." />
+            <marker date="1510470012825" expanded="true" signature="312:5331" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="375:5329" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="417:480" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="617:679" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="817:908" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="1031:1271" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="1130:1232" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="1464:2567" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="1490:2356" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="1857:2018" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="2169:2308" ph="/* response.Headers.Location = ... */" />
+            <marker date="1510470012825" expanded="true" signature="2389:2557" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="2761:2968" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="3146:3344" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="3529:3852" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="4037:4316" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="4506:4958" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="5022:5148" ph="{...}" />
+            <marker date="1510470012825" expanded="true" signature="5202:5323" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Controllers/RequestTypesController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-442">
+          <caret line="11" column="17" lean-forward="false" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+          <folding>
+            <marker date="1510447184456" expanded="false" signature="6:191" ph="..." />
+            <marker date="1510447184456" expanded="true" signature="225:2643" ph="{...}" />
+            <marker date="1510447184456" expanded="true" signature="292:2641" ph="{...}" />
+            <marker date="1510447184456" expanded="true" signature="338:397" ph="{...}" />
+            <marker date="1510447184456" expanded="true" signature="503:569" ph="{...}" />
+            <marker date="1510447184456" expanded="true" signature="687:927" ph="{...}" />
+            <marker date="1510447184456" expanded="true" signature="786:888" ph="{...}" />
+            <marker date="1510447184456" expanded="true" signature="1113:1327" ph="{...}" />
+            <marker date="1510447184456" expanded="true" signature="1514:1927" ph="{...}" />
+            <marker date="1510447184456" expanded="true" signature="1748:1887" ph="/* response.Headers.Location = ... */" />
+            <marker date="1510447184456" expanded="true" signature="2063:2265" ph="{...}" />
+            <marker date="1510447184456" expanded="true" signature="2326:2453" ph="{...}" />
+            <marker date="1510447184456" expanded="true" signature="2510:2635" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.machine.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1" column="16" lean-forward="false" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.request.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="27" column="34" lean-forward="false" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.requestType.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="27" column="34" lean-forward="false" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
+        <state relative-caret-position="120">
+          <caret line="6" column="45" lean-forward="true" selection-start-line="6" selection-start-column="45" selection-end-line="6" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
-          <caret line="54" column="14" lean-forward="false" selection-start-line="54" selection-start-column="14" selection-end-line="54" selection-end-column="14" />
+        <state relative-caret-position="1035">
+          <caret line="85" column="12" lean-forward="false" selection-start-line="85" selection-start-column="12" selection-end-line="85" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Views/Home/Index.cshtml">
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" column="9" lean-forward="false" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
+        <state relative-caret-position="600">
+          <caret line="30" column="7" lean-forward="true" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/presenter.js">
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.requestType.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="920">
-          <caret line="46" column="20" lean-forward="false" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
+        <state relative-caret-position="435">
+          <caret line="32" column="25" lean-forward="false" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/lib/knockout.command.js">
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.mapper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/lib/knockout.activity.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="27" column="44" lean-forward="false" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <marker date="1510444986900" expanded="true" signature="10033:10087" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/HTML5.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="1530" column="0" lean-forward="false" selection-start-line="1530" selection-start-column="0" selection-end-line="1530" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/store.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="50" lean-forward="false" selection-start-line="5" selection-start-column="50" selection-end-line="5" selection-end-column="50" />
+        <state relative-caret-position="680">
+          <caret line="34" column="32" lean-forward="true" selection-start-line="34" selection-start-column="32" selection-end-line="34" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/auth.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="26" column="3" lean-forward="false" selection-start-line="26" selection-start-column="3" selection-end-line="26" selection-end-column="3" />
+        <state relative-caret-position="480">
+          <caret line="24" column="12" lean-forward="false" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1180">
-          <caret line="59" column="14" lean-forward="false" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="14" />
+        <state relative-caret-position="840">
+          <caret line="42" column="16" lean-forward="false" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -892,97 +1010,78 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataprimer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="45" column="21" lean-forward="true" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/presenter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1058">
+          <caret line="72" column="12" lean-forward="false" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.request.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2360">
+          <caret line="118" column="12" lean-forward="false" selection-start-line="118" selection-start-column="12" selection-end-line="118" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataservice.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="12" column="12" lean-forward="false" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/messenger.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="19" column="39" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="16" lean-forward="false" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/datacontext.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1820">
-          <caret line="156" column="51" lean-forward="false" selection-start-line="156" selection-start-column="50" selection-end-line="156" selection-end-column="51" />
+        <state relative-caret-position="2680">
+          <caret line="167" column="20" lean-forward="true" selection-start-line="167" selection-start-column="20" selection-end-line="167" selection-end-column="20" />
           <folding>
             <element signature="e#310#1052#0" expanded="false" />
             <element signature="e#1146#1694#0" expanded="false" />
-            <element signature="e#2324#2381#0" expanded="false" />
             <element signature="e#2621#2696#0" expanded="false" />
-            <element signature="e#2743#4395#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/dataprimer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="23" column="21" lean-forward="false" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/router.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="760">
-          <caret line="38" column="23" lean-forward="false" selection-start-line="38" selection-start-column="23" selection-end-line="38" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3AF1BE95-D662-4FEE-83DF-21798930C383/78/70f58d4e/HostAuthenticationAttribute.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="14" column="22" lean-forward="false" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Models/AccountViewModels.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
-          <folding>
-            <marker date="1510345915958" expanded="true" signature="62:297" ph="{...}" />
-            <marker date="1510345915958" expanded="true" signature="153:295" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Controllers/AccountController.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1300">
-          <caret line="76" column="24" lean-forward="true" selection-start-line="76" selection-start-column="24" selection-end-line="76" selection-end-column="24" />
-          <folding>
-            <marker date="1510446836354" expanded="false" signature="6:345" ph="..." />
-            <marker date="1510446836354" expanded="true" signature="379:5377" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="490:5375" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="655:724" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="865:1025" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="1076:1254" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="1405:1680" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="1469:1669" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="1807:2522" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="2092:2485" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="2674:3165" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="3311:3635" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="3412:3512" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="3712:3827" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="3989:4334" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="4036:4155" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="4503:5101" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="4550:4669" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="4848:5028" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="5158:5369" ph="{...}" />
-            <marker date="1510446836354" expanded="true" signature="5218:5321" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="699" column="0" lean-forward="true" selection-start-line="699" selection-start-column="0" selection-end-line="699" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/bootstrapper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="7" column="36" lean-forward="true" selection-start-line="7" selection-start-column="36" selection-end-line="7" selection-end-column="36" />
+        <state relative-caret-position="340">
+          <caret line="17" column="16" lean-forward="true" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dispatcher/Scripts/app/model.machine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
           <folding />
         </state>
       </provider>

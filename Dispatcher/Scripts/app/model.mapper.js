@@ -32,7 +32,6 @@ define('model.mapper',
                     item = item || new model.RequestType().id(dto.Id);
                     item.name(dto.Name)
                         .forSelf(dto.ForSelf);
-                    item.dirtyFlag().reset();
                     return item;
                 }
             },
@@ -42,7 +41,6 @@ define('model.mapper',
                 fromDto: function (dto, item) {
                     item = item || new model.Machine().id(dto.Id);
                     item.name(dto.Name);
-                    item.dirtyFlag().reset();
                     return item;
                 }
             };

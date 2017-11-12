@@ -144,14 +144,31 @@ define('datacontext',
         var users = new EntitySet(dataservice.user.getUsers, modelmapper.user, model.User.Nullo, dataservice.user.updateUser);
         var machines = new EntitySet(dataservice.machine.getMachines, modelmapper.machine, model.Machine.Nullo);
         var requests = new EntitySet(dataservice.request.getRequests, modelmapper.request, model.Request.Nullo);
-        var requestTypes = new EntitySet(dataservice.requestType.getRequestTypes, modelmapper.requestType, model.RequestType.Nullo);
+        var requestTypes = new EntitySet(dataservice.requestType.getTypes, modelmapper.requestType, model.RequestType.Nullo);
 
         // extensions
-        users.getCurrent = function (callbacks, forceRefresh) {
+        requests.accept = function (request, callbacks) {
+            var requestJson = { id: request().id };
+            return $.Deferred(function (def) {
+                dataservice.request.acceptRequest({
+                    success: function (response) {
+                        logger.success("request accepted");
+                        if (callbacks && callbacks.success) { callbacks.success(); }
+                        def.resolve(response)
+                    },
+                    error: function (response) {
+                      logger.error("failed to accept request");
+                      if (callbacks && callbacks.error) { callbacks.error(); }
+                      def.reject(response);
+                    }
+                }, requestJson);
+            }).promise();   
+        };
+        
+        users.getCurrent = function (callbacks) {
             return $.Deferred(function (def) {
                 var user = users.getLocalById(config.currentUserId);
                 if (user.isNullo || forceRefresh) {
-                    // if nullo or brief, get fresh from database
                     dataservice.user.getCurrentUser({
                         success: function (dto) {
                             user = users.mapDtoToContext(dto);

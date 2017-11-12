@@ -16,11 +16,13 @@ define('dataprimer',
                     };
 
                     $.when(
-                        datacontext.users.getCurrent(),
+                        datacontext.users.getCurrent({success: function (user) {
+                            config.currentUser(user);
+                        }}),
                         datacontext.users.getData({results: data.users}),
-                        datacontext.machines.getData({results: data.machines}),
                         datacontext.requests.getData({results: data.requests}),
-                        datacontext.requestTypes.getData({param: config.currentUserId, results: data.requestTypes})
+                        datacontext.requestTypes.getData({results: data.requestTypes}),
+                        datacontext.machines.getData({results: data.machines})
                     )
                         .pipe(function () {
                             logger.success('Fetched data for: '

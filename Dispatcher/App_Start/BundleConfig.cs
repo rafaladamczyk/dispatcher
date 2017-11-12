@@ -61,6 +61,8 @@ namespace Dispatcher
             // All application JS files
             bundles.Add(new ScriptBundle("~/bundles/app")
                 .IncludeDirectory("~/Scripts/app/", "*.js", searchSubdirectories: false));
+            
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

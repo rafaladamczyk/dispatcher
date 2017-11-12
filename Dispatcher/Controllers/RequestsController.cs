@@ -36,7 +36,7 @@ namespace Dispatcher.Controllers
         }
 
         [HttpGet]
-        [Route("api/Request/{id}")]
+        [Route("api/Requests/{id}")]
         [AllowAnonymous]
         public Request GetRequest(int id)
         {
@@ -51,7 +51,7 @@ namespace Dispatcher.Controllers
 
         [HttpPost]
         [System.Web.Http.Authorize(Roles = "TworzenieZlecen, ObslugaZlecen")]
-        [Route("api/Request")]
+        [Route("api/Requests")]
         public HttpResponseMessage NewRequest(Request request)
         {
             try
@@ -86,7 +86,7 @@ namespace Dispatcher.Controllers
         }
 
         [HttpDelete]
-        [Route("api/Request/{id}")]
+        [Route("api/Requests/{id}")]
         [System.Web.Http.Authorize(Roles = "TworzenieZlecen, ObslugaZlecen")]
         public HttpResponseMessage DeleteRequest(int id)
         {
@@ -99,7 +99,7 @@ namespace Dispatcher.Controllers
         }
 
         [HttpPut]
-        [Route("api/Request")]
+        [Route("api/Requests")]
         [System.Web.Http.Authorize(Roles = "ObslugaZlecen")]
         public HttpResponseMessage UpdateRequest(Request request)
         {
@@ -112,7 +112,7 @@ namespace Dispatcher.Controllers
         }
 
         [HttpPut]
-        [Route("api/Request/Accept")]
+        [Route("api/Requests/Accept")]
         [System.Web.Http.Authorize(Roles = "ObslugaZlecen")]
         public HttpResponseMessage AcceptRequest(Request request)
         {
@@ -128,7 +128,7 @@ namespace Dispatcher.Controllers
         }
 
         [HttpPut]
-        [Route("api/Request/Cancel")]
+        [Route("api/Requests/Cancel")]
         [System.Web.Http.Authorize(Roles = "ObslugaZlecen")]
         public HttpResponseMessage CancelRequest(Request request)
         {
@@ -145,7 +145,7 @@ namespace Dispatcher.Controllers
 
 
         [HttpPut]
-        [Route("api/Request/Complete")]
+        [Route("api/Requests/Complete")]
         [System.Web.Http.Authorize(Roles = "ObslugaZlecen")]
         public HttpResponseMessage CompleteRequest(Request request)
         {

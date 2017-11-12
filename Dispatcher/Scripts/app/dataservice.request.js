@@ -4,7 +4,7 @@ define('dataservice.request',
         var
             init = function () {
                 amplify.request.define('request', 'ajax', {
-                    url: utils.url('/api/Request'),
+                    url: utils.url('/api/Requests/{id}'),
                     dataType: 'json',
                     type: 'GET'
                 });
@@ -16,43 +16,44 @@ define('dataservice.request',
                 });
 
                 amplify.request.define('updateRequest', 'ajax', {
-                    url: utils.url('/api/Request'),
+                    url: utils.url('/api/Requests'),
                     dataType: 'json',
                     type: 'PUT',
                     contentType: 'application/json; charset=utf-8'
                 });
 
                 amplify.request.define('deleteRequest', 'ajax', {
-                    url: utils.url('/api/Request/{id}'),
+                    url: utils.url('/api/Requests/{id}'),
                     dataType: 'json',
                     type: 'DELETE'
                 });
 
                 amplify.request.define('acceptRequest', 'ajax', {
-                    url: utils.url('/api/Request/Accept'),
+                    url: utils.url('/api/Requests/Accept'),
                     dataType: 'json',
                     type: 'PUT',
                     contentType: 'application/json; charset=utf-8'
                 });
 
                 amplify.request.define('cancelRequest', 'ajax', {
-                    url: utils.url('/api/Request/Cancel'),
+                    url: utils.url('/api/Requests/Cancel'),
                     dataType: 'json',
                     type: 'PUT',
                     contentType: 'application/json; charset=utf-8'
                 });
 
                 amplify.request.define('completeRequest', 'ajax', {
-                    url: utils.url('/api/Request/Complete'),
+                    url: utils.url('/api/Requests/Complete'),
                     dataType: 'json',
                     type: 'PUT',
                     contentType: 'application/json; charset=utf-8'
                 });
             },
 
-            getRequest = function (callbacks) {
+            getRequest = function (callbacks, id) {
                 return amplify.request({
                     resourceId: 'request',
+                    data: {id: id},
                     success: callbacks.success,
                     error: callbacks.error
                 });

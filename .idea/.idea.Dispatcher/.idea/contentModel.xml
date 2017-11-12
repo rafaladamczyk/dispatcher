@@ -282,6 +282,7 @@
           <e p="admin.cshtml" t="Include" />
           <e p="Base" t="Include" />
           <e p="Home" t="Include">
+            <e p="index.chuj" t="Include" />
             <e p="Index.cshtml" t="Include" />
           </e>
           <e p="machines.cshtml" t="Include" />
