@@ -74,6 +74,12 @@ namespace Dispatcher.Controllers
                 return BadRequest($"Zlecenie typu '{type.Name}' jest zleceniem specjalnym.");
             }
 
+            int existingRequestCount = db.Requests.Count(r => r.Active && r.RequestingUserName == User.Identity.Name && r.TypeId == typeId);
+            if (existingRequestCount >= 3)
+            {
+                return BadRequest("Możesz wystawić maksymalnie 3 takie same zlecenia.");
+            }
+
             var newRequest = new DispatchRequest { RequestingUserName = User.Identity.Name, Active = true, TypeId = typeId, CreationDate = DateTime.UtcNow, CompletionDate = null, Type = type};
             db.Requests.Add(newRequest);
             await db.SaveChangesAsync();
