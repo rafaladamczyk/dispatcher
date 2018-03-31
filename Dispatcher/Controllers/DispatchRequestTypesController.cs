@@ -122,6 +122,7 @@ namespace Dispatcher.Controllers
             await db.SaveChangesAsync();
 
             BroadcastRequestTypes();
+            BroadcastActiveRequests();
 
             return Ok(dispatchRequestType);
         }
@@ -143,6 +144,12 @@ namespace Dispatcher.Controllers
         private void BroadcastRequestTypes()
         {
             GlobalHost.ConnectionManager.GetHubContext<RequestsHub>().Clients.All.updateRequestTypes(db.Types.ToList());
+        }
+
+        private void BroadcastActiveRequests()
+        {
+            var activeRequests = db.Requests.Where(r => r.Active).ToList();
+            GlobalHost.ConnectionManager.GetHubContext<RequestsHub>().Clients.All.updateActiveRequests(activeRequests);
         }
     }
 }

@@ -406,6 +406,47 @@ var ViewModel = function () {
             showError(error);
         });
     };
+
+    self.displayDeleteRequestTypeConfirmation = function(requestType, event) {
+        var dialogDiv = $("#dialog-confirm");
+        dialogDiv.find("p").text("Jesteś pewien, że chcesz usunąć typ zlecenia '" + requestType.Name + "'?\n\nSpowoduje to również usunięcie wszystkich obecnych i historycznych zleceń tego typu.");
+        dialogDiv.dialog({
+            resizable: false,
+            height: 290,
+            width: 330,
+            modal: true,
+            title: "Na pewno?",
+            buttons: {
+                "Usuń": function () {
+                    $(this).dialog("close");
+                    self.deleteRequestType(requestType, event);
+                },
+                "Anuluj": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    };
+
+    self.deleteRequestType = function(requestType, event) {
+        var token = localStorage.getItem(tokenKey);
+        var headers = {};
+        if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+
+        var originalText = event.target.textContent;
+        self.disableButton(event.target);
+
+        $.ajax({
+            type: 'DELETE',
+            url: siteRoot + '/api/DispatchRequestTypes/' + requestType.Id,
+            headers: headers
+        }).fail(function (jx) {
+            self.enableButton(event.target, originalText, "btn-danger");
+            showError(jx);
+        });
+    }
     
     self.displayDeleteUserConfirmation = function (usersAndRoles,  event){
         var dialogDiv = $( "#dialog-confirm");

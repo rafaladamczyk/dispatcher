@@ -54,3 +54,7 @@ li.specialTask {
 label {
     font-size: x-large;
 }
+
+#dialog-message {
+    white-space: pre-wrap;
+}

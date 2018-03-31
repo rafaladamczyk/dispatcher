@@ -2,396 +2,426 @@
     <p id="dialog-message"><span class="ui-icon ui-icon-alert" style="display: none; float:left; margin:0 7px 20px 0;"></span></p>
 </div>
 <div class="container-fluid" data-bind="visible: true" style="display: none;">
-<div class="row">
-    <div class="col-lg-12">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-                </button> <a class="navbar-brand">Drewnex</a>
-            </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button> <a class="navbar-brand">Drewnex</a>
+                </div>
 
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav" data-bind="foreach: pages">
-                    <li data-bind="css: { active: $data.Name == $root.currentPage() }">
-                        <a class="collapse-menu-after-click" href="#" data-bind="text: $data.Name,
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav" data-bind="foreach: pages">
+                        <li data-bind="css: { active: $data.Name == $root.currentPage() }">
+                            <a class="collapse-menu-after-click" href="#" data-bind="text: $data.Name,
                                attr: { href: '#' + $data.Name },
                                visible: $data.Enabled()"></a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown loginDropdown">
-                        <a href="#" data-bind="text: loggedInUser" class="dropdown-toggle dropdownText" data-toggle="dropdown"><strong class="caret"></strong></a>
-                        <ul class="dropdown-menu">
-                            <!-- FOR LOGGED-IN USER-->
-                            <li data-bind="visible: user()" class="loginDropdown">
-                                <a class="dropdownText collapse-menu-after-click" href="#" data-bind="click: logout">Wyloguj</a>
-                            </li>
-                            <!-- FOR ANONYMOUES -->
-                            <li data-bind="visible: !user()" class="loginDropdown">
-                                <a class="dropdownText collapse-menu-after-click" href="#" data-bind="click: gotoLogin">Zaloguj</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown loginDropdown">
+                            <a href="#" data-bind="text: loggedInUser" class="dropdown-toggle dropdownText" data-toggle="dropdown"><strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <!-- FOR LOGGED-IN USER-->
+                                <li data-bind="visible: user()" class="loginDropdown">
+                                    <a class="dropdownText collapse-menu-after-click" href="#" data-bind="click: logout">Wyloguj</a>
+                                </li>
+                                <!-- FOR ANONYMOUES -->
+                                <li data-bind="visible: !user()" class="loginDropdown">
+                                    <a class="dropdownText collapse-menu-after-click" href="#" data-bind="click: gotoLogin">Zaloguj</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
     </div>
-</div>
-<div class="row" style="padding-top: 75px;">
-</div>
-<div class="row" data-bind="visible: error() || connectionError()">
-    <div class="col-lg-12 alert-danger" style="font-size: x-large" data-bind="text: connectionError() ? connectionError : error"></div>
-</div>
-<div class="row" data-bind="visible: requestsVisible">
-    <div data-bind="visible: isServiceProvider">
-        <label style="margin-left: 30px">Utwórz nowe zlecenie specjalne: </label>
-        <div style="display: inline-block" id="newTask" class="collapse">
-            <ul class="horizontalList" data-bind="foreach: specialRequestTypes">
-                <li>
-                    <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-big btn-info" data-bind="
+    <div class="row" style="padding-top: 75px;">
+    </div>
+    <div class="row" data-bind="visible: error() || connectionError()">
+        <div class="col-lg-12 alert-danger" style="font-size: x-large" data-bind="text: connectionError() ? connectionError : error"></div>
+    </div>
+    <div class="row" data-bind="visible: requestsVisible">
+        <div data-bind="visible: isServiceProvider">
+            <label style="margin-left: 30px">Utwórz nowe zlecenie specjalne: </label>
+            <div style="display: inline-block" id="newTask" class="collapse">
+                <ul class="horizontalList" data-bind="foreach: specialRequestTypes">
+                    <li>
+                        <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-big btn-info" data-bind="
                             text: $data.Name,
                             css: { 'btn-info': !$parent.specialRequestTypeActiveForMe($data.Id), 'btn-default': $parent.specialRequestTypeActiveForMe($data.Id) },
                             click: $parent.createSpecialRequest,
                             enable: !$parent.specialRequestTypeActiveForMe($data.Id)
                             "></button>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
 
-    <div class="col-lg-6" data-bind="visible: isServiceProvider">
-        <div data-bind="visible: requestsAssignedToMe().length">
-            <h1 class="text-center">
-                Obsługiwane przez Ciebie
+        <div class="col-lg-6" data-bind="visible: isServiceProvider">
+            <div data-bind="visible: requestsAssignedToMe().length">
+                <h1 class="text-center">
+                    Obsługiwane przez Ciebie
+                </h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                <h2>Typ</h2>
+                            </th>
+                            <th class="text-center">
+                                <h2>Zlecający</h2>
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: requestsAssignedToMe">
+                        <tr>
+                            <td style="vertical-align: middle" class="text-center">
+                                <h3 data-bind="text: Type.Name"></h3>
+                            </td>
+                            <td style="vertical-align: middle" class="text-center">
+                                <h3 data-bind="text: RequestingUserName"></h3>
+                            </td>
+                            <td class="col-lg-3">
+                                <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.cancelRequest">Anuluj</button>
+                            </td>
+                            <td class="col-lg-1"></td>
+                            <td class="col-lg-4">
+                                <button type="button" class="btn btn-block btn-success btn-huge " data-bind="click: $parent.completeRequest">Zakończ</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div data-bind="css: { 'col-lg-6': requestsAssignedToMe().length > 0, 'col-lg-12': requestsAssignedToMe().length == 0}">
+            <h1 class="text-center" data-bind="visible: requestsAssignedToMe().length > 0">
+                Zlecenia
             </h1>
             <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th class="text-center">
-                        <h2>Typ</h2>
-                    </th>
-                    <th class="text-center">
-                        <h2>Zlecający</h2>
-                    </th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th class="text-center">
+                            <h2>Typ</h2>
+                        </th>
+                        <th class="text-center">
+                            <h2>Zlecający</h2>
+                        </th>
+                        <th class="text-center">
+                            <h2>Utworzono</h2>
+                        </th>
+                        <th class="text-center">
+                            <h2>Obsługuje</h2>
+                        </th>
+                    </tr>
                 </thead>
-                <tbody data-bind="foreach: requestsAssignedToMe">
-                <tr>
-                    <td style="vertical-align: middle" class="text-center">
-                        <h3 data-bind="text: Type.Name"></h3>
-                    </td>
-                    <td style="vertical-align: middle" class="text-center">
-                        <h3 data-bind="text: RequestingUserName"></h3>
-                    </td>
-                    <td class="col-lg-3">
-                        <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.cancelRequest">Anuluj</button>
-                    </td>
-                    <td class="col-lg-1"></td>
-                    <td class="col-lg-4">
-                        <button type="button" class="btn btn-block btn-success btn-huge " data-bind="click: $parent.completeRequest">Zakończ</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div data-bind="css: { 'col-lg-6': requestsAssignedToMe().length > 0, 'col-lg-12': requestsAssignedToMe().length == 0}" >
-        <h1 class="text-center" data-bind="visible: requestsAssignedToMe().length > 0">
-            Zlecenia
-        </h1>
-        <table class="table table-striped">
-            <thead>
-            <tr><th class="text-center">
-                    <h2>Typ</h2></th>
-                <th class="text-center">
-                    <h2>Zlecający</h2></th>
-                <th class="text-center">
-                    <h2>Utworzono</h2></th>
-                <th class="text-center">
-                    <h2>Obsługuje</h2></th></tr>
-            </thead>
-            <tbody data-bind="foreach: activeRequests">
-            <tr>
-                <td style="vertical-align: middle" class="text-center">
-                    <h3 data-bind="text: Type.Name"></h3></td>
-                <td style="vertical-align: middle" class="text-center">
-                    <h3 data-bind="text: RequestingUserName"></h3></td>
-                <td style="vertical-align: middle" class="text-center">
-                    <h3 data-bind="text: parseDate(CreationDate)"></h3></td>
-                <td><button type="button" class="btn btn-block btn-huge " data-bind="
+                <tbody data-bind="foreach: activeRequests">
+                    <tr>
+                        <td style="vertical-align: middle" class="text-center">
+                            <h3 data-bind="text: Type.Name"></h3>
+                        </td>
+                        <td style="vertical-align: middle" class="text-center">
+                            <h3 data-bind="text: RequestingUserName"></h3>
+                        </td>
+                        <td style="vertical-align: middle" class="text-center">
+                            <h3 data-bind="text: parseDate(CreationDate)"></h3>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-block btn-huge " data-bind="
 						click: $parent.acceptRequest,
 						css: { 'btn-info' : !ProvidingUserName, 'btn-default' : ProvidingUserName},
 						enable: !ProvidingUserName,
-                        text: ProvidingUserName ? ProvidingUserName : 'Przyjmij', 
+                        text: ProvidingUserName ? ProvidingUserName : 'Przyjmij',
 						visible: (ProvidingUserName || $parent.isServiceProvider)
                         "></button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="row" data-bind="visible: registerVisible">
-    <div class="col-lg-6 col-lg-offset-3">
-        <form data-bind="submit: register">
-            <h2>Nowy użytkownik</h2>
-            <div class="form-group">
-                <h4>Nazwa</h4>
-                <input class="form-control" type="text" maxlength="45" data-bind="value: registerUsername"/>
-            </div>
-            <div class="form-group">
-                <h4>Hasło</h4>
-                <input class="form-control" type="password" data-bind="value: registerPassword"/>
-            </div>
-            <div class="form-group">
-                <h4>Powtórz hasło</h4>
-                <input class="form-control" type="password" data-bind="value: registerPassword2"/>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-info btn-huge">Rejestruj</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="row" data-bind="visible: createRequestsVisible">
-    <div data-bind="visible: isRequester">
-        <h1 class="text-center">
-            Utwórz nowe zlecenie:
-        </h1>
-        <div>
-            <ul class="horizontalList" data-bind="foreach: requestTypes">
-                <li>
-                    <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-big btn-info" data-bind="
-                            text: $data.Name, 
-                            click: $parent.createRequest
-                            ">
-                    </button>
-                </li>
-            </ul>
-        </div>
-
-        <div data-bind="visible: requestsCreatedByMe().length">
-            <h1 class="text-center">
-                Utworzyłeś:
-            </h1>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th class="text-center">
-                        <h2>Typ</h2>
-                    </th>
-                    <th class="text-center">
-                        <h2>Utworzono</h2>
-                    </th>
-                    <th class="text-center">
-                        <h2>Przyjęto</h2>
-                    </th>
-                    <th class="text-center">
-                        <h2>Obsługuje</h2>
-                    </th>
-                </tr>
-                </thead>
-                <tbody data-bind="foreach: requestsCreatedByMe">
-                <tr>
-                    <td style="vertical-align: middle" class="text-center">
-                        <h3 data-bind="text: Type.Name"></h3>
-                    </td>
-                    <td style="vertical-align: middle" class="text-center">
-                        <h3 data-bind="text: parseDate(CreationDate)"></h3>
-                    </td>
-                    <td data-bind="visible: ProvidingUserName" style="vertical-align: middle" class="text-center">
-                        <h3 data-bind="text: parseDate(PickedUpDate)"></h3>
-                    </td>
-                    <td data-bind="visible: !ProvidingUserName" style="vertical-align: middle" class="text-center">
-                        <h3 data-bind="text: getPendingText($data)"></h3>
-                    </td>
-                    <td data-bind="visible: ProvidingUserName">
-                        <button type="button" class="btn btn-block btn-huge btn-default" disabled="disabled" data-bind="
-                                    text: ProvidingUserName,
-                                    "></button>
-                    </td>
-                    <td data-bind="visible: !ProvidingUserName">
-                        <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.deleteRequest">Usuń</button>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
-
-
-    </div>
-    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: !isRequester()">
-        <h1 class="text-center">
-            Nie masz uprawnień do tworzenia zleceń.
-        </h1>
-    </div>
-</div>
-<div class="row" data-bind="visible: loginVisible">
-    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: !user()">
-        <h2>Logowanie</h2>
-        <form data-bind="submit: login">
-            <div class="form-group">
-                <h4>Nazwa</h4>
-                <input class="form-control" type="text" data-bind="value: loginUsername"/>
-            </div>
-            <div class="form-group">
-                <h4>Hasło</h4>
-                <input class="form-control" type="password" data-bind="value: loginPassword"/>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-info btn-huge"> Zaloguj </button>
-            </div>
-            <a href="/#Rejestracja">Nie masz jeszcze konta? Zarejestruj się!</a>
-        </form>
     </div>
 
-    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: user">
-        <h2 data-bind="text: loginMessage"></h2>
-        <div>
-            <button class="btn btn-info btn-huge" data-bind="click: logout"> Wyloguj </button>
+    <div class="row" data-bind="visible: registerVisible">
+        <div class="col-lg-6 col-lg-offset-3">
+            <form data-bind="submit: register">
+                <h2>Nowy użytkownik</h2>
+                <div class="form-group">
+                    <h4>Nazwa</h4>
+                    <input class="form-control" type="text" maxlength="45" data-bind="value: registerUsername" />
+                </div>
+                <div class="form-group">
+                    <h4>Hasło</h4>
+                    <input class="form-control" type="password" data-bind="value: registerPassword" />
+                </div>
+                <div class="form-group">
+                    <h4>Powtórz hasło</h4>
+                    <input class="form-control" type="password" data-bind="value: registerPassword2" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info btn-huge">Rejestruj</button>
+                </div>
+            </form>
         </div>
     </div>
-</div>
 
-<div class="row" style="margin-bottom: 50px" data-bind="visible: administrationVisible">
-    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: isAdmin">
-        <div class="panel-group">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h1 class="text-center">
-                        <a data-toggle="collapse" href="#collapse1">Użytkownicy</a>
-                    </h1>
-                </div>
-                <div id="collapse1" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th class="text-center"></th>
-                                <th class="text-center">Admin</th>
-                                <th class="text-center">Zlecenia</th>
-                                <th class="text-center">Tworzenie</th>
-                                <th class="text-center"></th>
-                            </tr>
-                            </thead>
-                            <tbody data-bind="foreach: usersAndRoles">
-                            <tr>
-                                <td style="vertical-align: middle" class="text-center">
-                                    <h3 data-bind="text: Name"></h3>
-                                </td>
-                                <td style="vertical-align: middle" class="text-center">
-                                    <input type="checkbox" data-bind="checked: IsAdmin, click: $parent.saveRoles"/>
-                                </td>
-                                <td style="vertical-align: middle" class="text-center">
-                                    <input type="checkbox" data-bind="checked: IsServiceProvider, click: $parent.saveRoles"/>
-                                </td>
-                                <td style="vertical-align: middle" class="text-center">
-                                    <input type="checkbox" data-bind="checked: IsRequester, click: $parent.saveRoles"/>
-                                </td>
-                                <td style="vertical-align: middle" class="text-center">
-                                    <button type="button" class="btn btn-block btn-danger" data-bind="click: $parent.displayDeleteUserConfirmation">Usuń</button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    <div class="row" data-bind="visible: createRequestsVisible">
+        <div data-bind="visible: isRequester">
+            <h1 class="text-center">
+                Utwórz nowe zlecenie:
+            </h1>
+            <div>
+                <ul class="horizontalList" data-bind="foreach: requestTypes">
+                    <li>
+                        <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-big btn-info" data-bind="
+                            text: $data.Name,
+                            click: $parent.createRequest
+                            "></button>
+                    </li>
+                </ul>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h1 class="text-center">
-                        <a data-toggle="collapse" href="#collapse2">Typy zleceń</a>
-                    </h1>
-                </div>
-                <div id="collapse2" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <ul class="list-group" data-bind="foreach: requestTypes">
-                            <li class="list-group-item list-group-item" style="font-size: x-large" data-bind="text: $data.Name"></li>
-                        </ul>
-                        <form data-bind="submit: createRequestType">
-                            <h2>Nowy typ</h2>
-                            <div class="input-group">
-                                <input class="form-control" type="text" maxlength="45" data-bind="value: newRequestTypeInput"/>
-                                <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-info"> Dodaj </button>
-                                    </span>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+
+            <div data-bind="visible: requestsCreatedByMe().length">
+                <h1 class="text-center">
+                    Utworzyłeś:
+                </h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                <h2>Typ</h2>
+                            </th>
+                            <th class="text-center">
+                                <h2>Utworzono</h2>
+                            </th>
+                            <th class="text-center">
+                                <h2>Przyjęto</h2>
+                            </th>
+                            <th class="text-center">
+                                <h2>Obsługuje</h2>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: requestsCreatedByMe">
+                        <tr>
+                            <td style="vertical-align: middle" class="text-center">
+                                <h3 data-bind="text: Type.Name"></h3>
+                            </td>
+                            <td style="vertical-align: middle" class="text-center">
+                                <h3 data-bind="text: parseDate(CreationDate)"></h3>
+                            </td>
+                            <td data-bind="visible: ProvidingUserName" style="vertical-align: middle" class="text-center">
+                                <h3 data-bind="text: parseDate(PickedUpDate)"></h3>
+                            </td>
+                            <td data-bind="visible: !ProvidingUserName" style="vertical-align: middle" class="text-center">
+                                <h3 data-bind="text: getPendingText($data)"></h3>
+                            </td>
+                            <td data-bind="visible: ProvidingUserName">
+                                <button type="button" class="btn btn-block btn-huge btn-default" disabled="disabled" data-bind="
+                                    text: ProvidingUserName,
+                                    "></button>
+                            </td>
+                            <td data-bind="visible: !ProvidingUserName">
+                                <button type="button" class="btn btn-block btn-danger btn-huge " data-bind="click: $parent.deleteRequest">Usuń</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h1 class="text-center">
-                        <a data-toggle="collapse" href="#collapse3">Specjalne typy zleceń</a>
-                    </h1>
+
+
+        </div>
+        <div class="col-lg-6 col-lg-offset-3" data-bind="visible: !isRequester()">
+            <h1 class="text-center">
+                Nie masz uprawnień do tworzenia zleceń.
+            </h1>
+        </div>
+    </div>
+    <div class="row" data-bind="visible: loginVisible">
+        <div class="col-lg-6 col-lg-offset-3" data-bind="visible: !user()">
+            <h2>Logowanie</h2>
+            <form data-bind="submit: login">
+                <div class="form-group">
+                    <h4>Nazwa</h4>
+                    <input class="form-control" type="text" data-bind="value: loginUsername" />
                 </div>
-                <div id="collapse3" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <h4 class="text-center">Zlecenia, które obsługujący wystawiają sami sobie</h4>
-                        <ul class="list-group" data-bind="foreach: specialRequestTypes">
-                            <li class="list-group-item list-group-item" style="font-size: x-large" data-bind="text: $data.Name"></li>
-                        </ul>
-                        <form data-bind="submit: createSpecialRequestType">
-                            <h2>Nowy typ</h2>
-                            <div class="input-group">
-                                <input class="form-control" type="text" maxlength="45" data-bind="value: newSpecialRequestTypeInput"/>
-                                <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-info"> Dodaj </button>
-                                    </span>
-                            </div>
-                        </form>
-                    </div>
+                <div class="form-group">
+                    <h4>Hasło</h4>
+                    <input class="form-control" type="password" data-bind="value: loginPassword" />
                 </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info btn-huge"> Zaloguj </button>
+                </div>
+                <a href="/#Rejestracja">Nie masz jeszcze konta? Zarejestruj się!</a>
+            </form>
+        </div>
+
+        <div class="col-lg-6 col-lg-offset-3" data-bind="visible: user">
+            <h2 data-bind="text: loginMessage"></h2>
+            <div>
+                <button class="btn btn-info btn-huge" data-bind="click: logout"> Wyloguj </button>
             </div>
         </div>
     </div>
-    <div class="col-lg-6 col-lg-offset-3" data-bind="visible: !isAdmin()">
-        <h1 class="text-center">
-            Nie jesteś administratorem.
-        </h1>
+
+    <div class="row" style="margin-bottom: 50px" data-bind="visible: administrationVisible">
+        <div class="col-lg-6 col-lg-offset-3" data-bind="visible: isAdmin">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h1 class="text-center">
+                            <a data-toggle="collapse" href="#collapse1">Użytkownicy</a>
+                        </h1>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"></th>
+                                        <th class="text-center">Admin</th>
+                                        <th class="text-center">Zlecenia</th>
+                                        <th class="text-center">Tworzenie</th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: usersAndRoles">
+                                    <tr>
+                                        <td style="vertical-align: middle" class="text-center">
+                                            <h3 data-bind="text: Name"></h3>
+                                        </td>
+                                        <td style="vertical-align: middle" class="text-center">
+                                            <input type="checkbox" data-bind="checked: IsAdmin, click: $parent.saveRoles" />
+                                        </td>
+                                        <td style="vertical-align: middle" class="text-center">
+                                            <input type="checkbox" data-bind="checked: IsServiceProvider, click: $parent.saveRoles" />
+                                        </td>
+                                        <td style="vertical-align: middle" class="text-center">
+                                            <input type="checkbox" data-bind="checked: IsRequester, click: $parent.saveRoles" />
+                                        </td>
+                                        <td style="vertical-align: middle" class="text-center">
+                                            <button type="button" class="btn btn-block btn-danger" data-bind="click: $parent.displayDeleteUserConfirmation">Usuń</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h1 class="text-center">
+                            <a data-toggle="collapse" href="#collapse2">Typy zleceń</a>
+                        </h1>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <tbody data-bind="foreach: requestTypes">
+                                    <tr>
+                                        <td style="vertical-align: middle" class="text-left">
+                                            <h3 data-bind="text: $data.Name"></h3>
+                                        </td>
+                                        <td style="vertical-align: middle" class="text-center">
+                                            <button type="button" class="btn btn-block btn-danger" data-bind="click: $parent.displayDeleteRequestTypeConfirmation">Usuń</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <form data-bind="submit: createRequestType">
+                                <h2>Nowy typ</h2>
+                                <div class="input-group">
+                                    <input class="form-control" type="text" maxlength="45" data-bind="value: newRequestTypeInput" />
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-info"> Dodaj </button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h1 class="text-center">
+                            <a data-toggle="collapse" href="#collapse3">Specjalne typy zleceń</a>
+                        </h1>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <h4 class="text-center">Zlecenia, które obsługujący wystawiają sami sobie</h4>
+                            <table class="table table-bordered">
+                                <tbody data-bind="foreach: specialRequestTypes">
+                                <tr>
+                                    <td style="vertical-align: middle" class="text-left">
+                                        <h3 data-bind="text: $data.Name"></h3>
+                                    </td>
+                                    <td style="vertical-align: middle" class="text-center">
+                                        <button type="button" class="btn btn-block btn-danger" data-bind="click: $parent.displayDeleteRequestTypeConfirmation">Usuń</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <form data-bind="submit: createSpecialRequestType">
+                                <h2>Nowy typ</h2>
+                                <div class="input-group">
+                                    <input class="form-control" type="text" maxlength="45" data-bind="value: newSpecialRequestTypeInput" />
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-info"> Dodaj </button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-lg-offset-3" data-bind="visible: !isAdmin()">
+            <h1 class="text-center">
+                Nie jesteś administratorem.
+            </h1>
+        </div>
     </div>
-</div>
 
 
-<div class="row" data-bind="visible: availabilityVisible">
-    <div class="col-lg-12">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th class="text-center">
-                        <h2>Użytkownik</h2></th>
-                    <th class="text-center">
-                        <h2>Obsługuje</h2></th>
-                    <th class="text-center">
-                        <h2>Zadania specjalne</h2></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: providersAndTheirTasks">
-                <tr>
-                    <td style="vertical-align: middle" class="text-center">
-                        <h3 data-bind="text: Name"></h3>
-                    </td>
-                    <td style="vertical-align: middle" class="text-center">
-                        <ul class="horizontalList" data-bind="foreach: $data.Tasks">
-                            <li class="task" data-bind="text: parseTask($data)"></li>
-                        </ul>
-                    </td>
-                    <td style="vertical-align: middle" class="text-center">
-                        <ul class="horizontalList" data-bind="foreach: $data.SpecialTasks">
-                            <li class="specialTask" data-bind="text: parseTask($data)"></li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="row" data-bind="visible: availabilityVisible">
+        <div class="col-lg-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            <h2>Użytkownik</h2>
+                        </th>
+                        <th class="text-center">
+                            <h2>Obsługuje</h2>
+                        </th>
+                        <th class="text-center">
+                            <h2>Zadania specjalne</h2>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: providersAndTheirTasks">
+                    <tr>
+                        <td style="vertical-align: middle" class="text-center">
+                            <h3 data-bind="text: Name"></h3>
+                        </td>
+                        <td style="vertical-align: middle" class="text-center">
+                            <ul class="horizontalList" data-bind="foreach: $data.Tasks">
+                                <li class="task" data-bind="text: parseTask($data)"></li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align: middle" class="text-center">
+                            <ul class="horizontalList" data-bind="foreach: $data.SpecialTasks">
+                                <li class="specialTask" data-bind="text: parseTask($data)"></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-    
+
 </div>
