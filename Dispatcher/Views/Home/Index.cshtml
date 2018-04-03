@@ -175,7 +175,7 @@
                 Utwórz nowe zlecenie:
             </h1>
             <div>
-                <ul class="horizontalList" data-bind="foreach: requestTypes">
+                <ul class="horizontalList" data-bind="foreach: requestTypesICanCreate">
                     <li>
                         <button style="padding-left: 50px; padding-right: 50px" class="btn  btn-big btn-info" data-bind="
                             text: $data.Name,
@@ -184,7 +184,6 @@
                     </li>
                 </ul>
             </div>
-
             <div data-bind="visible: requestsCreatedByMe().length">
                 <h1 class="text-center">
                     Utworzyłeś:
@@ -269,7 +268,7 @@
     </div>
 
     <div class="row" style="margin-bottom: 50px" data-bind="visible: administrationVisible">
-        <div class="col-lg-6 col-lg-offset-3" data-bind="visible: isAdmin">
+        <div class="col-lg-8 col-lg-offset-2" data-bind="visible: isAdmin">
             <div class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -283,9 +282,9 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center"></th>
-                                        <th class="text-center">Admin</th>
-                                        <th class="text-center">Zlecenia</th>
-                                        <th class="text-center">Tworzenie</th>
+                                        <th class="text-center">Administrator</th>
+                                        <th class="text-center">Obsługa zleceń</th>
+                                        <th class="text-center">Tworzenie zleceń</th>
                                         <th class="text-center"></th>
                                     </tr>
                                 </thead>
@@ -324,7 +323,9 @@
                                 <tbody data-bind="foreach: requestTypes">
                                     <tr>
                                         <td style="vertical-align: middle" class="text-left">
-                                            <h3 data-bind="text: $data.Name"></h3>
+                                            <h3>
+                                                <a href="#" data-bind="text: $data.Name, attr: { href: '#SzczegolyTypu/' + $data.Id }"></a>
+                                            </h3>
                                         </td>
                                         <td style="vertical-align: middle" class="text-center">
                                             <button type="button" class="btn btn-block btn-danger" data-bind="click: $parent.displayDeleteRequestTypeConfirmation">Usuń</button>
@@ -355,14 +356,14 @@
                             <h4 class="text-center">Zlecenia, które obsługujący wystawiają sami sobie</h4>
                             <table class="table table-bordered">
                                 <tbody data-bind="foreach: specialRequestTypes">
-                                <tr>
-                                    <td style="vertical-align: middle" class="text-left">
-                                        <h3 data-bind="text: $data.Name"></h3>
-                                    </td>
-                                    <td style="vertical-align: middle" class="text-center">
-                                        <button type="button" class="btn btn-block btn-danger" data-bind="click: $parent.displayDeleteRequestTypeConfirmation">Usuń</button>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td style="vertical-align: middle" class="text-left">
+                                            <h3 data-bind="text: $data.Name"></h3>
+                                        </td>
+                                        <td style="vertical-align: middle" class="text-center">
+                                            <button type="button" class="btn btn-block btn-danger" data-bind="click: $parent.displayDeleteRequestTypeConfirmation">Usuń</button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                             <form data-bind="submit: createSpecialRequestType">
@@ -385,7 +386,6 @@
             </h1>
         </div>
     </div>
-
 
     <div class="row" data-bind="visible: availabilityVisible">
         <div class="col-lg-12">
@@ -421,6 +421,30 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+
+    <div class="row" style="margin-bottom: 50px" data-bind="if: typeDetailsVisible">
+        <div class="col-lg-8 col-lg-offset-2" data-bind="if: isAdmin">
+            <h2 data-bind="text: editedType() ? 'Wybierz maszyny które mogą tworzyć zlecenia typu ' + editedType().Name : 'Próba edycji nieistniejącego typu'"></h2>
+            <table class="table table-striped">
+                <tbody data-bind="foreach: requesters">
+                    <tr>
+                        <td>
+                            <h3 data-bind="text: $data.Name"></h3>
+                        </td>
+                        <td>
+                            <input type="checkbox" data-bind="checkedValue: Name, checked: $parent.selectedRequesterNamesForEditedType, click: $parent.updateRequestType" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-6 col-lg-offset-3" data-bind="visible: !isAdmin()">
+            <h1 class="text-center">
+                Nie jesteś administratorem.
+            </h1>
         </div>
     </div>
 

@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -14,15 +15,16 @@ namespace Dispatcher.Controllers
     {
         private readonly DispatcherContext db = new DispatcherContext();
 
+
         // GET: api/DispatchRequestTypes
-        public IQueryable<DispatchRequestType> GetTypes()
+        public IEnumerable<DispatchRequestType> GetTypes()
         {
             return db.Types.Where(t => !t.ForSelf);
         }
 
         [HttpGet]
         [Route("api/selfRequestTypes")]
-        public IQueryable<DispatchRequestType> GetSelfRequestTypes()
+        public IEnumerable<DispatchRequestType> GetSelfRequestTypes()
         {
             return db.Types.Where(t => t.ForSelf);
         }
@@ -32,12 +34,12 @@ namespace Dispatcher.Controllers
         [ResponseType(typeof(DispatchRequestType))]
         public async Task<IHttpActionResult> GetDispatchRequestType(int id)
         {
-            DispatchRequestType dispatchRequestType = await db.Types.FindAsync(id);
+            DispatchRequestType dispatchRequestType = await db.Types.SingleOrDefaultAsync(t => t.Id == id);
             if (dispatchRequestType == null)
             {
                 return NotFound();
             }
-
+            
             return Ok(dispatchRequestType);
         }
 

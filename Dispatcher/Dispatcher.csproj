@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -229,6 +230,10 @@
     <Compile Include="Migrations\201604021836560_InitialCreate.Designer.cs">
       <DependentUpon>201604021836560_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804030354532_ValidRequesters.cs" />
+    <Compile Include="Migrations\201804030354532_ValidRequesters.Designer.cs">
+      <DependentUpon>201804030354532_ValidRequesters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -346,6 +351,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604021836560_InitialCreate.resx">
       <DependentUpon>201604021836560_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804030354532_ValidRequesters.resx">
+      <DependentUpon>201804030354532_ValidRequesters.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

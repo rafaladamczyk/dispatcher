@@ -3,6 +3,12 @@ var ViewModel = function () {
     var self = this;
     self.activeRequests = ko.observableArray();
     self.usersAndRoles = ko.observableArray();
+    self.requesters = ko.pureComputed(function() {
+        return ko.utils.arrayFilter(self.usersAndRoles(), function(user) {
+            return user.IsRequester();
+        });
+    });
+
     self.requestTypes = ko.observableArray();
     self.specialRequestTypes = ko.observableArray();
     self.providersAndTheirTasks = ko.observableArray();
@@ -18,31 +24,52 @@ var ViewModel = function () {
 	self.registerVisible = ko.observable();
     self.availabilityVisible = ko.observable();
     self.statsVisible = ko.observable();
+    self.typeDetailsVisible = ko.observable();
+
+    self.selectedRequesterNamesForEditedType = ko.observableArray([]);
+    self.editedTypeId = ko.observable();
+    self.editedType = ko.computed (function() {
+        var type = ko.utils.arrayFirst(self.requestTypes(),
+                function (requestType) {
+                    return requestType.Id === self.editedTypeId();
+            });
+
+        if (type != null) {
+            var validRequesters = type.ValidRequesters ? type.ValidRequesters : $.map(self.requesters(), function (u) { return u.Name });
+            self.selectedRequesterNamesForEditedType(validRequesters);
+        }
+
+        return type;
+    });
     
     self.pages = ko.observableArray([
         {
             Name: 'Admin',
-            Enabled: ko.pureComputed(function(){return self.isAdmin()})
+            Enabled: ko.pureComputed(function() { return self.isAdmin() })
         },
         {
             Name: 'Rejestracja',
-            Enabled: ko.pureComputed(function () { return true; })
+            Enabled: ko.pureComputed(function() { return true; })
         },
         {
             Name: 'Logowanie',
-            Enabled: ko.pureComputed(function () { return true; })
+            Enabled: ko.pureComputed(function() { return true; })
         },
         {
             Name: 'Tworzenie',
-            Enabled: ko.pureComputed(function () { return self.isRequester() })
+            Enabled: ko.pureComputed(function() { return self.isRequester() })
         },
         {
             Name: 'Zlecenia',
-            Enabled: ko.pureComputed(function () { return true; })
+            Enabled: ko.pureComputed(function() { return true; })
         },
         {
             Name: 'Status',
-            Enabled: ko.pureComputed(function () { return self.isServiceProvider() || self.isAdmin(); })
+            Enabled: ko.pureComputed(function() { return self.isServiceProvider() || self.isAdmin(); })
+        },
+        {
+            Name: 'SzczegolyTypu',
+            Enabled: ko.pureComputed(function() { return false; })
         },
         {
             Name: 'Statystyki',
@@ -54,6 +81,11 @@ var ViewModel = function () {
 
     self.user = ko.observable();
     self.userRoles = ko.observableArray();
+    self.requestTypesICanCreate = ko.pureComputed(function() {
+        return ko.utils.arrayFilter(self.requestTypes(), function (r) {
+            return r.ValidRequesters === null || r.ValidRequesters.indexOf(self.user()) > -1;
+        });
+    });
 
     self.registerUsername = ko.observable();
     self.registerPassword = ko.observable();
@@ -80,6 +112,7 @@ var ViewModel = function () {
         self.administrationVisible(false);
         self.createRequestsVisible(false);
         self.availabilityVisible(false);
+        self.typeDetailsVisible(false);
     };
 
     self.gotoDefault = function() {
@@ -196,6 +229,39 @@ var ViewModel = function () {
         });
     };
 
+    self.updateRequestType = function (user, event) {
+
+        var token = localStorage.getItem(tokenKey);
+        var headers = {};
+        if (token) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+
+        var originalText = event.target.textContent;
+        self.disableButton(event.target);
+
+        var requestType = self.editedType();
+
+        if (self.requesters().length === self.selectedRequesterNamesForEditedType().length) {
+            requestType.ValidRequesters = null;
+        } else {
+            requestType.ValidRequesters = self.selectedRequesterNamesForEditedType();
+        }
+
+        $.ajax({
+            type: 'PUT',
+            url: siteRoot + '/api/DispatchRequestTypes/' + requestType.Id,
+            headers: headers,
+            data: ko.toJSON(requestType),
+            contentType: "application/json"
+        }).done(function () {
+        }).fail(function (jx) {
+            showError(jx);
+        }).always(function () {
+            self.enableButton(event.target, originalText, "btn-info");
+        });
+    };
+    
     self.getData = function (uri, callback, errorCallback) {
 	     var token = localStorage.getItem(tokenKey);
 	     var headers = {};
@@ -650,6 +716,13 @@ var ViewModel = function () {
             self.hideAllPages();
             self.administrationVisible(true);
         });
+        this.get('#SzczegolyTypu/:typeId', function () {
+            self.editedTypeId(parseInt(this.params['typeId']));
+            self.currentPage('SzczegolyTypu');
+            self.hideAllPages();
+            self.typeDetailsVisible(true);
+            window.scrollTo(0, 0);
+        });
         this._checkFormSubmission = function() {
             return false;
         }
@@ -667,6 +740,11 @@ function UserWithRoles(data) {
     this.IsAdmin = ko.observable(data.Roles.indexOf('Admin') > -1);
     this.IsServiceProvider = ko.observable(data.Roles.indexOf('ObslugaZlecen') > -1);
     this.IsRequester = ko.observable(data.Roles.indexOf('TworzenieZlecen') > -1);
+}
+
+function RequestTypeWithValidUsers(requestType) {
+    this.Name = requestType.Name;
+    this.ForSelf = requestType.ForSelf;
 }
 
 var viewModel = new ViewModel();
@@ -706,14 +784,14 @@ function initialize() {
         .done(function(result) {
             viewModel.updateActiveRequests(result);
         }).fail(function(data) {
-            self.showErrors(data);
+            viewModel.showErrors(data);
         });
 
     requestsHub.server.getRequestTypes()
         .done(function (result) {
             viewModel.updateRequestTypes(result);
         }).fail(function (data) {
-            self.showErrors(data);
+            viewModel.showErrors(data);
         });
 }
 
